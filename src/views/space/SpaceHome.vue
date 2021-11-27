@@ -1,8 +1,11 @@
 <template>
-  <div class="about"></div>
+
 </template>
+
 <script>
 export default {
-  name: "about",
+  name: "SpaceHome",
 };
 </script>
+
+<style scoped></style>

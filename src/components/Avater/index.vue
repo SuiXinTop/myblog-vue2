@@ -1,8 +1,11 @@
 <template>
-  <div class="about"></div>
+  <div></div>
 </template>
+
 <script>
 export default {
-  name: "about",
+  name: "index",
 };
 </script>
+
+<style scoped></style>

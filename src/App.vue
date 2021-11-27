@@ -1,32 +1,74 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <transition
+      appear
+      enter-active-class="animate__animated animate__fadeIn animate__fast"
+      leave-active-class="animate__animated animate__fadeOut animate__fast"
+    >
+      <keep-alive>
+        <router-view />
+      </keep-alive>
+    </transition>
   </div>
 </template>
 
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.background-img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -999;
+  filter: blur(5px);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
-#nav {
-  padding: 30px;
+a {
+  text-decoration: none;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.router-link-active {
+  text-decoration: none;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.headImg {
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.68), 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+#app {
+  font-family: "微软雅黑", "Helvetica Neue", Helvetica, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  min-width: fit-content;
+}
+
+/* 滚动条 */
+*::-webkit-scrollbar {
+  width: 11px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 2px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgb(204, 220, 246, 0.5);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(136, 136, 243, 0.76);
+}
+
+*::-webkit-scrollbar-corner {
+  background: #fff;
 }
 </style>
