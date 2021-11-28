@@ -50,8 +50,8 @@ a {
 
 /* 滚动条 */
 *::-webkit-scrollbar {
-  width: 11px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 *::-webkit-scrollbar-track {
@@ -60,12 +60,12 @@ a {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgb(204, 220, 246, 0.5);
-  border-radius: 10px;
+  background: rgba(206, 210, 218, 0.5);
+  border-radius: 8px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: rgba(136, 136, 243, 0.76);
+  background: rgba(50, 50, 73, 0.58);
 }
 
 *::-webkit-scrollbar-corner {
