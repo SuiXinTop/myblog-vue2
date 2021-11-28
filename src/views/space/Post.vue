@@ -1,16 +1,16 @@
 <template>
   <div>
-    <markdown />
+    <md-editor />
   </div>
 </template>
 
 <script>
-import markdown from "@/components/MdEditor";
+import mdEditor from "@/components/MdEditor/mdEditor";
 
 export default {
   name: "Post",
   components: {
-    markdown,
+    mdEditor,
   },
 };
 </script>

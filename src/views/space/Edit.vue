@@ -1,17 +1,17 @@
 <template>
   <div>
     <img class="background-img" src="../../assets/images/1.jpg" alt />
-    <markdown />
+    <md-editor />
   </div>
 </template>
 
 <script>
-import markdown from "@/components/MdEditor";
+import mdEditor from "@/components/MdEditor/mdEditor";
 
 export default {
   name: "Edit",
   components: {
-    markdown,
+    mdEditor,
   },
   created() {},
   data() {

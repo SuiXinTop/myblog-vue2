@@ -3,7 +3,7 @@
     <el-card>
       <div ref="content" style="height: 300px; overflow-y: auto">
         <div v-for="i in list" :key="i">
-          <p v-html="i" />
+          <p v-text="i" />
         </div>
       </div>
       <div>

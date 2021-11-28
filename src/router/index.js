@@ -7,6 +7,7 @@ import Home from "@/views/Home";
 import NotFound from "@/views/error/NotFound";
 import Space from "@/views/space/Space";
 import Edit from "@/views/space/Edit";
+import Chat from "@/views/space/Chat";
 
 Vue.use(VueRouter);
 
@@ -28,13 +29,12 @@ const routes = [
   },
   {
     path: "/space",
-    name: "个人后台管理",
+    name: "space",
     component: Space,
     children: [
       {
-        path: "",
-        name: "个人后台首页",
-        component: About,
+        path: "home",
+        name: "spaceHome",
       },
       {
         path: "post",
@@ -45,6 +45,11 @@ const routes = [
         path: "edit",
         name: "博客编辑",
         component: Edit,
+      },
+      {
+        path: "chat",
+        name: "chat",
+        component: Chat,
       },
     ],
   },

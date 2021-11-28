@@ -14,7 +14,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "markdown",
+  name: "mdEditor",
   data() {
     return {
       content:

@@ -251,7 +251,7 @@
 <script>
 import { MyBlog, comment } from "@/assets/js/var";
 import TopBar from "@/components/Bar";
-import BackToTop from "@/components/BackToTop";
+import BackToTop from "@/components/BackToTop/backTop";
 import { getBlogByBlogId, getCommentByBlogId } from "@/assets/js/api/blog";
 
 export default {

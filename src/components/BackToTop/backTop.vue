@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: "BackToTop",
+  name: "backTop",
   props: {
     visibilityHeight: {
       type: Number,

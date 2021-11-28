@@ -11,5 +11,10 @@ export default {
   components: {
     chat,
   },
+  data() {
+    return {
+      router: this.$store.getters["router/getRouter"],
+    };
+  },
 };
 </script>
