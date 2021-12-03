@@ -15,6 +15,11 @@ const routes = [
   {
     path: "/",
     name: "Home",
+    redirect: "/home",
+  },
+  {
+    path: "/home",
+    name: "Home",
     component: Home,
   },
   {
@@ -61,17 +66,17 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "hash",
+  mode: "history",
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  if (!to.name) {
-    next({
-      path: "/404",
-    });
-  }
-  next();
-});
+// router.beforeEach((to, from, next) => {
+//   if (!to.name) {
+//     next({
+//       path: "/404",
+//     });
+//   }
+//   next();
+// });
 
 export default router;

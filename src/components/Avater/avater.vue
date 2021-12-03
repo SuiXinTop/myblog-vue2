@@ -3,7 +3,7 @@
     <el-dropdown v-if="true">
       <i>
         <el-avatar
-          :size="50"
+          :size="size"
           shape="square"
           fit="cover"
           :src="imgPath"
@@ -58,6 +58,12 @@
 <script>
 export default {
   name: "avater",
+  props: {
+    size: {
+      type: Number,
+      default: 50,
+    },
+  },
   data() {
     return {
       dialogVisible: false,

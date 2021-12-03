@@ -92,25 +92,18 @@
             <br />
           </div>
           <!--          评论-->
-          <div class="contain" style="margin-bottom: 200px">
+          <div class="contain" style="margin-bottom: 200px; padding: 10px">
             <div style="margin: 0 10px 0 10px">
-              <div style="margin: 10px 0 0 0">
-                <div style="font-size: 18px; margin-top: 10px">
-                  共{{ total }}条评论
-                </div>
-              </div>
+              <p style="line-height: 10px">共{{ total }}条评论</p>
               <el-divider />
               <!--              评论框-->
               <span>评论框<i class="el-icon-s-comment" /></span>
-              <el-input
-                type="textarea"
-                style="
-                  border: 3px solid rgba(18, 178, 18, 0.79);
-                  border-radius: 5px;
-                "
-                :autosize="{ minRows: 2, maxRows: 4 }"
-                placeholder="请输入评论"
-                clearable
+              <VueEmoji
+                class="comment-container"
+                ref="emoji"
+                @input="onInput"
+                :value="myText"
+                width="100vh"
               />
               <div style="text-align: right">
                 <el-button
@@ -121,7 +114,7 @@
               <el-divider />
               <!--            评论内容-->
               <div v-for="item in comment" :key="item.recordDelta">
-                <div v-if="item.userId !== 0">
+                <div v-if="item !== ''">
                   <el-row :gutter="10">
                     <el-col :span="2">
                       <img
@@ -250,15 +243,17 @@
 
 <script>
 import { MyBlog, comment } from "@/assets/js/var";
-import TopBar from "@/components/Bar";
+import TopBar from "@/components/Bar/bar";
 import BackToTop from "@/components/BackToTop/backTop";
 import { getBlogByBlogId, getCommentByBlogId } from "@/assets/js/api/blog";
+import VueEmoji from "emoji-vue";
 
 export default {
   name: "blog",
   components: {
     BackToTop,
     TopBar,
+    VueEmoji,
   },
   mounted() {
     this.getBlog();

@@ -3,11 +3,16 @@
     <img class="background-img" src="../assets/images/1.jpg" alt="" />
     <top-bar />
     <header style="text-align: center">
-      <el-image
+      <!--      <el-image-->
+      <!--        :src="url"-->
+      <!--        :key="url"-->
+      <!--        fit="cover"-->
+      <!--        style="height: 500px; width: 100%; z-index: -1"-->
+      <!--      />-->
+      <img
         :src="url"
-        :key="url"
-        fit="cover"
-        style="height: 500px; width: 100%; z-index: -1"
+        style="object-fit: cover; height: 500px; width: 100%; z-index: -1"
+        alt
       />
       <div style="height: 400px; margin-top: -400px">
         <br />
@@ -55,13 +60,13 @@
             sadasdasdad + {{ i }}
           </el-card>
         </div>
-        <div class="side card-type"></div>
+        <el-card style="width: 40vh; height: 100vh" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import TopBar from "@/components/Bar";
+import TopBar from "@/components/Bar/bar";
 import { content1, content2, title } from "@/assets/static/content";
 
 export default {

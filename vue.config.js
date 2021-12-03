@@ -32,12 +32,21 @@ module.exports = {
         },
       },
       "/api/file": {
-        target: "http://localhost:8082", // 服务器协议、ip和端口号
+        target: "http://localhost:8002", // 服务器协议、ip和端口号
         secure: false, // 如果是https接口，需要配置这个参数
         ws: true, // 是否代理websockets
         changeOrigin: true,
         pathRewrite: {
           "^/api/file": "",
+        },
+      },
+      "/api/chat": {
+        target: "http://localhost:8004", // 服务器协议、ip和端口号
+        secure: false, // 如果是https接口，需要配置这个参数
+        ws: true, // 是否代理websockets
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api/chat": "",
         },
       },
     },

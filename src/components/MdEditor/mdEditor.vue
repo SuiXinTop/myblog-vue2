@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-md-editor
-      style="height: 100vh"
       :disabled-menus="[]"
       :value="content"
       :include-level="[1, 2, 3, 4, 5]"
@@ -88,14 +87,14 @@ export default {
             });
           } else {
             this.$notify.error({
-              title: "错误",
+              title: "上传失败",
               message: res.data.msg,
             });
           }
         })
         .catch((err) => {
           this.$notify.error({
-            title: "错误",
+            title: "上传失败",
             message: err.data.msg,
           });
           return false;

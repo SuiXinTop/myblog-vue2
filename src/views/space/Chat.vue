@@ -12,10 +12,9 @@ export default {
   components: {
     chat,
   },
+  mounted() {},
   data() {
-    return {
-      router: this.$store.getters["router/getRouter"],
-    };
+    return {};
   },
 };
 </script>

@@ -11,7 +11,8 @@ import "@kangc/v-md-editor/lib/style/codemirror-editor.css";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
 import "@kangc/v-md-editor/lib/theme/style/vuepress.css";
 import Prism from "prismjs";
-
+import preview from "vue-photo-preview";
+import "vue-photo-preview/dist/skin.css";
 // codemirror 编辑器的相关资源
 import Codemirror from "codemirror";
 // mode
@@ -36,7 +37,7 @@ import "codemirror/lib/codemirror.css";
 import createLineNumbertPlugin from "@kangc/v-md-editor/lib/plugins/line-number/index";
 import createCopyCodePlugin from "@kangc/v-md-editor/lib/plugins/copy-code/index";
 import "@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css";
-
+// 使用vue加载组件
 VMdEditor.Codemirror = Codemirror;
 
 VMdEditor.use(vuepressTheme, {
@@ -44,10 +45,11 @@ VMdEditor.use(vuepressTheme, {
 });
 VMdEditor.use(createLineNumbertPlugin());
 VMdEditor.use(createCopyCodePlugin());
-Vue.use(VMdEditor);
 Vue.config.productionTip = false;
+Vue.use(VMdEditor);
 Vue.use(ElementUI);
 Vue.use(animated);
+Vue.use(preview);
 
 new Vue({
   router,

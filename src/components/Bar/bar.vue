@@ -35,8 +35,8 @@
               注册登录
             </el-button>
           </div>
-          <div style="margin: 14px auto">
-            <avater />
+          <div style="margin: 10px auto">
+            <avater :size="60" />
           </div>
         </el-col>
       </el-row>
