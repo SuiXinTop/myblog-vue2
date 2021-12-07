@@ -8,13 +8,13 @@ import NotFound from "@/views/error/NotFound";
 import Space from "@/views/space/Space";
 import Edit from "@/views/space/Edit";
 import Chat from "@/views/space/Chat";
+import SpaceHome from "@/views/space/SpaceHome";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
     redirect: "/home",
   },
   {
@@ -34,12 +34,13 @@ const routes = [
   },
   {
     path: "/space",
-    name: "space",
     component: Space,
+    redirect: "/space/home",
     children: [
       {
         path: "home",
-        name: "spaceHome",
+        name: "space",
+        component: SpaceHome,
       },
       {
         path: "post",

@@ -5,9 +5,7 @@
       enter-active-class="animate__animated animate__fadeIn animate__fast"
       leave-active-class="animate__animated animate__fadeOut animate__fast"
     >
-      <keep-alive>
-        <router-view />
-      </keep-alive>
+      <router-view />
     </transition>
   </div>
 </template>

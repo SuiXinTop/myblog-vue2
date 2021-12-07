@@ -2,7 +2,7 @@
   <div>
     <el-aside style="width: 30vh; overflow-y: auto">
       <el-menu style="height: 92vh" default-active="1">
-        <router-link to="/space/home">
+        <router-link to="/space">
           <el-menu-item index="1">
             <template slot="title">
               <i class="el-icon-s-home" />
@@ -17,21 +17,25 @@
             <span>管理</span>
           </template>
           <el-menu-item-group>
+            <template slot="title">用户</template>
+            <router-link to="/space">
+              <el-menu-item index="2-1"> 个人信息</el-menu-item>
+            </router-link>
+            <router-link to="/space/chat">
+              <el-menu-item index="2-2">私信</el-menu-item>
+            </router-link>
+          </el-menu-item-group>
+          <el-menu-item-group>
             <template slot="title">博客</template>
             <router-link to="/space/post">
-              <el-menu-item index="2-1">
+              <el-menu-item index="2-3">
                 <span>发布博客</span>
               </el-menu-item>
             </router-link>
-            <el-menu-item index="2-2">编辑博客</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group>
-            <template slot="title">用户</template>
             <router-link to="/space/post">
-              <el-menu-item index="2-3"> 个人信息 </el-menu-item>
-            </router-link>
-            <router-link to="/space/chat">
-              <el-menu-item index="2-4">私信</el-menu-item>
+              <el-menu-item index="2-4">
+                <span>编辑博客</span>
+              </el-menu-item>
             </router-link>
           </el-menu-item-group>
         </el-submenu>

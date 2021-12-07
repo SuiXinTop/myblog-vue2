@@ -5,7 +5,7 @@
         <div style="height: 550px; overflow-y: auto">
           <div v-for="i in 2" :key="i">
             <el-card>
-              <el-button @click="connect(i)">{{ i }}</el-button>
+              <el-button @click="setChannel(i)">{{ i }}</el-button>
             </el-card>
             <br />
           </div>
@@ -14,26 +14,46 @@
       <el-col :span="18">
         <el-card>
           <div ref="content" style="height: 500px; overflow-y: auto">
-            <el-card v-for="(i, index) in list" :key="index">
-              <img
-                :src="i.user.userImg"
-                style="object-fit: cover; width: 50px; height: 50px"
-                alt=""
-              />
-              <label>{{ i.user.userName }}</label>
-              <br />
-              <br />
-              <label>{{ i.msgContent }}</label>
-            </el-card>
+            <div v-for="(i, index) in list" :key="index">
+              <div>
+                <el-card
+                  class="msg-card"
+                  v-if="i.user.userName === userName"
+                  shadow="hover"
+                >
+                  <label> {{ i.msgTime }}</label>
+                  <div>
+                    <img class="avater" :src="i.user.userImg" alt />
+                    <label> {{ i.user.userName }}</label>
+                  </div>
+                  <label class="inline-text">{{ i.msgContent }}</label>
+                </el-card>
+                <el-card
+                  class="msg-card"
+                  v-else
+                  style="text-align: right"
+                  shadow="hover"
+                >
+                  <label> {{ i.user.userName }} {{ i.msgTime }}</label>
+                  <div>
+                    <label> {{ i.user.userName }}</label>
+                    <img class="avater" :src="i.user.userImg" alt />
+                  </div>
+                  <label class="inline-text">{{ i.msgContent }}</label>
+                </el-card>
+              </div>
+            </div>
           </div>
           <el-divider />
           <div>
             <label
               >Msg:
-              <el-input v-model="msg" v-on:enter="sendMessage" />
+              <el-input type="textarea" v-model="msg"></el-input>
             </label>
+            <div style="text-align: right">
+              <el-button v-on:click="sendMessage()">提交</el-button>
+            </div>
           </div>
-          <el-button v-on:click="sendMessage()">提交</el-button>
         </el-card>
       </el-col>
     </el-row>
@@ -41,76 +61,73 @@
 </template>
 
 <script>
+import { formatDate } from "@/assets/js/date";
+
 export default {
   name: "chat",
-  mounted() {
-    this.scrollContent();
-  },
+  components: {},
+  mounted() {},
   data() {
     return {
       websocket: null,
       list: [],
+      channelId: 1,
+      lockForConnect: false,
       msg: "",
     };
   },
   methods: {
-    connect(i) {
-      if (this.websocket) {
-        this.closeWebSocket();
+    setChannel(i) {
+      this.channelId = i;
+      this.connect();
+    },
+    connect() {
+      if (this.lockForConnect) {
         return;
       }
-      this.websocket = new WebSocket("ws://localhost:8004/chat/" + i);
+      this.websocket = new WebSocket(
+        "ws://localhost:8004/chat/" + this.channelId
+      );
       this.init();
     },
     init() {
-      //连接错误
       this.websocket.onerror = this.setOnError;
-
-      // //连接成功
       this.websocket.onopen = this.setOnOpen;
-
-      //收到消息的回调
       this.websocket.onmessage = this.setOnMessage;
-
-      //连接关闭的回调
       this.websocket.onclose = this.setOnClose;
-
-      //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
       window.onbeforeunload = this.setOnBeforeUnload;
+      this.lockForConnect = true;
+    },
+    reconnect() {
+      this.closeWebSocket();
+      this.lockForConnect = false;
+      this.connect();
     },
     setOnError() {
-      this.$message.info(
-        "WebSocket连接发生错误" + "   状态码：" + this.websocket.readyState
-      );
+      this.$message.info("WebSocket连接发生错误");
+      // this.reconnect();
+      // this.$message.info("WebSocket正在重连!!!");
     },
     setOnOpen() {
-      this.$message.info(
-        "WebSocket连接成功" + "   状态码：" + this.websocket.readyState
-      );
+      this.$message.info("WebSocket连接成功");
     },
     setOnMessage(event) {
       const data = JSON.parse(event.data);
-      console.log(data.user.userImg);
       this.list.push({
         msgContent: data.msgContent,
         msgTime: data.msgTime,
         user: data.user,
       });
-      // this.list.push();
-
-      this.scrollContent();
+      this.scrollToBottom();
     },
     setOnClose() {
-      this.$message.info(
-        "WebSocket连接关闭" + "   状态码：" + this.websocket.readyState
-      );
-      this.closeWebSocket();
+      this.$message.error("WebSocket连接关闭");
+      // this.reconnect();
+      // this.$message.info("WebSocket正在重连!!!");
     },
     setOnBeforeUnload() {
       this.closeWebSocket();
     },
-
-    //websocket发送消息
     sendMessage() {
       if (this.msg === "") {
         return false;
@@ -118,16 +135,16 @@ export default {
       this.websocket.send(this.msg);
       this.list.push({
         msgContent: this.msg,
-        msgTime: new Date(),
-        user: {},
+        msgTime: formatDate(),
+        user: this.$store.getters["user/getUser"],
       });
       this.msg = "";
-      this.scrollContent();
+      this.scrollToBottom();
     },
     closeWebSocket() {
       this.websocket.close();
     },
-    scrollContent() {
+    scrollToBottom() {
       this.$nextTick(() => {
         let el = this.$refs["content"];
         el.scrollTop = el.scrollHeight;
@@ -137,4 +154,22 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.inline-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 50px;
+}
+
+.avater {
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+}
+
+.msg-card {
+  margin: 20px;
+}
+</style>

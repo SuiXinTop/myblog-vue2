@@ -1,66 +1,36 @@
 <template>
-  <div class="about">
-    <VueEmoji
-      class="comment-container"
-      ref="emoji"
-      @input="onInput"
-      :value="myText"
-      width="100vh"
-    />
-    <img
-      src="../assets/images/1.jpg"
-      preview="0"
-      preview-text="描述文字"
-      alt=""
-    />
-    <img
-      src="../assets/images/1.jpg"
-      preview="0"
-      preview-text="描述文字"
-      alt=""
-    />
-    <img
-      src="../assets/images/1.jpg"
-      preview="0"
-      preview-text="描述文字"
-      alt=""
-    />
-    <img
-      src="../assets/images/1.jpg"
-      preview="0"
-      preview-text="描述文字"
-      alt=""
-    />
-    <img
-      src="../assets/images/1.jpg"
-      preview="0"
-      preview-text="描述文字"
-      alt=""
-    />
+  <div
+    class="about"
+    style="display: flex; flex-direction: column; align-items: center"
+  >
+    <img class="background-img" src="../assets/images/1.jpg" alt />
+
+    <!--    <VueEmoji-->
+    <!--      class="comment-container"-->
+    <!--      ref="emoji"-->
+    <!--      @input="onInput"-->
+    <!--      :value="myText"-->
+    <!--      width="100vh"-->
+    <!--    />-->
+    <login-form />
   </div>
 </template>
 <script>
-import VueEmoji from "emoji-vue";
+// import VueEmoji from "emoji-vue";
+import LoginForm from "@/components/Login/index";
 
 export default {
   name: "about",
   components: {
-    VueEmoji,
+    LoginForm,
+    // VueEmoji,
   },
   data() {
     return {
       myText: "",
     };
   },
-  methods: {
-    onInput(event) {
-      //事件。数据包含文本区域的值e
-      event.data;
-    },
-    clearTextarea() {
-      this.$refs.emoji.clear();
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="less" scoped>

@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-header>
-        <router-link class="space-name" to="/space">用户管理中心 </router-link>
+        <router-link class="space-name" to="/space/">用户管理中心 </router-link>
         <div class="avater">
           <avater />
         </div>
