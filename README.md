@@ -1,4 +1,4 @@
-# blog-vue2
+# myblog-vuecli3
 
 ## Project setup
 ```

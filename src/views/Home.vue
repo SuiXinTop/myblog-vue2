@@ -3,12 +3,6 @@
     <img class="background-img" src="../assets/images/1.jpg" alt="" />
     <top-bar />
     <header style="text-align: center">
-      <!--      <el-image-->
-      <!--        :src="url"-->
-      <!--        :key="url"-->
-      <!--        fit="cover"-->
-      <!--        style="height: 500px; width: 100%; z-index: -1"-->
-      <!--      />-->
       <img
         :src="url"
         style="object-fit: cover; height: 500px; width: 100%; z-index: -1"
@@ -50,17 +44,43 @@
     <div class="alignCenter">
       <div class="rowContain">
         <div class="browse">
-          <el-card
-            class="item"
-            v-for="i in 10"
-            :key="i"
-            header="1111"
-            shadow="hover"
-          >
-            sadasdasdad + {{ i }}
-          </el-card>
+          <div v-for="(blog, index) in blogList" :key="index">
+            <el-card class="item" shadow="hover">
+              <el-row style="line-height: 30px">
+                <label
+                  class="blog-title"
+                  @click="toBlog(blog.blogId)"
+                  v-text="blog.blogTitle"
+                ></label>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="8">
+                  <img class="blog-img" :src="blog.blogImg" preview alt />
+                </el-col>
+                <el-col :span="16">
+                  <label
+                    class="blog-body"
+                    @click="toBlog(blog.blogId)"
+                    v-text="blog.blogBody"
+                  />
+                  <el-tag
+                    v-for="(blogTag, index2) in blog.blogTagList"
+                    :key="index2"
+                  >
+                    {{ blogTag.tag.tagName }}
+                  </el-tag>
+                </el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="4">
+                  <i class="el-icon-user" />
+                  <label v-text="blog.user.userName" />
+                </el-col>
+                <el-col :span="20"> </el-col>
+              </el-row>
+            </el-card>
+          </div>
         </div>
-        <el-card style="width: 40vh; height: 100vh" />
       </div>
     </div>
   </div>
@@ -68,6 +88,7 @@
 <script>
 import TopBar from "@/components/Bar/bar";
 import { content1, content2, title } from "@/assets/static/content";
+import { getBlogNew } from "@/assets/js/api/blog";
 
 export default {
   name: "Home",
@@ -77,13 +98,28 @@ export default {
   created() {
     this.url = "http://118.31.15.127:9000/blog/%E5%8A%A8%E6%BC%AB%20(3).png";
   },
+  mounted() {
+    this.getBlogNew();
+  },
   data() {
     return {
       title: title,
       content1: content1,
       content2: content2,
       url: "",
+      blogList: [],
     };
+  },
+  methods: {
+    getBlogNew() {
+      getBlogNew().then((res) => {
+        console.log(res.data);
+        this.blogList = res.data.data;
+      });
+    },
+    toBlog(blogId) {
+      this.$router.push({ path: "/blog", query: { blogId: blogId } });
+    },
   },
 };
 </script>
@@ -101,26 +137,16 @@ export default {
   flex-direction: column;
 
   .browse {
-    margin: 0 10px 0 10px;
     width: 1000px;
     text-align: left;
-
     .item {
-      min-height: 200px;
-      margin: 5px 0 5px 0;
+      backdrop-filter: blur(4px);
+      background: rgba(250, 249, 249, 0.62);
+      margin: 5px auto;
+      .el-row {
+        margin-bottom: 5px;
+      }
     }
-  }
-  .side {
-    margin: 0 10px 0 10px;
-    width: 300px;
-    height: 800px;
-    background-color: white;
-  }
-
-  .block2 {
-    height: 500px;
-    width: 400px;
-    margin: 10px;
   }
 
   .top-button {
@@ -142,5 +168,33 @@ export default {
   flex-direction: row;
   text-align: center;
   margin: 60px;
+}
+
+.blog-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.blog-body {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.blog-title {
+  font-size: 20px;
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 </style>

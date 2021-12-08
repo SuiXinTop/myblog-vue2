@@ -5,25 +5,16 @@
   >
     <img class="background-img" src="../assets/images/1.jpg" alt />
 
-    <!--    <VueEmoji-->
-    <!--      class="comment-container"-->
-    <!--      ref="emoji"-->
-    <!--      @input="onInput"-->
-    <!--      :value="myText"-->
-    <!--      width="100vh"-->
-    <!--    />-->
     <login-form />
   </div>
 </template>
 <script>
-// import VueEmoji from "emoji-vue";
 import LoginForm from "@/components/Login/index";
 
 export default {
   name: "about",
   components: {
     LoginForm,
-    // VueEmoji,
   },
   data() {
     return {

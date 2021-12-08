@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import auth from "@/assets/js/api/auth";
+import { emailLogin, verifyEmail } from "@/assets/js/api/auth";
 
 export default {
   name: "email",
@@ -69,8 +69,7 @@ export default {
         this.$message.warning("验证码为4位");
         return false;
       }
-      auth
-        .emailLogin(this.form)
+      emailLogin(this.form)
         .then((res) => {
           console.log(res);
           this.$message.success(res.data.msg);
@@ -83,8 +82,8 @@ export default {
     sendEmail() {
       this.valid();
       let data = { email: this.form.email, code: "1111" };
-      auth
-        .verifyEmail(data)
+
+      verifyEmail(data)
         .then((res) => {
           console.log(res);
           this.$message.success("发送成功");

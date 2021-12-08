@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import auth from "@/assets/js/api/auth";
+import { login } from "@/assets/js/api/auth";
 
 export default {
   name: "login",
@@ -117,8 +117,7 @@ export default {
           this.$message.error("验证码错误！");
           return false;
         }
-        auth
-          .login(this.form)
+        login(this.form)
           .then((res) => {
             console.log(res.data);
             if (res.data.code !== 200) {

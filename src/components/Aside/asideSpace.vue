@@ -32,7 +32,7 @@
                 <span>发布博客</span>
               </el-menu-item>
             </router-link>
-            <router-link to="/space/post">
+            <router-link to="/space/edit">
               <el-menu-item index="2-4">
                 <span>编辑博客</span>
               </el-menu-item>

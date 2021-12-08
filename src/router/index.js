@@ -9,6 +9,8 @@ import Space from "@/views/space/Space";
 import Edit from "@/views/space/Edit";
 import Chat from "@/views/space/Chat";
 import SpaceHome from "@/views/space/SpaceHome";
+import Login from "@/views/Login";
+import Register from "@/views/Register";
 
 Vue.use(VueRouter);
 
@@ -28,7 +30,17 @@ const routes = [
     component: About,
   },
   {
-    path: "/blog/:blogId",
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register,
+  },
+  {
+    path: "/blog",
     name: "Blog",
     component: Blog,
   },
@@ -71,13 +83,13 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (!to.name) {
-//     next({
-//       path: "/404",
-//     });
-//   }
-//   next();
-// });
+router.beforeEach((to, from, next) => {
+  if (!to.name) {
+    next({
+      path: "/404",
+    });
+  }
+  next();
+});
 
 export default router;

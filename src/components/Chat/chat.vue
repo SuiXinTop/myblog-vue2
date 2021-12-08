@@ -18,7 +18,7 @@
               <div>
                 <el-card
                   class="msg-card"
-                  v-if="i.user.userName === userName"
+                  v-if="i.user.userName === 'suixin'"
                   shadow="hover"
                 >
                   <label> {{ i.msgTime }}</label>
@@ -26,7 +26,7 @@
                     <img class="avater" :src="i.user.userImg" alt />
                     <label> {{ i.user.userName }}</label>
                   </div>
-                  <label class="inline-text">{{ i.msgContent }}</label>
+                  <label v-html="i.msgContent" />
                 </el-card>
                 <el-card
                   class="msg-card"
@@ -39,17 +39,29 @@
                     <label> {{ i.user.userName }}</label>
                     <img class="avater" :src="i.user.userImg" alt />
                   </div>
-                  <label class="inline-text">{{ i.msgContent }}</label>
+                  <label v-html="i.msgContent" />
                 </el-card>
               </div>
             </div>
           </div>
           <el-divider />
           <div>
-            <label
-              >Msg:
-              <el-input type="textarea" v-model="msg"></el-input>
-            </label>
+            <quill-editor
+              ref="QuillEditor"
+              :options="editorOption"
+              v-model="msg"
+            />
+            <el-upload
+              action="#"
+              style="display: none"
+              accept="image/jpeg,image/png,image/jpg"
+              :before-upload="onBeforeUploadImage"
+              :http-request="UploadImage"
+            >
+              <el-button id="upload-chat" size="small" type="primary"
+                >点击上传
+              </el-button>
+            </el-upload>
             <div style="text-align: right">
               <el-button v-on:click="sendMessage()">提交</el-button>
             </div>
@@ -62,13 +74,32 @@
 
 <script>
 import { formatDate } from "@/assets/js/date";
+import { upload } from "@/assets/js/api/file";
+
+export const editorOption = {
+  theme: "snow",
+  placeholder: "请在这里输入",
+  modules: {
+    toolbar: {
+      container: [["link", "image"]],
+      handlers: {
+        image: function (value) {
+          if (value) {
+            document.getElementById("upload-chat").click();
+          } else {
+            this.quill.format("image", false);
+          }
+        },
+      },
+    },
+  },
+};
 
 export default {
   name: "chat",
-  components: {},
-  mounted() {},
   data() {
     return {
+      editorOption,
       websocket: null,
       list: [],
       channelId: 1,
@@ -129,7 +160,7 @@ export default {
       this.closeWebSocket();
     },
     sendMessage() {
-      if (this.msg === "") {
+      if (this.msg === "" || !this.websocket) {
         return false;
       }
       this.websocket.send(this.msg);
@@ -149,6 +180,52 @@ export default {
         let el = this.$refs["content"];
         el.scrollTop = el.scrollHeight;
       });
+    },
+    onBeforeUploadImage(file) {
+      const isIMAGE = file.type === "image/jpeg" || "image/jpg" || "image/png";
+      const isLt1M = file.size / 1024 / 1024 < 5;
+      if (!isIMAGE) {
+        this.$message.error("上传文件只能是图片格式!");
+      }
+      if (!isLt1M) {
+        this.$message.error("上传文件大小不能超过 5MB!");
+      }
+      return isIMAGE && isLt1M;
+    },
+    UploadImage(param) {
+      const formData = new FormData();
+      formData.append("file", param.file);
+      formData.append("type", "chat");
+      upload(formData)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code === 200) {
+            this.$notify.success(res.data.msg);
+            this.handleSuccess(res.data.data);
+            return;
+          }
+          this.$notify.error(res.data.msg);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$notify.error("上传失败");
+        });
+    },
+    handleSuccess(url) {
+      // 获取富文本组件实例
+      let quill = this.$refs.QuillEditor.quill;
+      // 如果上传成功
+      if (url) {
+        // 获取光标所在位置
+        let length = quill.getSelection().index;
+        // 插入图片，res为服务器返回的图片链接地址
+        quill.insertEmbed(length, "image", url);
+        // 调整光标到最后
+        quill.setSelection(length + 1);
+      } else {
+        // 提示信息，需引入Message
+        this.$notify.error("图片插入失败");
+      }
     },
   },
 };
