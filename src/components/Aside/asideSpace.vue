@@ -24,16 +24,19 @@
             <router-link to="/space/chat">
               <el-menu-item index="2-2">私信</el-menu-item>
             </router-link>
+            <router-link to="/space/group">
+              <el-menu-item index="2-3">群聊</el-menu-item>
+            </router-link>
           </el-menu-item-group>
           <el-menu-item-group>
             <template slot="title">博客</template>
             <router-link to="/space/post">
-              <el-menu-item index="2-3">
+              <el-menu-item index="2-4">
                 <span>发布博客</span>
               </el-menu-item>
             </router-link>
             <router-link to="/space/edit">
-              <el-menu-item index="2-4">
+              <el-menu-item index="2-5">
                 <span>编辑博客</span>
               </el-menu-item>
             </router-link>

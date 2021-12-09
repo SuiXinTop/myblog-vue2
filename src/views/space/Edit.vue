@@ -23,18 +23,13 @@ export default {
   },
   data() {
     return {
-      blog: {
-        blogId: 4,
-        blogTitle: "",
-        blogBody: "",
-        blogImg: "",
-        userId: null,
-      },
+      blogId: 6,
+      blog: {},
     };
   },
   methods: {
     getBlog() {
-      getBlog(this.blog.blogId)
+      getBlog(this.blogId)
         .then((res) => {
           console.log(res);
           if (res.data.code === 200) {

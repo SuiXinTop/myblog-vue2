@@ -15,7 +15,7 @@ module.exports = {
   devServer: {
     /* 自动打开浏览器 */
     open: true,
-    port: 9090, // 本地端口号
+    port: 80, // 本地端口号
     https: false,
     hotOnly: false,
     // 开放本地局域网访问
@@ -32,7 +32,7 @@ module.exports = {
         },
       },
       "/api/auth": {
-        target: "http://localhost:8003", // 服务器协议、ip和端口号
+        target: "http://localhost:8081", // 服务器协议、ip和端口号
         secure: false, // 如果是https接口，需要配置这个参数
         ws: true, // 是否代理websockets
         changeOrigin: true,
@@ -50,7 +50,7 @@ module.exports = {
         },
       },
       "/api/chat": {
-        target: "http://localhost:8004", // 服务器协议、ip和端口号
+        target: "http://localhost:8083", // 服务器协议、ip和端口号
         secure: false, // 如果是https接口，需要配置这个参数
         ws: true, // 是否代理websockets
         changeOrigin: true,

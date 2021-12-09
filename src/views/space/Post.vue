@@ -14,9 +14,10 @@
             <el-col :span="10">
               <span>封面</span>
               <el-upload
-                class="upload-demo"
-                :on-change="fileChange"
-                action=""
+                accept="image/jpeg,image/png,image/jpg"
+                :before-upload="onBeforeUploadBlogImg"
+                :http-request="UploadBlogImg"
+                action="#"
                 :multiple="false"
                 :show-file-list="false"
                 drag
@@ -28,12 +29,18 @@
               </el-upload>
             </el-col>
             <el-col :span="12">
-              <el-image
+              <img
+                v-if="blog.blogImg"
                 :src="blog.blogImg"
-                fit="cover"
-                style="height: 300px; width: 100%"
-              >
-              </el-image>
+                style="
+                  height: 300px;
+                  width: 100%;
+                  object-fit: cover;
+                  border-radius: 8px;
+                "
+                preview
+                alt=""
+              />
             </el-col>
           </el-row>
         </el-form-item>
@@ -43,7 +50,7 @@
         left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code"
         v-model="blog.blogBody"
         :include-level="[1, 2, 3, 4, 5]"
-        @upload-image="handleUploadImage"
+        @upload-image="UploadBlogContent"
         @copy-code-success="handleCopyCodeSuccess"
         style="height: 100vh"
       />
@@ -57,7 +64,7 @@
 
 <script>
 import { saveBlog } from "@/assets/js/api/blog";
-import axios from "axios";
+import { upload } from "@/assets/js/api/file";
 
 export default {
   name: "Post",
@@ -66,53 +73,7 @@ export default {
     return {
       blog: {
         blogTitle: "",
-        blogBody:
-          "# MyBlog\n" +
-          "\n" +
-          "### 介绍\n" +
-          "\n" +
-          "\n" +
-          "\n" +
-          "### 技术栈\n" +
-          "\n" +
-          "#### 后端：\n" +
-          "\n" +
-          "java基础\n" +
-          "\n" +
-          "框架：spring、springmvc、springboot、mybatis\n" +
-          "\n" +
-          "搜索引擎：elastic search\n" +
-          "\n" +
-          "缓存，鉴权：redis\n" +
-          "\n" +
-          "消息队列：rocketMQ\n" +
-          "\n" +
-          "文件系统：minio\n" +
-          "\n" +
-          "日志：logback\n" +
-          "\n" +
-          "分页：pageHelper\n" +
-          "\n" +
-          "接口文档: knif4j-swagger\n" +
-          "\n" +
-          "日志导出：easyExcel\n" +
-          "\n" +
-          "#### 前端：\n" +
-          "\n" +
-          "Vue 3、ElementUI、Vuex、VueCli4、axios\n" +
-          "\n" +
-          "#### 数据库:\n" +
-          "\n" +
-          "mysql、elastic search\n" +
-          "\n" +
-          "#### 部署：\n" +
-          "\n" +
-          "docker，nginx\n" +
-          "\n" +
-          "\n" +
-          "\n" +
-          "### 截图\n" +
-          "\n",
+        blogBody: "",
         blogImg: null,
         userId: 1,
       },
@@ -138,46 +99,63 @@ export default {
           this.$notify.error(err.message);
         });
     },
-    upload() {},
-    fileChange(file) {
-      this.blog.blogImg = file.url;
+    onBeforeUploadBlogImg(file) {
+      const isIMAGE = file.type === "image/jpeg" || "image/jpg" || "image/png";
+      const isLt1M = file.size / 1024 / 1024 < 5;
+      if (!isIMAGE) {
+        this.$message.error("上传文件只能是图片格式!");
+      }
+      if (!isLt1M) {
+        this.$message.error("上传文件大小不能超过 5MB!");
+      }
+      return isIMAGE && isLt1M;
     },
-    handleUploadImage(event, insertImage, files) {
-      // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
-      const file = files[0];
-      const desc = file.name;
-      const form = new FormData();
-      form.append("file", file);
-      form.append("blogId", "10");
-      console.log(file);
-      axios
-        .post("/api/file/file/blog", form)
+    UploadBlogImg(param) {
+      const formData = new FormData();
+      formData.append("file", param.file);
+      formData.append("type", "chat");
+      upload(formData)
         .then((res) => {
-          console.log(res.data);
-          if (res.data.code === 200 || res.data.code === "200") {
-            insertImage({
-              url: res.data.data,
-              desc: desc,
-              // width: "auto",
-              // height: "auto",
-            });
-          } else {
-            this.$notify.error({
-              title: "上传失败",
-              message: res.data.msg,
-            });
+          console.log(res);
+          if (res.data.code === 200) {
+            this.$notify.success(res.data.msg);
+            this.blog.blogImg = res.data.data;
+            return;
           }
+          this.$notify.error(res.data.msg);
         })
         .catch((err) => {
-          this.$notify.error({
-            title: "上传失败",
-            message: err.data.msg,
-          });
-          return false;
+          console.log(err);
+          this.$notify.error("上传失败");
+        });
+    },
+    UploadBlogContent(event, insertImage, files) {
+      // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
+      const file = files[0];
+      const form = new FormData();
+      form.append("file", file);
+      form.append("type", "blog");
+      upload(form)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.code === 200) {
+            insertImage({
+              url: res.data.data,
+              desc: file.name,
+              width: "auto",
+              height: "auto",
+            });
+            this.$notify.success(res.data.msg);
+            return;
+          }
+          this.$notify.error(res.data.msg);
+        })
+        .catch((err) => {
+          this.$notify.error(err.message);
         });
     },
     handleCopyCodeSuccess(code) {
-      this.$message.info(code);
+      this.$notify.info(code);
     },
   },
 };

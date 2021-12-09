@@ -2,12 +2,7 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="4">
-        <div style="height: 550px; overflow-y: auto">
-          <div v-for="i in 2" :key="i">
-            <el-button @click="setChannel(i)">{{ i }}</el-button>
-            <br />
-          </div>
-        </div>
+        <div style="height: 550px; overflow-y: auto"></div>
       </el-col>
       <el-col :span="20">
         <div ref="content" style="height: 70vh; overflow-y: auto">
@@ -36,7 +31,9 @@
     <div>
       <html-edit ref="htmlEdit" v-model="msg" />
       <br />
+      <el-input v-model="userId" />
       <div style="text-align: right">
+        <el-button v-on:click="connect">连接</el-button>
         <el-button v-on:click="sendMessage">提交</el-button>
       </div>
     </div>
@@ -45,29 +42,26 @@
 
 <script>
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
+
 export default {
-  name: "chat",
+  name: "group",
   components: { HtmlEdit },
   data() {
     return {
       websocket: null,
       list: [],
-      channelId: 1,
       lockForConnect: false,
       msg: "",
+      userId: "",
     };
   },
   methods: {
-    setChannel(i) {
-      this.channelId = i;
-      this.connect();
-    },
     connect() {
       if (this.lockForConnect) {
         return;
       }
       this.websocket = new WebSocket(
-        "ws://localhost:8004/chat/" + this.channelId
+        "ws://localhost:8004/group/" + this.userId
       );
       this.init();
     },
@@ -113,7 +107,7 @@ export default {
     },
     scrollToBottom() {
       this.$nextTick(() => {
-        let el = this.$refs.content;
+        let el = this.$refs["content"];
         el.scrollTop = el.scrollHeight;
       });
     },
@@ -122,13 +116,6 @@ export default {
 </script>
 
 <style lang="less">
-.inline-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  line-height: 50px;
-}
-
 .avater {
   object-fit: cover;
   width: 50px;

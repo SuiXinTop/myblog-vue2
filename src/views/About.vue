@@ -4,18 +4,19 @@
     style="display: flex; flex-direction: column; align-items: center"
   >
     <img class="background-img" src="../assets/images/1.jpg" alt />
-
-    <login-form />
+    <div v-html="myText"></div>
+    <html-edit ref="edit" style="width: 100vh; height: 50vh" v-model="myText" />
   </div>
 </template>
 <script>
-import LoginForm from "@/components/Login/index";
+import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
 
 export default {
   name: "about",
   components: {
-    LoginForm,
+    HtmlEdit,
   },
+  mounted() {},
   data() {
     return {
       myText: "",
