@@ -1,12 +1,9 @@
 <template>
   <div>
     <el-row :gutter="20">
-      <el-col :span="4">
-        <div style="height: 550px; overflow-y: auto"></div>
-      </el-col>
       <el-col :span="20">
         <div ref="content" style="height: 70vh; overflow-y: auto">
-          <div v-for="(i, index) in list" :key="index">
+          <div v-for="(i, index) in msgList" :key="index">
             <el-card class="msg-card" shadow="hover">
               <el-row>
                 <el-col :span="3">
@@ -26,14 +23,20 @@
           </div>
         </div>
       </el-col>
+      <el-col :span="4">
+        <div style="height: 550px; overflow-y: auto"></div>
+      </el-col>
     </el-row>
     <el-divider />
     <div>
-      <html-edit ref="htmlEdit" v-model="msg" />
+      <html-edit
+        ref="htmlEdit"
+        @keydown.ctrl.enter.native="sendMessage"
+        v-model="msg"
+      />
       <br />
-      <el-input v-model="userId" />
       <div style="text-align: right">
-        <el-button v-on:click="connect">连接</el-button>
+        <el-button v-on:click="clearMessage">清空窗口</el-button>
         <el-button v-on:click="sendMessage">提交</el-button>
       </div>
     </div>
@@ -42,17 +45,22 @@
 
 <script>
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
+import { getUserId } from "@/assets/js/util/localStore";
+import { groupUrl } from "@/assets/js/api/chat";
 
 export default {
   name: "group",
   components: { HtmlEdit },
+  mounted() {
+    this.connect();
+  },
   data() {
     return {
       websocket: null,
-      list: [],
+      userList: [],
+      msgList: [],
       lockForConnect: false,
       msg: "",
-      userId: "",
     };
   },
   methods: {
@@ -60,9 +68,7 @@ export default {
       if (this.lockForConnect) {
         return;
       }
-      this.websocket = new WebSocket(
-        "ws://localhost:8004/group/" + this.userId
-      );
+      this.websocket = new WebSocket(groupUrl + getUserId());
       this.init();
     },
     init() {
@@ -74,14 +80,14 @@ export default {
       this.lockForConnect = true;
     },
     setOnError() {
-      this.$message.info("WebSocket连接发生错误");
+      this.$notify.error("发生错误");
     },
     setOnOpen() {
-      this.$message.info("WebSocket连接成功");
+      this.$notify.success("欢迎进入聊天室");
     },
     setOnMessage(event) {
       const data = JSON.parse(event.data);
-      this.list.push({
+      this.msgList.push({
         msgContent: data.msgContent,
         msgTime: data.msgTime,
         user: data.user,
@@ -89,7 +95,7 @@ export default {
       this.scrollToBottom();
     },
     setOnClose() {
-      this.$message.error("WebSocket连接关闭");
+      this.$notify.success("离开聊天室");
       this.lockForConnect = false;
     },
     setOnBeforeUnload() {
@@ -110,6 +116,9 @@ export default {
         let el = this.$refs["content"];
         el.scrollTop = el.scrollHeight;
       });
+    },
+    clearMessage() {
+      this.msgList = [];
     },
   },
 };

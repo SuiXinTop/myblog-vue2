@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import { getUserImg } from "@/assets/js/util/localStore";
+
 export default {
   name: "avater",
   props: {
@@ -67,8 +69,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      imgPath:
-        "http://118.31.15.127:9000/blog/userImg/b69553a8d65fdff41165c69f4f784752.jpg",
+      imgPath: getUserImg(),
     };
   },
   methods: {

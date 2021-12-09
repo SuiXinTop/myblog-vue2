@@ -16,7 +16,7 @@
         <el-tag v-for="(blogTag, index) in blog.blogTagList" :key="index">
           {{ blogTag.tag.tagName }}
         </el-tag>
-        <p v-text="blog.blogTime" />
+        <p v-text="getFormatTime(blog.blogTime)" />
         <el-avatar shape="square" :src="blog.user.userImg" :size="100" />
         <p v-text="blog.user.userName" />
         <el-divider />
@@ -24,23 +24,25 @@
         <el-divider />
         <div style="text-align: center">
           <el-button disabled>
-            <i class="el-icon-view" v-text="blog.blogView" />
+            <i class="el-icon-view">浏览量{{ blog.blogView }}</i>
           </el-button>
           <el-button>
-            <i class="el-icon-star-on" v-text="blog.blogLike" />
+            <i class="el-icon-goods">点赞{{ blog.blogLike }} </i>
           </el-button>
-          <el-button><i class="el-icon-share" />分享</el-button>
+          <el-button>
+            <i class="el-icon-star-on">收藏{{ blog.blogCollect }} </i>
+          </el-button>
         </div>
       </el-card>
       <br />
       <el-card id="comment-card">
+        <label>共{{ blog.blogComment }}条评论</label>
+        <html-edit />
         <div v-for="(value, comIds) in commentList" :key="comIds">
           <el-avatar :src="value.user.userImg" :size="60" />
           <label v-text="value.comBody" />
           <el-divider />
         </div>
-        <el-pagination layout="prev, pager, next" :total="1000">
-        </el-pagination>
       </el-card>
     </div>
     <div style="padding: 50px" />
@@ -53,10 +55,13 @@ import TopBar from "@/components/Bar/bar";
 import BackToTop from "@/components/BackToTop/backTop";
 import { getBlog } from "@/assets/js/api/blog";
 import { getCommentList } from "@/assets/js/api/comment";
+import { dateDiff } from "@/assets/js/util/time";
+import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
 
 export default {
   name: "blog",
   components: {
+    HtmlEdit,
     BackToTop,
     TopBar,
   },
@@ -114,6 +119,9 @@ export default {
     // 每页数量变化
     handleSizeChange(val) {
       this.pageSize = val;
+    },
+    getFormatTime(val) {
+      return dateDiff(val);
     },
   },
 };

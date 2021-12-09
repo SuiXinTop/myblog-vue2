@@ -21,6 +21,21 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     // hideLoading();
+    if (response.response) {
+      switch (response.response.status) {
+        case 401:
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("userName");
+          localStorage.removeItem("userImg");
+          localStorage.removeItem("role");
+          router
+            .replace({
+              path: "/login",
+            })
+            .then();
+      }
+    }
     return response;
   },
   (error) => {
@@ -30,12 +45,15 @@ axios.interceptors.response.use(
         case 401:
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
-          // this.$store.commit('del_token')
+          localStorage.removeItem("userName");
+          localStorage.removeItem("userImg");
+          localStorage.removeItem("role");
           router
             .replace({
               path: "/login",
             })
             .then();
+            break;
       }
     }
     return Promise.reject(error.response.data);

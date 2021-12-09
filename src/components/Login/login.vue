@@ -51,12 +51,11 @@
 
 <script>
 import { login } from "@/assets/js/api/auth";
+import { setAll } from "@/assets/js/util/localStore";
 
 export default {
   name: "login",
-  mounted() {
-    localStorage.removeItem("token");
-  },
+  mounted() {},
   data() {
     return {
       form: {
@@ -110,30 +109,33 @@ export default {
     login() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) {
-          this.$message.error("输入格式错误！");
-          return false;
+          this.$notify.error("输入格式错误！");
+          return;
         }
         if (this.form.code !== this.validCode) {
-          this.$message.error("验证码错误！");
-          return false;
+          this.$notify.error("验证码错误！");
+          return;
         }
         login(this.form)
           .then((res) => {
             console.log(res.data);
-            if (res.data.code !== 200) {
-              this.$message.error(res.data.msg);
-              return false;
+            if (res.data.code === 200) {
+              this.$notify.success(res.data.msg);
+              let data = res.data.data;
+              setAll(
+                data.token,
+                data.userVo.userId,
+                data.userVo.userName,
+                data.userVo.userImg,
+                data.userVo.role.roleKey
+              );
+              return;
             }
-            let userVo = res.data.data.userVo;
-            localStorage.setItem("token", res.data.data.token);
-            localStorage.setItem("userId", userVo.userId);
-            localStorage.setItem("userName", userVo.userName);
-            localStorage.setItem("userImg", userVo.userImg);
-            this.$message.success(res.data.msg);
+            this.$notify.error(res.data.msg);
           })
           .catch((err) => {
             console.log(err);
-            this.$message.error("出现未知错误");
+            this.$notify.error("出现未知错误");
           });
       });
     },

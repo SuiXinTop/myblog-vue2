@@ -12,11 +12,11 @@
 
 <style lang="less">
 .background-img {
-  position: fixed;
   top: 0;
   left: 0;
+  position: fixed;
   z-index: -999;
-  filter: blur(5px);
+  filter: blur(2px);
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -38,8 +38,7 @@ a {
 }
 
 #app {
-  font-family: "微软雅黑", "Helvetica Neue", Helvetica, "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  font-family: "幼圆", "JetBrains Mono", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

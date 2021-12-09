@@ -45,6 +45,7 @@
 
 <script>
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
+import { chatUrl } from "@/assets/js/api/chat";
 export default {
   name: "chat",
   components: { HtmlEdit },
@@ -66,9 +67,7 @@ export default {
       if (this.lockForConnect) {
         return;
       }
-      this.websocket = new WebSocket(
-        "ws://localhost:8004/chat/" + this.channelId
-      );
+      this.websocket = new WebSocket(chatUrl + this.channelId);
       this.init();
     },
     init() {

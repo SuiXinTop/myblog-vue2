@@ -1,8 +1,16 @@
+import {
+  getRole,
+  getUserId,
+  getUserImg,
+  getUserName,
+} from "@/assets/js/util/localStore";
+
 const state = {
   user: {
-    userId: localStorage.getItem("userId"),
-    userName: localStorage.getItem("userName"),
-    userImg: localStorage.getItem("userImg"),
+    userId: getUserId(),
+    userName: getUserName(),
+    userImg: getUserImg(),
+    role: getRole(),
   },
 };
 const getters = {

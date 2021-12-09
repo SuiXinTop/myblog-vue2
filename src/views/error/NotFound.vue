@@ -1,6 +1,11 @@
 <template>
   <div id="contain">
-    <img src="../../assets/images/error.jpg" alt="" />
+    <img
+      style="width: 100vh; height: auto"
+      src="../../assets/images/404.png"
+      preview=""
+      alt=""
+    />
     <h1>抱歉您访问的页面出错了</h1>
     <h2>您可能输错了网址，或该网页已删除或不存在</h2>
     <div class="btna">
@@ -17,8 +22,7 @@ export default {
 
 <style scoped>
 #contain {
-  margin-top: 20px;
-  background: rgb(233, 233, 233);
+  background: rgb(255, 255, 255);
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -26,14 +30,13 @@ export default {
 }
 
 .btna {
-  margin-top: 32px;
   height: 40px;
 }
 
 .btna a {
   text-decoration: none;
-  background: #2f435e;
-  color: #f2f2f2;
+  background: #5599ec;
+  color: #ffffff;
   padding: 10px 30px 10px 30px;
   font-size: 16px;
   font-weight: bold;
@@ -44,6 +47,6 @@ export default {
 }
 
 .btna a:hover {
-  background: #d7114f;
+  background: rgba(53, 17, 215, 0.61);
 }
 </style>

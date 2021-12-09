@@ -36,6 +36,7 @@
 
 <script>
 import { emailLogin, verifyEmail } from "@/assets/js/api/auth";
+import { setAll } from "@/assets/js/util/localStore";
 
 export default {
   name: "email",
@@ -66,14 +67,25 @@ export default {
     login() {
       this.valid();
       if (this.form.code.length !== 4) {
-        this.$message.warning("验证码为4位");
-        return false;
+        this.$notify.warning("验证码为4位");
+        return;
       }
       emailLogin(this.form)
         .then((res) => {
           console.log(res);
-          this.$message.success(res.data.msg);
-          localStorage.setItem("token", res.data.data.token);
+          if (res.data.code === 200) {
+            this.$notify.success(res.data.msg);
+            let data = res.data.data;
+            setAll(
+              data.token,
+              data.userVo.userId,
+              data.userVo.userName,
+              data.userVo.userImg,
+              data.userVo.role.roleKey
+            );
+            return;
+          }
+          this.$notify.error(res.data.msg);
         })
         .catch((err) => {
           console.log(err);
@@ -86,7 +98,7 @@ export default {
       verifyEmail(data)
         .then((res) => {
           console.log(res);
-          this.$message.success("发送成功");
+          this.$notify.success("发送成功");
           this.hasSend = true;
         })
         .catch((err) => {
@@ -96,7 +108,7 @@ export default {
     valid() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) {
-          this.$message.error("输入格式错误！");
+          this.$notify.error("输入格式错误！");
           return false;
         }
       });

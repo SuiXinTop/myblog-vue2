@@ -9,9 +9,12 @@ import Space from "@/views/space/Space";
 import Edit from "@/views/space/Edit";
 import Chat from "@/views/space/Chat";
 import SpaceHome from "@/views/space/SpaceHome";
-import Login from "@/views/Login";
+import Login from "@/views/LoginPage";
 import Register from "@/views/Register";
 import Group from "@/views/space/Group";
+import Search from "@/views/Search";
+import Annountce from "@/views/Annountce";
+import { getToken } from "@/assets/js/util/localStore";
 
 Vue.use(VueRouter);
 
@@ -32,6 +35,22 @@ const routes = [
     },
   },
   {
+    path: "/search",
+    name: "Search",
+    component: Search,
+    meta: {
+      requireAuth: false,
+    },
+  },
+  {
+    path: "/announce",
+    name: "Announce",
+    component: Annountce,
+    meta: {
+      requireAuth: false,
+    },
+  },
+  {
     path: "/about",
     name: "About",
     component: About,
@@ -41,7 +60,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: "Login",
+    name: "LoginPage",
     component: Login,
     meta: {
       requireAuth: false,
@@ -133,9 +152,9 @@ router.beforeEach((to, from, next) => {
     return;
   }
   if (to.meta.requireAuth) {
-    if (!localStorage.getItem("token")) {
+    if (!getToken()) {
       next({
-        // path: "/login",
+        path: "/login",
       });
       return;
     }
