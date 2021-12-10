@@ -1,6 +1,6 @@
 import { Message, MessageBox, Notification } from "element-ui";
 
-export default {
+export let modal = {
   // 消息提示
   msg(content) {
     Message.info(content);

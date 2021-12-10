@@ -180,9 +180,7 @@ export default {
           if (res.data.code === 200) {
             this.commentList = res.data.data.list;
             this.page.total = res.data.data.total;
-            return;
           }
-          this.$notify.error(res.data.msg);
         })
         .catch((err) => {
           this.$notify.error(err.message);

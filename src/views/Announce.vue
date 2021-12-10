@@ -1,8 +1,10 @@
-<template></template>
+<template>
+  <div>公告</div>
+</template>
 
 <script>
 export default {
-  name: "Annountce",
+  name: "Announce",
 };
 </script>
 

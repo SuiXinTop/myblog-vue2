@@ -55,3 +55,10 @@ export function getBlogNew() {
     method: "get",
   });
 }
+
+export function getBlogHot() {
+  return axios.request({
+    url: api + "/hot",
+    method: "get",
+  });
+}

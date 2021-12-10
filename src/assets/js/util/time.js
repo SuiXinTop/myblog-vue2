@@ -1,3 +1,4 @@
+//时间戳转换
 export function dateDiff(timestamp) {
   // 补全为13位
   var arrTimestamp = (timestamp + "").split("");

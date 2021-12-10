@@ -13,21 +13,22 @@ import Login from "@/views/LoginPage";
 import Register from "@/views/Register";
 import Group from "@/views/space/Group";
 import Search from "@/views/Search";
-import Annountce from "@/views/Annountce";
+import Announce from "@/views/Announce";
 import { getToken } from "@/assets/js/util/localStore";
+import { routerPath } from "@/assets/js/util/path";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: "/home",
+    redirect: routerPath.home,
     meta: {
       requireAuth: false,
     },
   },
   {
-    path: "/home",
+    path: routerPath.home,
     name: "Home",
     component: Home,
     meta: {
@@ -45,13 +46,13 @@ const routes = [
   {
     path: "/announce",
     name: "Announce",
-    component: Annountce,
+    component: Announce,
     meta: {
       requireAuth: false,
     },
   },
   {
-    path: "/about",
+    path: routerPath.about,
     name: "About",
     component: About,
     meta: {
@@ -75,7 +76,7 @@ const routes = [
     },
   },
   {
-    path: "/blog",
+    path: routerPath.blog,
     name: "Blog",
     component: Blog,
     meta: {
@@ -83,7 +84,7 @@ const routes = [
     },
   },
   {
-    path: "/space",
+    path: routerPath.space,
     component: Space,
     redirect: "/space/home",
     children: [

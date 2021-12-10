@@ -1,58 +1,126 @@
 //交互用到的对象
+
+export let restMsg = { code: null, msg: null, data: null };
+
+export let LoginResponse = {
+  token: null,
+  userVo: user,
+};
+
+export let emailCode = {
+  email: null,
+  code: null,
+};
+
+export let webSocketMsg = {
+  user: user,
+  msgContent: null,
+  msgTime: null,
+};
+
+export let announcement = {
+  amtId: null,
+  amtTitle: null,
+  amtBody: null,
+  amtTop: null,
+  amtTime: null,
+  amtState: null,
+};
+
+export let sysLog = {
+  logId: null,
+  logName: null,
+  businessType: null,
+  methodName: null,
+  requestMethod: null,
+  operName: null,
+  operType: null,
+  operIp: null,
+  operUrl: null,
+  operStatus: null,
+  errorMsg: null,
+  operTime: null,
+};
+
+export let user = {
+  userId: null,
+  userName: null,
+  userPassword: null,
+  userImg: null,
+  userEmail: null,
+  userAddress: null,
+  userSex: null,
+  userState: null,
+  loginIp: null,
+  loginTime: null,
+  registerTime: null,
+  roleId: 0,
+  role: role,
+};
+
+export let role = { roleId: null, roleKey: null, roleName: null };
+
 export let blog = {
-  blogId: "",
-  blogTitle: "",
-  blogBody: "",
-  blogImg: "",
+  blogId: null,
+  blogTitle: null,
+  blogBody: null,
+  blogImg: null,
   blogTime: null,
   blogUpdateTime: null,
-  blogTagList: {
-    tag: {
-      tagId: "",
-      tagName: "",
-    },
-  },
-  user: {},
-  blogCollect: 0,
-  blogView: 0,
-  blogLike: 0,
-  blogComment: 0,
-  blogState: 0,
+  blogTagList: blogTagList,
+  user: user,
+  blogCollect: null,
+  blogView: null,
+  blogLike: null,
+  blogComment: null,
+  blogState: null,
   userId: null,
 };
 
-export let comment = [
-  {
-    commentId: 0,
-    blogId: 0,
-    userId: 0,
-    userTab: {
-      userId: 0,
-      nickName: "",
-      name: "",
-      password: "",
-      email: "",
-      sex: "",
-      position: "",
-      images: "",
-      sign: "",
-      registerTime: "",
-      integral: "",
-      attentionNumber: 0,
-      friendNumber: 0,
-      collectNumber: 0,
-      blogNumber: 0,
-      lastLogin: "",
-      birthday: "",
-      state: 0,
-    },
-    blogUserId: 0,
-    recordDate: "",
-    body: "",
-    likeNum: 0,
-    state: "",
-  },
-];
+export let blogList = [blog];
+
+export let blogTagList = [blogTag];
+
+export let blogTag = { blogTagId: null, blogId: null, tagId: null, tag: tag };
+
+export let tag = {
+  tagId: null,
+  tagName: null,
+};
+
+export let collect = {
+  collectId: null,
+  blogId: null,
+  blog: blog,
+  userId: null,
+  collectTime: null,
+  collectState: null,
+};
+
+export let comment = {
+  comId: null,
+  blogId: null,
+  comOwner: null,
+  owner: user,
+  comBody: null,
+  comTime: null,
+  comState: null,
+  replyList: replyList,
+};
+
+export let reply = {
+  replyId: null,
+  comId: null,
+  replyOwner: null,
+  owner: user,
+  replyBody: null,
+  replyTime: null,
+  replyState: null,
+};
+
+export let commentList = [comment];
+
+export let replyList = [reply];
 
 export const editorOption = {
   theme: "snow",

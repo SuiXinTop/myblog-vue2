@@ -2,17 +2,17 @@
   <div class="align-center">
     <img class="background-img" src="../assets/images/1.jpg" alt="" />
     <div class="margin-top" />
-    <email />
-    <login />
+    <transition appear enter-active-class="animate__animated animate__zoomIn">
+      <login />
+    </transition>
   </div>
 </template>
 
 <script>
-import Email from "@/components/Login/email.vue";
-import Login from "@/components/Login/login.vue";
+import Login from "@/components/Login/login";
 export default {
   name: "LoginPage",
-  components: { Email, Login },
+  components: { Login },
   mounted() {},
   data() {
     return {};

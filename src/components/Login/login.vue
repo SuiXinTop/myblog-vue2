@@ -1,12 +1,22 @@
 <template>
-  <transition appear enter-active-class="animate__animated animate__zoomIn">
+  <div>
     <el-card class="login">
-      <el-form ref="form" class="form" :model="form" :rules="rules">
-        <el-form-item>
-          <span id="title">用户登录</span>
-        </el-form-item>
+      <label class="title">用户登录</label>
+      <br />
+      <br />
+      <el-form
+        v-show="loginShow"
+        ref="formLogin"
+        class="form"
+        :model="formLogin"
+        :rules="rulesLogin"
+      >
         <el-form-item prop="userEmail">
-          <el-input type="text" v-model="form.userEmail" placeholder="邮箱">
+          <el-input
+            type="text"
+            v-model="formLogin.userEmail"
+            placeholder="邮箱"
+          >
             <template slot="prepend">
               <i class="el-icon-user icon" />
             </template>
@@ -16,7 +26,7 @@
           <el-input
             type="text"
             placeholder="密码"
-            v-model="form.userPassword"
+            v-model="formLogin.userPassword"
             show-password
           >
             <template slot="prepend">
@@ -25,9 +35,9 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="code">
-          <el-input type="text" v-model="form.code" placeholder="验证码">
+          <el-input type="text" v-model="formLogin.code" placeholder="验证码">
             <template slot="append" class="code">
-              <div @click="refreshCode"></div>
+              <div @click="refreshCode" v-text="randomCode" />
             </template>
           </el-input>
         </el-form-item>
@@ -43,27 +53,68 @@
           <el-button class="login-button" type="primary" @click="login">
             登录
           </el-button>
+          <label @click="loginShow = !loginShow" style="float: left">
+            切换登陆方式
+          </label>
+          <router-link style="float: right" to="/register">注册</router-link>
+        </el-form-item>
+      </el-form>
+      <el-form
+        v-show="!loginShow"
+        ref="formEmail"
+        class="form"
+        :model="formEmail"
+        :rules="rulesEmail"
+      >
+        <el-form-item prop="email">
+          <el-input type="text" v-model="formEmail.email" placeholder="邮箱">
+            <template slot="prepend">
+              <i class="el-icon-user icon" />
+            </template>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="code">
+          <el-input
+            type="text"
+            v-model="formEmail.code"
+            style="width: 70%"
+            placeholder="验证码"
+          >
+          </el-input>
+          <el-button style="width: 30%" @click="sendEmail" :disabled="hasSend">
+            发送验证码
+          </el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button class="login-button" type="primary" @click="emailLogin">
+            登录
+          </el-button>
+          <label @click="loginShow = !loginShow" style="float: left">
+            切换登陆方式
+          </label>
+          <router-link style="float: right" to="/register">注册</router-link>
         </el-form-item>
       </el-form>
     </el-card>
-  </transition>
+  </div>
 </template>
 
 <script>
-import { login } from "@/assets/js/api/auth";
+import { emailLogin, login, verifyEmail } from "@/assets/js/api/auth";
 import { setAll } from "@/assets/js/util/localStore";
+import { randomCode } from "@/assets/js/util/random";
 
 export default {
   name: "login",
   mounted() {},
   data() {
     return {
-      form: {
-        userEmail: "",
-        userPassword: "",
-        code: "1111",
+      formLogin: {
+        userEmail: localStorage.getItem("userEmail"),
+        userPassword: localStorage.getItem("userPassword"),
+        code: "",
       },
-      rules: {
+      rulesLogin: {
         userEmail: [
           {
             required: true,
@@ -100,28 +151,48 @@ export default {
           },
         ],
       },
-
-      remember: false,
-      validCode: "1111",
+      formEmail: {
+        email: "",
+        code: "",
+      },
+      rulesEmail: {
+        email: [
+          {
+            required: true,
+            message: "邮箱不能为空",
+            trigger: "blur",
+          },
+          {
+            pattern: /^\w+@[a-zA-Z0-9]+((\.[a-z0-9A-Z]+)+)$/,
+            message: "邮箱格式错误",
+            trigger: "blur",
+          },
+        ],
+      },
+      hasSend: false,
+      remember: true,
+      randomCode: randomCode(),
+      loginShow: true,
     };
   },
   methods: {
     login() {
-      this.$refs.form.validate(async (valid) => {
+      this.$refs.formLogin.validate(async (valid) => {
         if (!valid) {
           this.$notify.error("输入格式错误！");
           return;
         }
-        if (this.form.code !== this.validCode) {
+        if (this.formLogin.code !== this.randomCode) {
           this.$notify.error("验证码错误！");
           return;
         }
-        login(this.form)
+        login(this.formLogin)
           .then((res) => {
             console.log(res.data);
-            if (res.data.code === 200) {
-              this.$notify.success(res.data.msg);
-              let data = res.data.data;
+            let restMsg = res.data;
+            if (restMsg.code === 200) {
+              this.$notify.success(restMsg.msg);
+              let data = restMsg.data;
               setAll(
                 data.token,
                 data.userVo.userId,
@@ -129,6 +200,17 @@ export default {
                 data.userVo.userImg,
                 data.userVo.role.roleKey
               );
+              if (this.remember) {
+                localStorage.setItem("userEmail", this.formLogin.userEmail);
+                localStorage.setItem(
+                  "userPassword",
+                  this.formLogin.userPassword
+                );
+              } else {
+                localStorage.removeItem("userEmail");
+                localStorage.removeItem("userPassword");
+              }
+              this.$router.push("/");
               return;
             }
             this.$notify.error(res.data.msg);
@@ -139,7 +221,59 @@ export default {
           });
       });
     },
-    refreshCode() {},
+    emailLogin() {
+      this.emailValid();
+      if (this.formEmail.code.length !== 4) {
+        this.$notify.warning("验证码为4位");
+        return;
+      }
+      emailLogin(this.formEmail)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code === 200) {
+            this.$notify.success(res.data.msg);
+            let data = res.data.data;
+            setAll(
+              data.token,
+              data.userVo.userId,
+              data.userVo.userName,
+              data.userVo.userImg,
+              data.userVo.role.roleKey
+            );
+            this.$router.push("/");
+            return;
+          }
+          this.$notify.error(res.data.msg);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    sendEmail() {
+      this.emailValid();
+      let data = { email: this.form.email, code: randomCode() };
+
+      verifyEmail(data)
+        .then((res) => {
+          console.log(res);
+          this.$notify.success("发送成功");
+          this.hasSend = true;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    emailValid() {
+      this.$refs.formEmail.validate(async (valid) => {
+        if (!valid) {
+          this.$notify.error("输入格式错误！");
+          return false;
+        }
+      });
+    },
+    refreshCode() {
+      this.randomCode = randomCode();
+    },
   },
 };
 </script>
@@ -149,16 +283,16 @@ export default {
   background: rgba(249, 250, 252, 0.62);
   backdrop-filter: blur(4px);
   width: 500px;
-  height: 400px;
+  height: auto;
   text-align: center;
+}
+
+.title {
+  font-size: 30px;
 }
 
 .form {
   margin: 0 30px 0 30px;
-
-  #title {
-    font-size: 30px;
-  }
 
   .icon {
     font-size: 20px;

@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <img class="background-img" src="../assets/images/1.jpg" alt />
+    关于
   </div>
 </template>
 <script>

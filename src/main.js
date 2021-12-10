@@ -15,6 +15,8 @@ import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.bubble.css";
 
+import echarts from "echarts";
+
 import VMdEditor from "@kangc/v-md-editor/lib/codemirror-editor";
 import "@kangc/v-md-editor/lib/style/codemirror-editor.css";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
@@ -46,6 +48,7 @@ VMdEditor.use(createLineNumbertPlugin());
 VMdEditor.use(createCopyCodePlugin());
 
 Vue.config.productionTip = false;
+Vue.prototype.$echarts = echarts;
 Vue.use(VMdEditor);
 Vue.use(ElementUI);
 Vue.use(animated);
