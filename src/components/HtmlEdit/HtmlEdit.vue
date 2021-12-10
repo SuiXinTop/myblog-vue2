@@ -68,6 +68,14 @@ const editorOption = {
 };
 export default {
   name: "HtmlEdit",
+  props: {
+    editorOption: {
+      type: Object,
+      default: () => {
+        return editorOption;
+      },
+    },
+  },
   watch: {
     value: function (value) {
       this.$emit("input", value);
@@ -79,7 +87,6 @@ export default {
   },
   data() {
     return {
-      editorOption,
       value: "",
     };
   },

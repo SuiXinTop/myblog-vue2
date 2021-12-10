@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dropdown v-if="true">
+    <el-dropdown>
       <i>
         <el-avatar
           :size="size"
@@ -22,7 +22,7 @@
               <i class="el-icon-setting"></i>设定
             </el-dropdown-item>
           </router-link>
-          <div @click="dialogVisible = true">
+          <div @click="logout">
             <el-dropdown-item>
               <i class="el-icon-zoom-out" />退出登录
             </el-dropdown-item>
@@ -30,28 +30,6 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <!--    退出登录-->
-    <el-dialog
-      class="popout-box"
-      title="提示"
-      v-if="dialogVisible"
-      width="600px"
-      destroy-on-close
-    >
-      <el-image
-        :src="imgPath"
-        @error="pathError"
-        :key="imgPath"
-        fit="cover"
-        lazy
-        style="width: 100px; height: 100px; border-radius: 50%"
-      />
-      <p style="font-size: 30px">是否登出账号</p>
-      <footer>
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
-      </footer>
-    </el-dialog>
   </div>
 </template>
 
@@ -73,6 +51,10 @@ export default {
     };
   },
   methods: {
+    logout() {
+      localStorage.removeItem("token");
+      this.$router.push("/login");
+    },
     pathError() {
       this.imgPath =
         "https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png";

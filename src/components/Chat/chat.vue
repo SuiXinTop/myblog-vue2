@@ -3,8 +3,13 @@
     <el-row :gutter="20">
       <el-col :span="4">
         <div style="height: 550px; overflow-y: auto">
-          <div v-for="i in 2" :key="i">
-            <el-button @click="setChannel(i)">{{ i }}</el-button>
+          <div v-for="(channel, ck) in channelList" :key="ck">
+            <el-button @click="setChannel(channel.channelId)">
+              <div style="display: flex; align-items: center">
+                <img class="avater" :src="channel.toUserMap.userImg" alt />
+                {{ channel.toUserMap.userName }}
+              </div>
+            </el-button>
             <br />
           </div>
         </div>
@@ -13,20 +18,15 @@
         <div ref="content" style="height: 70vh; overflow-y: auto">
           <div v-for="(i, index) in list" :key="index">
             <el-card class="msg-card" shadow="hover">
-              <el-row>
-                <el-col :span="3">
-                  <img class="avater" :src="i.user.userImg" alt />
-                </el-col>
-                <el-col :span="21" class="flex">
+              <div class="user-info">
+                <img class="avater" :src="i.user.userImg" alt />
+                <div>
                   <label> {{ i.user.userName }}</label>
+                  <br />
                   <label> {{ i.msgTime }}</label>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :offset="3">
-                  <label class="msg-content" v-html="i.msgContent" />
-                </el-col>
-              </el-row>
+                </div>
+              </div>
+              <p class="msg-content" v-html="i.msgContent" />
             </el-card>
           </div>
         </div>
@@ -45,20 +45,42 @@
 
 <script>
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
-import { chatUrl } from "@/assets/js/api/chat";
+import { chatUrl, getChannelList } from "@/assets/js/api/chat";
+import { getUserId } from "@/assets/js/util/localStore";
+
 export default {
   name: "chat",
   components: { HtmlEdit },
+  mounted() {
+    this.getChannelList();
+  },
   data() {
     return {
       websocket: null,
       list: [],
+      channelList: [],
       channelId: 1,
       lockForConnect: false,
       msg: "",
     };
   },
   methods: {
+    getChannelList() {
+      let userId = getUserId();
+      getChannelList(userId)
+        .then((res) => {
+          console.log(res);
+          if (res.data.code === 200) {
+            this.$notify.success(res.data.msg);
+            this.channelList = res.data.data;
+            return;
+          }
+          this.$notify.error(res.data.msg);
+        })
+        .catch((err) => {
+          this.$notify.error(err.message);
+        });
+    },
     setChannel(i) {
       this.channelId = i;
       this.connect();
@@ -145,6 +167,10 @@ export default {
   max-width: 100%;
   height: auto;
   object-fit: cover;
+}
+.user-info {
+  display: flex;
+  align-items: center;
 }
 
 .flex {

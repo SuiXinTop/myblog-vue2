@@ -1,13 +1,14 @@
 import axios from "axios";
 import router from "@/router";
 import "@/axios/loading";
+import { getToken } from "@/assets/js/util/localStore";
 // import { hideLoading, showLoading } from "@/axios/loading";
 
 axios.defaults.timeout = 10000;
 axios.interceptors.request.use(
   (config) => {
     // showLoading();
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (token) {
       config.headers.common["authorization"] = token;
     }
@@ -53,7 +54,7 @@ axios.interceptors.response.use(
               path: "/login",
             })
             .then();
-            break;
+          break;
       }
     }
     return Promise.reject(error.response.data);

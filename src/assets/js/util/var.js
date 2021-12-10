@@ -87,3 +87,20 @@ export const editorOption = {
     },
   },
 };
+
+export const CommentOption = {
+  theme: "snow",
+  placeholder: "请在这里输入",
+  modules: {
+    toolbar: {
+      container: [
+        ["bold", "italic", "underline", "strike"], // toggled buttons
+        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+        ["link", "clean", "file"],
+      ],
+      handlers: {
+        file: function () {},
+      },
+    },
+  },
+};

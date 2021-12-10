@@ -7,22 +7,23 @@
             segmentFault
           </el-button>
         </el-col>
-        <el-col :span="10">
-          <el-button class="link" type="text" @click="toSearch">
-            搜索
-          </el-button>
-          <el-divider direction="vertical" />
-          <el-button class="link" type="text" @click="toAnnounce">
-            公告
-          </el-button>
-          <el-divider direction="vertical" />
-          <el-button class="link" type="text" @click="toAbout">
-            关于
-          </el-button>
-        </el-col>
-        <el-col :span="6" style="text-align: right">
-          <div v-if="false">
+        <!--        <el-col :span="10">-->
+        <!--          <el-button class="link" type="text" @click="toSearch">-->
+        <!--            搜索-->
+        <!--          </el-button>-->
+        <!--          <el-divider direction="vertical" />-->
+        <!--          <el-button class="link" type="text" @click="toAnnounce">-->
+        <!--            公告-->
+        <!--          </el-button>-->
+        <!--          <el-divider direction="vertical" />-->
+        <!--          <el-button class="link" type="text" @click="toAbout">-->
+        <!--            关于-->
+        <!--          </el-button>-->
+        <!--        </el-col>-->
+        <el-col :offset="10" :span="6" style="text-align: right">
+          <div v-show="!hasLogin()">
             <el-button
+              @click="toLogin"
               style="
                 background: #13b213;
                 color: white;
@@ -34,7 +35,7 @@
               注册登录
             </el-button>
           </div>
-          <div v-if="true" style="margin: 10px auto">
+          <div v-show="hasLogin" style="margin: 10px auto">
             <avater :size="60" />
           </div>
         </el-col>
@@ -45,6 +46,7 @@
 
 <script>
 import avater from "@/components/Avater/avater";
+import { getToken } from "@/assets/js/util/localStore";
 export default {
   name: "topBar",
   components: {
@@ -54,6 +56,12 @@ export default {
     return {};
   },
   methods: {
+    hasLogin() {
+      return getToken() !== null;
+    },
+    toLogin() {
+      this.$router.push("/login");
+    },
     toMain() {
       this.$router.push("/");
     },
@@ -78,7 +86,7 @@ export default {
   right: 0;
   z-index: 999;
   width: 100%;
-  line-height: 80px;
+  line-height: 100px;
   height: 80px;
   text-align: center;
   background: rgba(255, 255, 255, 0.96);
@@ -87,7 +95,7 @@ export default {
 }
 
 #logo {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bold;
   color: #12b212;
 }

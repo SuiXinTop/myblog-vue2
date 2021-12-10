@@ -5,20 +5,15 @@
         <div ref="content" style="height: 70vh; overflow-y: auto">
           <div v-for="(i, index) in msgList" :key="index">
             <el-card class="msg-card" shadow="hover">
-              <el-row>
-                <el-col :span="3">
-                  <img class="avater" :src="i.user.userImg" alt />
-                </el-col>
-                <el-col :span="21" class="flex">
+              <div class="user-info">
+                <img class="avater" :src="i.user.userImg" alt />
+                <div>
                   <label> {{ i.user.userName }}</label>
+                  <br />
                   <label> {{ i.msgTime }}</label>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :offset="3">
-                  <label class="msg-content" v-html="i.msgContent" />
-                </el-col>
-              </el-row>
+                </div>
+              </div>
+              <p class="msg-content" v-html="i.msgContent" />
             </el-card>
           </div>
         </div>
@@ -143,9 +138,8 @@ export default {
   height: auto;
   object-fit: cover;
 }
-
-.flex {
+.user-info {
   display: flex;
-  flex-direction: column;
+  align-items: center;
 }
 </style>

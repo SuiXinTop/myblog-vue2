@@ -45,3 +45,31 @@ export function setUserImg(userImg) {
 export function setRole(role) {
   return localStorage.setItem("role", role);
 }
+
+export function delAll() {
+  delToken();
+  delUserId();
+  delUserName();
+  delUserImg();
+  delRole();
+}
+
+export function delToken() {
+  return localStorage.removeItem("token");
+}
+
+export function delUserId() {
+  return localStorage.removeItem("userId");
+}
+
+export function delUserName() {
+  return localStorage.removeItem("userName");
+}
+
+export function delUserImg() {
+  return localStorage.removeItem("userImg");
+}
+
+export function delRole() {
+  return localStorage.removeItem("token");
+}

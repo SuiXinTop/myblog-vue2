@@ -65,6 +65,7 @@
 <script>
 import { saveBlog } from "@/assets/js/api/blog";
 import { upload } from "@/assets/js/api/file";
+import { getUserId } from "@/assets/js/util/localStore";
 
 export default {
   name: "Post",
@@ -75,7 +76,7 @@ export default {
         blogTitle: "",
         blogBody: "",
         blogImg: null,
-        userId: 1,
+        userId: getUserId(),
       },
     };
   },

@@ -23,7 +23,7 @@ export default {
   },
   data() {
     return {
-      blogId: 6,
+      blogId: 8,
       blog: {},
     };
   },
