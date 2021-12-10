@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dropdown>
+    <el-dropdown style="height: 60px">
       <i>
         <el-avatar
           :size="size"
@@ -46,7 +46,6 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
       imgPath: getUserImg(),
     };
   },

@@ -18,7 +18,7 @@
           </template>
           <el-menu-item-group>
             <template slot="title">用户</template>
-            <router-link to="/space">
+            <router-link to="/space/userInfo">
               <el-menu-item index="2-1"> 个人信息</el-menu-item>
             </router-link>
             <router-link to="/space/chat">

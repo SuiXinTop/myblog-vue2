@@ -2,18 +2,18 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="20">
-        <div ref="content" style="height: 70vh; overflow-y: auto">
-          <div v-for="(i, index) in msgList" :key="index">
+        <div ref="content" class="content-card">
+          <div v-for="(item, index) in msgList" :key="index">
             <el-card class="msg-card" shadow="hover">
               <div class="user-info">
-                <img class="avater" :src="i.user.userImg" alt />
+                <img class="avater" :src="item.user.userImg" alt />
                 <div>
-                  <label> {{ i.user.userName }}</label>
+                  <label v-text="item.user.userName" />
                   <br />
-                  <label> {{ i.msgTime }}</label>
+                  <label v-text="item.msgTime" />
                 </div>
               </div>
-              <p class="msg-content" v-html="i.msgContent" />
+              <p class="msg-content" v-html="item.msgContent" />
             </el-card>
           </div>
         </div>
@@ -120,6 +120,11 @@ export default {
 </script>
 
 <style lang="less">
+.content-card {
+  height: 70vh;
+  overflow-y: auto;
+}
+
 .avater {
   object-fit: cover;
   width: 50px;

@@ -37,7 +37,10 @@
     </div>
     <div class="align-center">
       <div class="row-contain">
-        <home-blog />
+        <el-tabs type="border-card" class="blog-card">
+          <el-tab-pane label="最新"><home-blog-new /></el-tab-pane>
+          <el-tab-pane label="最热"><home-blog-hot /></el-tab-pane>
+        </el-tabs>
         <home-tag />
       </div>
     </div>
@@ -47,14 +50,16 @@
 import TopBar from "@/components/Bar/bar";
 import { content1, content2, title } from "@/assets/static/content";
 import { routerPath } from "@/assets/js/util/path";
-import HomeBlog from "@/components/Home/HomeBlog";
+import HomeBlogNew from "@/components/Home/HomeBlogNew";
 import HomeTag from "@/components/Home/HomeTag";
+import HomeBlogHot from "@/components/Home/HomeBlogHot";
 
 export default {
   name: "Home",
   components: {
+    HomeBlogHot,
     HomeTag,
-    HomeBlog,
+    HomeBlogNew,
     TopBar,
   },
   created() {},
@@ -92,6 +97,7 @@ export default {
   flex-direction: column;
 
   .top-button {
+    text-align: center;
     font-size: 30px;
     height: 100px;
     width: 250px;
@@ -108,7 +114,13 @@ export default {
 .row-contain {
   display: flex;
   flex-direction: row;
-  text-align: center;
   margin: 60px;
+}
+
+.blog-card {
+  width: 120vh;
+  backdrop-filter: blur(4px);
+  background: rgba(250, 249, 249, 0.62);
+  margin: 5px;
 }
 </style>

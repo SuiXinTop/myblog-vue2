@@ -7,6 +7,8 @@ import animated from "animate.css";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
+import VueCropper from "vue-cropper";
+
 import preview from "vue-photo-preview";
 import "vue-photo-preview/dist/skin.css";
 
@@ -14,8 +16,6 @@ import VueQuillEditor from "vue-quill-editor";
 import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.bubble.css";
-
-import echarts from "echarts";
 
 import VMdEditor from "@kangc/v-md-editor/lib/codemirror-editor";
 import "@kangc/v-md-editor/lib/style/codemirror-editor.css";
@@ -48,10 +48,10 @@ VMdEditor.use(createLineNumbertPlugin());
 VMdEditor.use(createCopyCodePlugin());
 
 Vue.config.productionTip = false;
-Vue.prototype.$echarts = echarts;
 Vue.use(VMdEditor);
 Vue.use(ElementUI);
 Vue.use(animated);
+Vue.use(VueCropper);
 Vue.use(preview);
 Vue.use(VueQuillEditor);
 

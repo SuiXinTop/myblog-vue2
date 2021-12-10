@@ -10,7 +10,7 @@ export function upload(formData) {
     data: formData,
   });
 }
-//file,userId
+//修改头像（file,userId）
 export function uploadUserImg(formData) {
   return axios.request({
     url: api + "userImg",

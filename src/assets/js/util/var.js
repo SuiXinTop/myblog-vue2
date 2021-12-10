@@ -158,7 +158,7 @@ export const editorOption = {
 
 export const CommentOption = {
   theme: "snow",
-  placeholder: "请在这里输入",
+  placeholder: "Ctrl+Enter发布评论",
   modules: {
     toolbar: {
       container: [

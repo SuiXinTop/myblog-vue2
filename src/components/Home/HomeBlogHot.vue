@@ -1,14 +1,11 @@
 <template>
-  <el-card v-if="blogList.length" class="blog-card" shadow="hover">
-    <el-button @click="getBlogNew" type="text">最新</el-button>
-    <el-button @click="getBlogHot" type="text">最热</el-button>
-    <el-divider />
+  <div v-if="blogList.length">
     <div style="margin: 10px" v-for="(blog, index) in blogList" :key="index">
       <p
         class="blog-title"
         @click="toBlog(blog.blogId)"
         v-text="blog.blogTitle"
-      ></p>
+      />
       <el-row :gutter="10">
         <el-col :span="8">
           <el-image
@@ -30,7 +27,16 @@
             @click="toBlog(blog.blogId)"
             v-text="blog.blogBody"
           />
-          <br />
+          <p>
+            <el-tag
+              style="background: white; margin-right: 5px"
+              v-for="(blogTag, index2) in blog.blogTagList"
+              :key="index2"
+            >
+              {{ blogTag.tag.tagName }}
+            </el-tag>
+          </p>
+
           <i class="el-icon-view"><label v-text="blog.blogView" /></i>
           <i class="el-icon-star-on"><label v-text="blog.blogLike" /></i>
           <i class="el-icon-star-on">
@@ -41,30 +47,27 @@
           </i>
           <el-divider direction="vertical" />
           <label v-text="dateDiff(blog.blogTime)" />
-          <div v-for="(blogTag, index2) in blog.blogTagList" :key="index2">
-            <el-tag>
-              {{ blogTag.tag.tagName }}
-            </el-tag>
-          </div>
+
           <p>
             <i class="el-icon-user" />
             <label class="user-name" v-text="blog.user.userName" />
           </p>
         </el-col>
       </el-row>
+      <el-divider />
     </div>
-  </el-card>
+  </div>
 </template>
 
 <script>
-import { getBlogHot, getBlogNew } from "@/assets/js/api/blog";
+import { getBlogHot } from "@/assets/js/api/blog";
 import { routerPath } from "@/assets/js/util/path";
 import { dateDiff } from "@/assets/js/util/time";
 
 export default {
-  name: "HomeBlog",
+  name: "HomeBlogHot",
   mounted() {
-    this.getBlogNew();
+    this.getBlogHot();
   },
   data() {
     return {
@@ -72,12 +75,6 @@ export default {
     };
   },
   methods: {
-    getBlogNew() {
-      getBlogNew().then((res) => {
-        console.log(res.data);
-        this.blogList = res.data.data;
-      });
-    },
     getBlogHot() {
       getBlogHot().then((res) => {
         console.log(res.data);
@@ -95,17 +92,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.blog-card {
-  text-align: left;
-  width: 120vh;
-  backdrop-filter: blur(4px);
-  background: rgba(250, 249, 249, 0.62);
-  margin: 5px;
-  .el-row {
-    margin-bottom: 5px;
-  }
-}
-
 .user-name {
   font-weight: bold;
   font-size: 18px;

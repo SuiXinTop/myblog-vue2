@@ -16,6 +16,8 @@ import Search from "@/views/Search";
 import Announce from "@/views/Announce";
 import { getToken } from "@/assets/js/util/localStore";
 import { routerPath } from "@/assets/js/util/path";
+import UserEdit from "@/views/space/UserEdit";
+import Zone from "@/views/zone/Zone";
 
 Vue.use(VueRouter);
 
@@ -84,6 +86,14 @@ const routes = [
     },
   },
   {
+    path: "zone",
+    name: "Zone",
+    component: Zone,
+    meta: {
+      requireAuth: false,
+    },
+  },
+  {
     path: routerPath.space,
     component: Space,
     redirect: "/space/home",
@@ -92,6 +102,14 @@ const routes = [
         path: "home",
         name: "space",
         component: SpaceHome,
+        meta: {
+          requireAuth: true,
+        },
+      },
+      {
+        path: "userInfo",
+        name: "用户信息",
+        component: UserEdit,
         meta: {
           requireAuth: true,
         },

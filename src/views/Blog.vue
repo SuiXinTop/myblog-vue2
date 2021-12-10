@@ -58,10 +58,8 @@
           ref="htmlEdit"
           :editor-option="editorOption"
           v-model.trim="comment.comBody"
+          @keyup.ctrl.enter.native="saveComment"
         />
-        <div style="text-align: right">
-          <el-button @click="saveComment">发布评论</el-button>
-        </div>
         <div v-for="(value, comIds) in commentList" :key="comIds">
           <el-divider />
           <div style="display: flex; align-items: center">
@@ -102,6 +100,7 @@ import { dateDiff } from "@/assets/js/util/time";
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
 import { getUserId } from "@/assets/js/util/localStore";
 import { CommentOption } from "@/assets/js/util/var";
+import { modal } from "@/assets/js/util/modal";
 
 export default {
   name: "blog",
@@ -147,15 +146,15 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.data.code === 200) {
-            this.$notify.success(res.data.msg);
+            modal.notifySuccess(res.data.msg);
             this.$refs.htmlEdit.value = "";
             this.getCommentList();
             return;
           }
-          this.$notify.error(res.data.msg);
+          modal.notifyError(res.data.msg);
         })
         .catch((err) => {
-          this.$notify.error(err.message);
+          modal.notifyError(err.message);
         });
     },
     // 获取博客信息及其用户
@@ -167,10 +166,10 @@ export default {
             this.blog = res.data.data;
             return;
           }
-          this.$notify.error(res.data.msg);
+          modal.notifyError(res.data.msg);
         })
         .catch((err) => {
-          this.$notify.error(err.message);
+          modal.notifyError(err.message);
         });
     },
     getCommentList() {
@@ -183,7 +182,7 @@ export default {
           }
         })
         .catch((err) => {
-          this.$notify.error(err.message);
+          modal.notifyError(err.message);
         });
     },
     // 处理当前页码变化
@@ -196,7 +195,7 @@ export default {
     },
     toLogin() {
       if (!this.comment.comOwner) {
-        this.$notify.warning("前往登录");
+        modal.notifyWarning("前往登录");
         this.$router.push("/login");
       }
     },
