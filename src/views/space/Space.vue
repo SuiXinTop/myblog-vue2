@@ -10,7 +10,7 @@
       <el-container>
         <aside-space />
         <el-container>
-          <el-main>
+          <el-main style="min-width: 150vh">
             <keep-alive>
               <router-view />
             </keep-alive>

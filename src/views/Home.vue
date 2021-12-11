@@ -44,6 +44,7 @@
         <home-tag />
       </div>
     </div>
+    <back-top />
   </div>
 </template>
 <script>
@@ -53,10 +54,12 @@ import { routerPath } from "@/assets/js/util/path";
 import HomeBlogNew from "@/components/Home/HomeBlogNew";
 import HomeTag from "@/components/Home/HomeTag";
 import HomeBlogHot from "@/components/Home/HomeBlogHot";
+import BackTop from "@/components/BackToTop/backTop";
 
 export default {
   name: "Home",
   components: {
+    BackTop,
     HomeBlogHot,
     HomeTag,
     HomeBlogNew,

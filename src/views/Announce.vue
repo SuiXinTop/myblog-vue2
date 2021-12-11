@@ -1,8 +1,6 @@
 <template>
   <div style="display: flex; flex-direction: column; align-items: center">
     <top-bar />
-    <img class="background-img" src="../assets/images/1.jpg" alt />
-
     <div style="margin: 50px" />
     <el-card id="announce-card">
       <el-collapse accordion>

@@ -1,13 +1,14 @@
 <template>
   <div class="about">
-    <img class="background-img" src="../assets/images/1.jpg" alt />
+    <top-bar />
     关于
   </div>
 </template>
 <script>
+import TopBar from "@/components/Bar/bar";
 export default {
   name: "about",
-  components: {},
+  components: { TopBar },
   mounted() {},
   data() {
     return {};

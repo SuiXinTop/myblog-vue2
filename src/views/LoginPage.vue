@@ -1,6 +1,5 @@
 <template>
   <div class="align-center">
-    <img class="background-img" src="../assets/images/1.jpg" alt="" />
     <div class="margin-top" />
     <transition appear enter-active-class="animate__animated animate__zoomIn">
       <login />

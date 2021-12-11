@@ -1,5 +1,5 @@
 <template>
-  <div v-if="blogList.length">
+  <div v-if="blogList.length !== 0">
     <div style="margin: 10px" v-for="(blog, index) in blogList" :key="index">
       <p
         class="blog-title"
@@ -29,7 +29,8 @@
           />
           <p>
             <el-tag
-              style="background: white; margin-right: 5px"
+              effect="dark"
+              style="margin-right: 5px"
               v-for="(blogTag, index2) in blog.blogTagList"
               :key="index2"
             >
@@ -93,39 +94,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.user-name {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.blog-img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.blog-body {
-  display: -webkit-box;
-  overflow: hidden;
-  white-space: normal;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-}
-
-.blog-title {
-  font-size: 20px;
-  line-height: 40px;
-  font-family: 幼圆, serif;
-  font-weight: bold;
-  display: -webkit-box;
-  overflow: hidden;
-  white-space: normal;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-}
+@import "../../assets/css/blog";
 </style>

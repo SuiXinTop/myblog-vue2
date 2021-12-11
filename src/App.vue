@@ -1,16 +1,28 @@
 <template>
   <div id="app">
+    <img class="background-img" src="@/assets/images/1.jpg" alt="" />
     <transition
       appear
       enter-active-class="animate__animated animate__fadeIn animate__fast"
       leave-active-class="animate__animated animate__fadeOut animate__fast"
     >
-      <router-view />
+      <keep-alive>
+        <router-view v-if="this.$route.meta.keepAlive" />
+      </keep-alive>
+    </transition>
+    <transition
+      appear
+      enter-active-class="animate__animated animate__fadeIn animate__fast"
+      leave-active-class="animate__animated animate__fadeOut animate__fast"
+    >
+      <router-view v-if="!this.$route.meta.keepAlive" />
     </transition>
   </div>
 </template>
 
 <style lang="less">
+@import "assets/css/scrollbar";
+
 .background-img {
   top: 0;
   left: 0;
@@ -43,29 +55,5 @@ a {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-width: fit-content;
-}
-
-/* 滚动条 */
-*::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-*::-webkit-scrollbar-track {
-  background: #fff;
-  border-radius: 2px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: rgba(206, 210, 218, 0.5);
-  border-radius: 8px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: rgba(50, 50, 73, 0.58);
-}
-
-*::-webkit-scrollbar-corner {
-  background: #fff;
 }
 </style>

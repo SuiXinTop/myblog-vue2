@@ -1,5 +1,6 @@
 <template>
   <div>
+    <el-input type="text" v-model="blog.blogTitle" placeholder="标题" />
     <v-md-editor
       :disabled-menus="[]"
       left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code"
@@ -15,15 +16,13 @@
 import { getBlog, updateBlog } from "@/assets/js/api/blog";
 
 export default {
-  name: "Edit",
-  components: {},
-  created() {},
+  name: "BlogUpdate",
+  props: ["blogId"],
   mounted() {
     this.getBlog();
   },
   data() {
     return {
-      blogId: 8,
       blog: {},
     };
   },
@@ -60,4 +59,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style scoped></style>

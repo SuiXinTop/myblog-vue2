@@ -37,7 +37,20 @@
             </router-link>
             <router-link to="/space/edit">
               <el-menu-item index="2-5">
-                <span>编辑博客</span>
+                <span>管理博客</span>
+              </el-menu-item>
+            </router-link>
+          </el-menu-item-group>
+          <el-menu-item-group>
+            <template slot="title">评论</template>
+            <router-link to="/space">
+              <el-menu-item index="2-6">
+                <span>评论历史</span>
+              </el-menu-item>
+            </router-link>
+            <router-link to="/space">
+              <el-menu-item index="2-6">
+                <span>评论历史</span>
               </el-menu-item>
             </router-link>
           </el-menu-item-group>

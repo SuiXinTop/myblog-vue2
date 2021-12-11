@@ -1,16 +1,11 @@
 <template>
-  <div id="contain">
-    <img
-      style="width: 100vh; height: auto"
-      src="../../assets/images/404.png"
-      preview=""
-      alt=""
-    />
+  <div id="not-found">
+    <img src="../../assets/images/404.png" alt="" />
     <h1>抱歉您访问的页面出错了</h1>
     <h2>您可能输错了网址，或该网页已删除或不存在</h2>
-    <div class="btna">
-      <a href="http://118.31.15.127">返回主页</a>
-    </div>
+    <router-link to="/">
+      <el-button type="primary">返回</el-button>
+    </router-link>
   </div>
 </template>
 
@@ -20,33 +15,20 @@ export default {
 };
 </script>
 
-<style scoped>
-#contain {
-  background: rgb(255, 255, 255);
-  background-size: cover;
+<style lang="less" scoped>
+#not-found {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.btna {
-  height: 40px;
-}
-
-.btna a {
-  text-decoration: none;
-  background: #5599ec;
-  color: #ffffff;
-  padding: 10px 30px 10px 30px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 3px;
-  -webkit-transition: all linear 0.3s;
-  -moz-transition: all linear 0.3s;
-  transition: all linear 0.3s;
-}
-
-.btna a:hover {
-  background: rgba(53, 17, 215, 0.61);
+  background: rgb(255, 255, 255);
+  height: 100vh;
+  img {
+    width: 100vh;
+    height: auto;
+  }
+  .el-button {
+    width: 200px;
+    font-size: 30px;
+  }
 }
 </style>

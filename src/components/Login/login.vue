@@ -110,7 +110,7 @@ export default {
   data() {
     return {
       formLogin: {
-        userEmail: localStorage.getItem("userEmail"),
+        userEmail: localStorage.getItem("id"),
         userPassword: localStorage.getItem("userPassword"),
         code: "",
       },
@@ -193,21 +193,15 @@ export default {
             if (restMsg.code === 200) {
               this.$notify.success(restMsg.msg);
               let data = restMsg.data;
-              setAll(
-                data.token,
-                data.userVo.userId,
-                data.userVo.userName,
-                data.userVo.userImg,
-                data.userVo.role.roleKey
-              );
+              setAll(data.token, data.userVo);
               if (this.remember) {
-                localStorage.setItem("userEmail", this.formLogin.userEmail);
+                localStorage.setItem("id", this.formLogin.userEmail);
                 localStorage.setItem(
                   "userPassword",
                   this.formLogin.userPassword
                 );
               } else {
-                localStorage.removeItem("userEmail");
+                localStorage.removeItem("id");
                 localStorage.removeItem("userPassword");
               }
               this.$router.push("/");
@@ -233,13 +227,7 @@ export default {
           if (res.data.code === 200) {
             this.$notify.success(res.data.msg);
             let data = res.data.data;
-            setAll(
-              data.token,
-              data.userVo.userId,
-              data.userVo.userName,
-              data.userVo.userImg,
-              data.userVo.role.roleKey
-            );
+            setAll(data.token, data.userVo);
             this.$router.push("/");
             return;
           }
@@ -252,7 +240,6 @@ export default {
     sendEmail() {
       this.emailValid();
       let data = { email: this.form.email, code: randomCode() };
-
       verifyEmail(data)
         .then((res) => {
           console.log(res);

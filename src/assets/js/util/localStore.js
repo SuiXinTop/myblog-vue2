@@ -10,6 +10,10 @@ export function getUserName() {
   return localStorage.getItem("userName");
 }
 
+export function getUserEmail() {
+  return localStorage.getItem("userEmail");
+}
+
 export function getUserImg() {
   return localStorage.getItem("userImg");
 }
@@ -18,12 +22,13 @@ export function getRole() {
   return localStorage.getItem("role");
 }
 
-export function setAll(token, userId, userName, userImg, role) {
+export function setAll(token, user) {
   setToken(token);
-  setUserId(userId);
-  setUserName(userName);
-  setUserImg(userImg);
-  setRole(role);
+  setUserId(user.userId);
+  setUserName(user.userName);
+  setUserImg(user.userImg);
+  setUserEmail(user.userEmail);
+  setRole(user.role.roleKey);
 }
 
 export function setToken(token) {
@@ -38,6 +43,10 @@ export function setUserName(userName) {
   return localStorage.setItem("userName", userName);
 }
 
+export function setUserEmail(userEmail) {
+  return localStorage.setItem("userEmail", userEmail);
+}
+
 export function setUserImg(userImg) {
   return localStorage.setItem("userImg", userImg);
 }
@@ -50,6 +59,7 @@ export function delAll() {
   delToken();
   delUserId();
   delUserName();
+  delUserEmail();
   delUserImg();
   delRole();
 }
@@ -68,6 +78,10 @@ export function delUserName() {
 
 export function delUserImg() {
   return localStorage.removeItem("userImg");
+}
+
+export function delUserEmail() {
+  return localStorage.removeItem("userEmail");
 }
 
 export function delRole() {

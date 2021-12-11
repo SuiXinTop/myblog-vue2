@@ -90,7 +90,7 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.data.code === 200) {
-            this.blog = {};
+            this.blog = { userId: getUserId() };
             this.$notify.success(res.data.msg);
             return;
           }

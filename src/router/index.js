@@ -6,7 +6,6 @@ import About from "@/views/About";
 import Home from "@/views/Home";
 import NotFound from "@/views/error/NotFound";
 import Space from "@/views/space/Space";
-import Edit from "@/views/space/Edit";
 import Chat from "@/views/space/Chat";
 import SpaceHome from "@/views/space/SpaceHome";
 import Login from "@/views/LoginPage";
@@ -14,10 +13,11 @@ import Register from "@/views/Register";
 import Group from "@/views/space/Group";
 import Search from "@/views/Search";
 import Announce from "@/views/Announce";
-import { getToken } from "@/assets/js/util/localStore";
-import { routerPath } from "@/assets/js/util/path";
 import UserEdit from "@/views/space/UserEdit";
 import Zone from "@/views/zone/Zone";
+import BlogEdit from "@/views/space/BlogEdit";
+import { getToken } from "@/assets/js/util/localStore";
+import { routerPath } from "@/assets/js/util/path";
 
 Vue.use(VueRouter);
 
@@ -35,6 +35,7 @@ const routes = [
     component: Home,
     meta: {
       requireAuth: false,
+      keepAlive: true,
     },
   },
   {
@@ -43,6 +44,7 @@ const routes = [
     component: Search,
     meta: {
       requireAuth: false,
+      keepAlive: false,
     },
   },
   {
@@ -51,6 +53,7 @@ const routes = [
     component: Announce,
     meta: {
       requireAuth: false,
+      keepAlive: true,
     },
   },
   {
@@ -59,6 +62,7 @@ const routes = [
     component: About,
     meta: {
       requireAuth: false,
+      keepAlive: true,
     },
   },
   {
@@ -67,6 +71,7 @@ const routes = [
     component: Login,
     meta: {
       requireAuth: false,
+      keepAlive: false,
     },
   },
   {
@@ -75,25 +80,40 @@ const routes = [
     component: Register,
     meta: {
       requireAuth: false,
+      keepAlive: false,
     },
   },
   {
+    // /blog?blogId=??
     path: routerPath.blog,
     name: "Blog",
     component: Blog,
     meta: {
       requireAuth: false,
+      keepAlive: false,
     },
   },
   {
+    // /tag?tagName=??
+    path: "tag",
+    name: "Tag",
+    meta: {
+      requireAuth: false,
+      keepAlive: false,
+    },
+  },
+  {
+    // /zone?userId=??
     path: "zone",
     name: "Zone",
     component: Zone,
     meta: {
       requireAuth: false,
+      keepAlive: false,
     },
   },
   {
+    // /space/getUserId()
     path: routerPath.space,
     component: Space,
     redirect: "/space/home",
@@ -104,6 +124,7 @@ const routes = [
         component: SpaceHome,
         meta: {
           requireAuth: true,
+          keepAlive: true,
         },
       },
       {
@@ -112,6 +133,7 @@ const routes = [
         component: UserEdit,
         meta: {
           requireAuth: true,
+          keepAlive: true,
         },
       },
       {
@@ -120,14 +142,16 @@ const routes = [
         component: Post,
         meta: {
           requireAuth: true,
+          keepAlive: true,
         },
       },
       {
         path: "edit",
         name: "博客编辑",
-        component: Edit,
+        component: BlogEdit,
         meta: {
           requireAuth: true,
+          keepAlive: true,
         },
       },
       {
@@ -136,6 +160,7 @@ const routes = [
         component: Chat,
         meta: {
           requireAuth: true,
+          keepAlive: true,
         },
       },
       {
@@ -144,6 +169,7 @@ const routes = [
         component: Group,
         meta: {
           requireAuth: true,
+          keepAlive: true,
         },
       },
     ],
@@ -154,6 +180,7 @@ const routes = [
     component: NotFound,
     meta: {
       requireAuth: false,
+      keepAlive: true,
     },
   },
 ];

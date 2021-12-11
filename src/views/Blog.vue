@@ -77,12 +77,11 @@
           <el-pagination
             layout="prev, pager, next"
             :hide-on-single-page="true"
-            :current-page.sync="page.currentPage"
-            @current-change="handleCurrentChange"
+            :current-page.sync="page.pageNum"
+            @current-change="handlePageNumChange"
             :page-size="10"
             :total="page.total"
-          >
-          </el-pagination>
+          />
         </div>
       </el-card>
     </div>
@@ -120,7 +119,7 @@ export default {
       editorOption: CommentOption,
       hasCollect: true,
       hasLike: true,
-      page: { total: 0, currentPage: 1 },
+      page: { total: 0, pageNum: 1 },
       blog: {},
       comment: {
         blogId: this.$route.query.blogId,
@@ -173,7 +172,7 @@ export default {
         });
     },
     getCommentList() {
-      getCommentList(this.$route.query.blogId, this.page.currentPage)
+      getCommentList(this.$route.query.blogId, this.page.pageNum)
         .then((res) => {
           console.log(res);
           if (res.data.code === 200) {
@@ -185,11 +184,9 @@ export default {
           modal.notifyError(err.message);
         });
     },
-    // 处理当前页码变化
-    handleCurrentChange() {
+    handlePageNumChange() {
       this.getCommentList();
     },
-    // 每页数量变化
     getFormatTime(val) {
       return dateDiff(val);
     },

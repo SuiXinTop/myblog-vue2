@@ -1,8 +1,6 @@
 <template>
   <div>
     <el-card class="tag-card" shadow="hover">
-      <div style="text-align: center"><h1>词云</h1></div>
-
       <div id="wordCloud" style="width: 50vh; height: 50vh" />
     </el-card>
     <el-card class="tag-card" shadow="hover"> </el-card>
@@ -91,7 +89,7 @@ export default {
             this.initWordCloud(list);
           }
         })
-        .catch(() => {});
+        .catch();
     },
   },
 };

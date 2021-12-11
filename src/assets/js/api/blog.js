@@ -49,6 +49,26 @@ export function updateBlog(blog) {
   });
 }
 
+export function deleteBlog(blogIdList) {
+  return axios.request({
+    url: api,
+    method: "delete",
+    data: blogIdList,
+  });
+}
+
+export function getBlogListByUserId(userId, pageNum) {
+  return axios.request({
+    url: api + "/blogList",
+    method: "get",
+    params: {
+      userId: userId,
+      pageNum: pageNum,
+      pageSize: 10,
+    },
+  });
+}
+
 export function getBlogNew() {
   return axios.request({
     url: api + "/new",
