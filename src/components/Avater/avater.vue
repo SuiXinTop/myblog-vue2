@@ -11,15 +11,26 @@
         />
       </i>
       <template>
-        <el-dropdown-menu style="width: fit-content">
+        <el-dropdown-menu
+          style="
+            width: fit-content;
+            background: rgba(255, 255, 255, 0.42);
+            backdrop-filter: blur(4px);
+          "
+        >
           <router-link to="/space/home">
             <el-dropdown-item>
-              <i class="el-icon-user"></i>个人中心
+              <i class="el-icon-user" />个人空间
+            </el-dropdown-item>
+          </router-link>
+          <router-link to="/space/home">
+            <el-dropdown-item>
+              <i class="el-icon-user" />管理中心
             </el-dropdown-item>
           </router-link>
           <router-link to="/">
             <el-dropdown-item>
-              <i class="el-icon-setting"></i>设定
+              <i class="el-icon-setting" />设定
             </el-dropdown-item>
           </router-link>
           <div @click="logout">

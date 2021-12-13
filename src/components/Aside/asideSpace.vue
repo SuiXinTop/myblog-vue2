@@ -62,9 +62,16 @@
         </el-menu-item>
 
         <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
+          <i class="el-icon-setting" />
           <span slot="title">设置</span>
         </el-menu-item>
+
+        <router-link to="/">
+          <el-menu-item index="5">
+            <i class="el-icon-s-home" />
+            <span slot="title">返回主页</span>
+          </el-menu-item>
+        </router-link>
       </el-menu>
     </el-aside>
   </div>

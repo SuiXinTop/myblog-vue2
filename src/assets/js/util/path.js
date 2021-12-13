@@ -2,6 +2,7 @@
 export const routerPath = {
   home: "/home",
   blog: "/blog",
+  tag: "/tag",
   space: "/space",
   about: "/about",
   search: "/search",

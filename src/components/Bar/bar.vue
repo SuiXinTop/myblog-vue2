@@ -4,24 +4,24 @@
       <el-row :gutter="20">
         <el-col :span="7">
           <el-button id="logo" type="text" @click="toMain()">
-            segmentFault
+            SegmentFault
           </el-button>
         </el-col>
-        <!--        <el-col :span="10">-->
-        <!--          <el-button class="link" type="text" @click="toSearch">-->
-        <!--            搜索-->
-        <!--          </el-button>-->
-        <!--          <el-divider direction="vertical" />-->
-        <!--          <el-button class="link" type="text" @click="toAnnounce">-->
-        <!--            公告-->
-        <!--          </el-button>-->
-        <!--          <el-divider direction="vertical" />-->
-        <!--          <el-button class="link" type="text" @click="toAbout">-->
-        <!--            关于-->
-        <!--          </el-button>-->
-        <!--        </el-col>-->
-        <el-col :offset="10" :span="6" style="text-align: right">
-          <div v-show="!hasLogin()">
+        <el-col :span="10">
+          <el-button class="link" type="text" @click="toSearch">
+            搜索
+          </el-button>
+          <el-divider direction="vertical" />
+          <el-button class="link" type="text" @click="toAnnounce">
+            公告
+          </el-button>
+          <el-divider direction="vertical" />
+          <el-button class="link" type="text" @click="toAbout">
+            关于
+          </el-button>
+        </el-col>
+        <el-col :span="6" style="text-align: right">
+          <div v-if="hasLogin()">
             <el-button
               @click="toLogin"
               style="
@@ -35,7 +35,7 @@
               注册登录
             </el-button>
           </div>
-          <div v-show="hasLogin" style="margin: 10px auto">
+          <div v-else style="margin: 10px auto">
             <avater :size="60" />
           </div>
         </el-col>
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     hasLogin() {
-      return getToken() !== null;
+      return !(getToken() !== null || "");
     },
     toLogin() {
       this.$router.push("/login");
@@ -89,19 +89,16 @@ export default {
   line-height: 100px;
   height: 80px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.96);
-  border-bottom: 2px solid rgba(176, 241, 120, 0.63);
-  box-shadow: 0 6px 4px rgba(0, 0, 0, 0.4), 0 0 6px rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  border-bottom: 2px solid rgba(176, 241, 120, 0.5);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4), 0 0 6px rgba(255, 255, 255, 0.6);
 }
 
 #logo {
   font-size: 40px;
   font-weight: bold;
   color: #12b212;
-}
-
-#dialog {
-  text-align: center;
 }
 
 .link {

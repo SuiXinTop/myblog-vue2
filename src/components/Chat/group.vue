@@ -4,44 +4,68 @@
       <el-col :span="20">
         <div ref="content" class="content-card">
           <div v-for="(item, index) in msgList" :key="index">
-            <el-card class="msg-card" shadow="hover">
-              <div class="user-info">
-                <img class="avater" :src="item.user.userImg" alt />
-                <div>
-                  <label v-text="item.user.userName" />
-                  <br />
-                  <label v-text="item.msgTime" />
+            <transition
+              appear
+              enter-active-class="animate__animated animate__bounceInLeft"
+            >
+              <el-card class="msg-card" shadow="hover">
+                <div class="user-info">
+                  <img class="avater" :src="item.user.userImg" alt />
+                  <div>
+                    <label v-text="item.user.userName" />
+                    <br />
+                    <label v-text="item.msgTime" />
+                  </div>
                 </div>
-              </div>
-              <p class="msg-content" v-html="item.msgContent" />
-            </el-card>
+                <p class="msg-content" v-html="item.msgContent" />
+              </el-card>
+            </transition>
+          </div>
+        </div>
+        <el-divider />
+        <div>
+          <html-edit
+            ref="htmlEdit"
+            @keydown.ctrl.enter.native="sendMessage"
+            v-model="msg"
+          />
+          <br />
+          <div style="text-align: right">
+            <el-button v-on:click="clearMessage">清空窗口</el-button>
+            <el-button v-on:click="sendMessage">提交</el-button>
           </div>
         </div>
       </el-col>
       <el-col :span="4">
-        <div style="height: 550px; overflow-y: auto"></div>
+        <div style="height: 86vh; overflow-y: auto">
+          <div style="text-align: center">在线人员</div>
+          <el-divider />
+          <div
+            style="width: 100%"
+            v-for="(user, index) in userList"
+            :key="index"
+          >
+            <transition
+              appear
+              enter-active-class="animate__animated animate__bounceInLeft"
+            >
+              <div style="display: flex; align-items: center">
+                <img class="avater" :src="user.userImg" alt />
+                {{ user.userName }}
+              </div>
+            </transition>
+            <br />
+          </div>
+        </div>
       </el-col>
     </el-row>
-    <el-divider />
-    <div>
-      <html-edit
-        ref="htmlEdit"
-        @keydown.ctrl.enter.native="sendMessage"
-        v-model="msg"
-      />
-      <br />
-      <div style="text-align: right">
-        <el-button v-on:click="clearMessage">清空窗口</el-button>
-        <el-button v-on:click="sendMessage">提交</el-button>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
 import { getUserId } from "@/assets/js/util/localStore";
-import { groupUrl } from "@/assets/js/api/chat";
+import { getUserList, groupUrl } from "@/assets/js/api/chat";
 
 export default {
   name: "group",
@@ -79,6 +103,7 @@ export default {
     },
     setOnOpen() {
       this.$notify.success("欢迎进入聊天室");
+      this.getUserList();
     },
     setOnMessage(event) {
       const data = JSON.parse(event.data);
@@ -88,6 +113,7 @@ export default {
         user: data.user,
       });
       this.scrollToBottom();
+      this.getUserList();
     },
     setOnClose() {
       this.$notify.success("离开聊天室");
@@ -115,13 +141,24 @@ export default {
     clearMessage() {
       this.msgList = [];
     },
+    getUserList() {
+      getUserList()
+        .then((res) => {
+          console.log(res);
+          let restMsg = res.data;
+          if (restMsg.code === 200) {
+            this.userList = restMsg.data;
+          }
+        })
+        .catch();
+    },
   },
 };
 </script>
 
 <style lang="less">
 .content-card {
-  height: 70vh;
+  height: 60vh;
   overflow-y: auto;
 }
 
@@ -143,6 +180,7 @@ export default {
   height: auto;
   object-fit: cover;
 }
+
 .user-info {
   display: flex;
   align-items: center;

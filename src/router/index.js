@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import { getToken } from "@/assets/js/util/localStore";
+import { routerPath } from "@/assets/js/util/path";
 import Blog from "@/views/Blog";
 import Post from "@/views/space/Post";
 import About from "@/views/About";
@@ -9,15 +11,14 @@ import Space from "@/views/space/Space";
 import Chat from "@/views/space/Chat";
 import SpaceHome from "@/views/space/SpaceHome";
 import Login from "@/views/LoginPage";
-import Register from "@/views/Register";
 import Group from "@/views/space/Group";
 import Search from "@/views/Search";
 import Announce from "@/views/Announce";
 import UserEdit from "@/views/space/UserEdit";
 import Zone from "@/views/zone/Zone";
 import BlogEdit from "@/views/space/BlogEdit";
-import { getToken } from "@/assets/js/util/localStore";
-import { routerPath } from "@/assets/js/util/path";
+
+import RegisterPage from "@/views/RegisterPage";
 
 Vue.use(VueRouter);
 
@@ -77,7 +78,7 @@ const routes = [
   {
     path: "/register",
     name: "Register",
-    component: Register,
+    component: RegisterPage,
     meta: {
       requireAuth: false,
       keepAlive: false,
@@ -95,7 +96,7 @@ const routes = [
   },
   {
     // /tag?tagName=??
-    path: "tag",
+    path: "/tag",
     name: "Tag",
     meta: {
       requireAuth: false,
@@ -104,7 +105,7 @@ const routes = [
   },
   {
     // /zone?userId=??
-    path: "zone",
+    path: "/zone",
     name: "Zone",
     component: Zone,
     meta: {

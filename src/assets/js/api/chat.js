@@ -35,3 +35,43 @@ export function getUserList() {
     method: "get",
   });
 }
+
+export function getOfflineMsg(channelId) {
+  return axios.request({
+    url: api + "chat/offLineMsg",
+    method: "get",
+    params: {
+      channelId: channelId,
+    },
+  });
+}
+
+export function delOfflineMsg(channelId) {
+  return axios.request({
+    url: api + "chat/offLineMsg",
+    method: "delete",
+    params: {
+      channelId: channelId,
+    },
+  });
+}
+
+export function updateOffLineMsg(channelId) {
+  return axios.request({
+    url: api + "chat/offLineMsg",
+    method: "put",
+    params: {
+      channelId: channelId,
+    },
+  });
+}
+
+export function updateLastTime(channelId) {
+  return axios.request({
+    url: api + "chat/lastTime",
+    method: "put",
+    params: {
+      channelId: channelId,
+    },
+  });
+}

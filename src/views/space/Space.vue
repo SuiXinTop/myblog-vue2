@@ -24,6 +24,7 @@
 <script>
 import avater from "@/components/Avater/avater";
 import asideSpace from "@/components/Aside/asideSpace";
+
 export default {
   name: "space",
   components: {
@@ -38,6 +39,7 @@ export default {
   background-color: #409eff;
   height: 8vh;
   line-height: 60px;
+
   .space-name {
     color: white;
     font-size: 24px;
@@ -53,6 +55,7 @@ export default {
   overflow-y: auto;
   height: 92vh;
 }
+
 .avater {
   float: right;
   margin: 5px auto;
