@@ -1,7 +1,9 @@
 <template>
   <div>
     <div>
-      <router-link to="/space/post"><el-button>发博客</el-button></router-link>
+      <router-link to="/space/post">
+        <el-button>新增</el-button>
+      </router-link>
       <el-popconfirm
         confirm-button-text="好的"
         cancel-button-text="不用了"

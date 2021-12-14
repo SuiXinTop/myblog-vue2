@@ -68,7 +68,7 @@ import { upload } from "@/assets/js/api/file";
 import { getUserId } from "@/assets/js/util/localStore";
 
 export default {
-  name: "Post",
+  name: "BlogPost",
   components: {},
   data() {
     return {
@@ -83,7 +83,7 @@ export default {
   methods: {
     saveBlogTemp() {
       this.$notify.success("成功");
-      this.blog.blogBody = "";
+      this.blog = { userId: getUserId() };
     },
     saveBlog() {
       saveBlog(this.blog)

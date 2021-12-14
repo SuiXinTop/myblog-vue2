@@ -14,6 +14,7 @@
             :src="blog.blogImg"
             :preview-src-list="[blog.blogImg]"
             fit="cover"
+            lazy
             alt
           >
             <div slot="error" class="image-slot">

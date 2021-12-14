@@ -5,7 +5,7 @@
         <div class="channel-list">
           <div style="text-align: center">聊天列表</div>
           <el-divider />
-          <div v-for="(channel, ck) in channelList" :key="ck">
+          <div v-for="(channel, index) in channelList" :key="index">
             <el-button
               style="width: 100%"
               @click="setChannel(channel.channelId)"
@@ -41,6 +41,10 @@
           </div>
         </div>
         <el-divider />
+        <el-button v-on:click="clickHistoryShow">查看历史纪录</el-button>
+        <el-button v-on:click="sendMessage">提交</el-button>
+        <br />
+        <br />
         <div>
           <html-edit
             ref="htmlEdit"
@@ -48,12 +52,19 @@
             @keyup.ctrl.enter.native="sendMessage"
           />
           <br />
-          <div style="text-align: right">
-            <el-button v-on:click="sendMessage">提交</el-button>
-          </div>
         </div>
       </el-col>
     </el-row>
+    <el-dialog
+      title="聊天历史"
+      :fullscreen="true"
+      :close-on-click-modal="false"
+      :visible.sync="historyShow"
+      :destroy-on-close="true"
+      style="min-width: 120vh"
+    >
+      <history-msg :channel-id="channelId" />
+    </el-dialog>
   </div>
 </template>
 
@@ -68,20 +79,27 @@ import {
   updateOffLineMsg,
 } from "@/assets/js/api/chat";
 import { getUserId } from "@/assets/js/util/localStore";
+import HistoryMsg from "@/components/Chat/chat/HistoryMsg";
 
 export default {
   name: "chat",
-  components: { HtmlEdit },
+  components: { HistoryMsg, HtmlEdit },
   mounted() {
     this.getChannelList();
   },
   data() {
     return {
+      //开关历史窗口
+      historyShow: false,
+      //微博socket链接
       websocket: null,
+      //消息list
       list: [],
+      //聊天频道list
       channelList: [],
+      //当前的聊天频道
       channelId: 0,
-      lockForConnect: false,
+      //消息输入
       msg: "",
     };
   },
@@ -104,6 +122,7 @@ export default {
           this.$notify.error(err.message);
         });
     },
+    //跳转聊天频道
     setChannel(i) {
       //若未切换频道，则不执行
       if (this.channelId === i) {
@@ -112,6 +131,7 @@ export default {
       this.channelId = i;
       this.connect();
     },
+    //连接
     connect() {
       //若连接锁为true，则先断开连接，清空消息，释放锁
       if (this.websocket !== null) {
@@ -122,13 +142,19 @@ export default {
       this.websocket = new WebSocket(chatUrl + this.channelId);
       this.init();
     },
+    //初始化websocket
     init() {
       this.websocket.onerror = this.setOnError;
       this.websocket.onopen = this.setOnOpen;
       this.websocket.onmessage = this.setOnMessage;
       this.websocket.onclose = this.setOnClose;
       window.onbeforeunload = this.setOnBeforeUnload;
-
+    },
+    setOnError() {
+      this.$notify.error("WebSocket连接发生错误");
+    },
+    //建立连接时，拉取离线消息
+    setOnOpen() {
       //若有离线消息，则拉取
       getOfflineMsg(this.channelId).then((res) => {
         let restMsg = res.data;
@@ -140,10 +166,7 @@ export default {
         }
       });
     },
-    setOnError() {
-      this.$notify.error("WebSocket连接发生错误");
-    },
-    setOnOpen() {},
+    //接受消息时，push入msgList
     setOnMessage(event) {
       const data = JSON.parse(event.data);
       this.list.push({
@@ -154,28 +177,40 @@ export default {
       this.scrollToBottom();
     },
     setOnClose() {
-      this.$notify.info("断开");
       //连接断开时，发送更新时间请求
       updateLastTime(this.channelId);
+      this.websocket = null;
     },
+    //关闭窗口前，断开websocket连接
     setOnBeforeUnload() {
       this.closeWebSocket();
     },
+    //断开websocket连接
+    closeWebSocket() {
+      this.websocket.close();
+    },
+    //发送消息
     sendMessage() {
-      if (this.msg === "" || !this.websocket) {
+      if (this.msg === "") {
+        return false;
+      }
+      if (!this.websocket) {
+        this.$notify.info("聊天频道未连接");
         return false;
       }
       this.websocket.send(this.msg);
       this.$refs.htmlEdit.value = "";
     },
-    closeWebSocket() {
-      this.websocket.close();
-    },
+    //聊天框下滑到bottom
     scrollToBottom() {
       this.$nextTick(() => {
         let el = this.$refs.content;
         el.scrollTop = el.scrollHeight;
       });
+    },
+    //现实聊天历史窗口
+    clickHistoryShow() {
+      this.historyShow = true;
     },
   },
 };

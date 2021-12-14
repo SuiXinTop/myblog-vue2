@@ -41,6 +41,7 @@ export function saveBlogTemp(blog) {
     data: blog,
   });
 }
+
 export function updateBlog(blog) {
   return axios.request({
     url: api,

@@ -36,6 +36,7 @@ export function getUserList() {
   });
 }
 
+//获取离线消息
 export function getOfflineMsg(channelId) {
   return axios.request({
     url: api + "chat/offLineMsg",
@@ -46,6 +47,7 @@ export function getOfflineMsg(channelId) {
   });
 }
 
+//删除离线消息
 export function delOfflineMsg(channelId) {
   return axios.request({
     url: api + "chat/offLineMsg",
@@ -56,6 +58,7 @@ export function delOfflineMsg(channelId) {
   });
 }
 
+//更新持久化消息状态
 export function updateOffLineMsg(channelId) {
   return axios.request({
     url: api + "chat/offLineMsg",
@@ -66,12 +69,36 @@ export function updateOffLineMsg(channelId) {
   });
 }
 
+//更新聊天频道时间
 export function updateLastTime(channelId) {
   return axios.request({
     url: api + "chat/lastTime",
     method: "put",
     params: {
       channelId: channelId,
+    },
+  });
+}
+
+export function getHistoryMsg(channelId, pageNum) {
+  return axios.request({
+    url: api + "chat/msgList",
+    method: "get",
+    params: {
+      channelId: channelId,
+      pageNum: pageNum,
+      pageSize: 10,
+    },
+  });
+}
+
+export function getGroupHistoryMsg(pageNum) {
+  return axios.request({
+    url: api + "group/historyMsg",
+    method: "get",
+    params: {
+      pageNum: pageNum,
+      pageSize: 10,
     },
   });
 }

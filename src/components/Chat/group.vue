@@ -24,16 +24,17 @@
         </div>
         <el-divider />
         <div>
+          <div>
+            <el-button v-on:click="clickHistoryShow">查看历史</el-button>
+            <el-button v-on:click="clearMessage">清空窗口</el-button>
+            <el-button v-on:click="sendMessage">提交</el-button>
+          </div>
+          <br />
           <html-edit
             ref="htmlEdit"
             @keydown.ctrl.enter.native="sendMessage"
             v-model="msg"
           />
-          <br />
-          <div style="text-align: right">
-            <el-button v-on:click="clearMessage">清空窗口</el-button>
-            <el-button v-on:click="sendMessage">提交</el-button>
-          </div>
         </div>
       </el-col>
       <el-col :span="4">
@@ -59,6 +60,15 @@
         </div>
       </el-col>
     </el-row>
+    <el-dialog
+      title="聊天历史"
+      :fullscreen="true"
+      :close-on-click-modal="false"
+      :visible.sync="historyShow"
+      style="min-width: 120vh"
+    >
+      <group-history-msg />
+    </el-dialog>
   </div>
 </template>
 
@@ -66,10 +76,11 @@
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
 import { getUserId } from "@/assets/js/util/localStore";
 import { getUserList, groupUrl } from "@/assets/js/api/chat";
+import GroupHistoryMsg from "@/components/Chat/group/GroupHistoryMsg";
 
 export default {
   name: "group",
-  components: { HtmlEdit },
+  components: { GroupHistoryMsg, HtmlEdit },
   mounted() {
     this.connect();
   },
@@ -80,9 +91,11 @@ export default {
       msgList: [],
       lockForConnect: false,
       msg: "",
+      historyShow: false,
     };
   },
   methods: {
+    //连接
     connect() {
       if (this.lockForConnect) {
         return;
@@ -90,6 +103,7 @@ export default {
       this.websocket = new WebSocket(groupUrl + getUserId());
       this.init();
     },
+    //初始化websocket
     init() {
       this.websocket.onerror = this.setOnError;
       this.websocket.onopen = this.setOnOpen;
@@ -101,10 +115,12 @@ export default {
     setOnError() {
       this.$notify.error("发生错误");
     },
+    //建立连接时，拉取群人员
     setOnOpen() {
-      this.$notify.success("欢迎进入聊天室");
+      // this.$notify.success("欢迎进入聊天室");
       this.getUserList();
     },
+    //接受消息时，push入msgList
     setOnMessage(event) {
       const data = JSON.parse(event.data);
       this.msgList.push({
@@ -113,44 +129,58 @@ export default {
         user: data.user,
       });
       this.scrollToBottom();
-      this.getUserList();
     },
     setOnClose() {
       this.$notify.success("离开聊天室");
       this.lockForConnect = false;
+      this.websocket = null;
     },
+    //关闭窗口前，断开websocket连接
     setOnBeforeUnload() {
       this.closeWebSocket();
     },
+    //断开websocket连接
+    closeWebSocket() {
+      this.websocket.close();
+      this.websocket = null;
+    },
+    //发送消息
     sendMessage() {
-      if (this.msg === "" || !this.websocket) {
+      if (this.msg === "") {
+        return false;
+      }
+      if (!this.websocket) {
+        this.$notify.info("聊天频道未连接");
         return false;
       }
       this.websocket.send(this.msg);
       this.$refs.htmlEdit.value = "";
+      this.getUserList();
     },
-    closeWebSocket() {
-      this.websocket.close();
-    },
+    //聊天框下滑到bottom
     scrollToBottom() {
       this.$nextTick(() => {
         let el = this.$refs["content"];
         el.scrollTop = el.scrollHeight;
       });
     },
+    //清空窗口
     clearMessage() {
       this.msgList = [];
     },
+    //更新群人员
     getUserList() {
-      getUserList()
-        .then((res) => {
-          console.log(res);
-          let restMsg = res.data;
-          if (restMsg.code === 200) {
-            this.userList = restMsg.data;
-          }
-        })
-        .catch();
+      getUserList().then((res) => {
+        console.log(res);
+        let restMsg = res.data;
+        if (restMsg.code === 200) {
+          this.userList = restMsg.data;
+        }
+      });
+    },
+    //现实聊天历史窗口
+    clickHistoryShow() {
+      this.historyShow = true;
     },
   },
 };

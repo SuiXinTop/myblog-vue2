@@ -1,22 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import { getToken } from "@/assets/js/util/localStore";
-import { routerPath } from "@/assets/js/util/path";
 import Blog from "@/views/Blog";
-import Post from "@/views/space/Post";
+import BlogPost from "@/views/space/blog/BlogPost";
 import About from "@/views/About";
 import Home from "@/views/Home";
 import NotFound from "@/views/error/NotFound";
 import Space from "@/views/space/Space";
-import Chat from "@/views/space/Chat";
+import Chat from "@/views/space/user/Chat";
 import SpaceHome from "@/views/space/SpaceHome";
 import Login from "@/views/LoginPage";
-import Group from "@/views/space/Group";
+import Group from "@/views/space/user/Group";
 import Search from "@/views/Search";
 import Announce from "@/views/Announce";
-import UserEdit from "@/views/space/UserEdit";
+import UserEdit from "@/views/space/user/UserEdit";
 import Zone from "@/views/zone/Zone";
-import BlogEdit from "@/views/space/BlogEdit";
+import BlogEdit from "@/views/space/blog/BlogEdit";
 
 import RegisterPage from "@/views/RegisterPage";
 
@@ -25,13 +24,13 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: routerPath.home,
+    redirect: "/home",
     meta: {
       requireAuth: false,
     },
   },
   {
-    path: routerPath.home,
+    path: "/home",
     name: "Home",
     component: Home,
     meta: {
@@ -58,7 +57,7 @@ const routes = [
     },
   },
   {
-    path: routerPath.about,
+    path: "/about",
     name: "About",
     component: About,
     meta: {
@@ -86,7 +85,7 @@ const routes = [
   },
   {
     // /blog?blogId=??
-    path: routerPath.blog,
+    path: "/blog",
     name: "Blog",
     component: Blog,
     meta: {
@@ -115,7 +114,7 @@ const routes = [
   },
   {
     // /space/getUserId()
-    path: routerPath.space,
+    path: "/space",
     component: Space,
     redirect: "/space/home",
     children: [
@@ -129,7 +128,7 @@ const routes = [
         },
       },
       {
-        path: "userInfo",
+        path: "user",
         name: "用户信息",
         component: UserEdit,
         meta: {
@@ -140,7 +139,7 @@ const routes = [
       {
         path: "post",
         name: "博客发布",
-        component: Post,
+        component: BlogPost,
         meta: {
           requireAuth: true,
           keepAlive: true,
