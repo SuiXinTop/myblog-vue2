@@ -28,32 +28,20 @@ export default {
   },
   methods: {
     getBlog() {
-      getBlog(this.blogId)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code === 200) {
-            this.blog = res.data.data;
-            return;
-          }
-          this.$notify.error(res.data.msg);
-        })
-        .catch((err) => {
-          this.$notify.error(err.message);
-        });
+      getBlog(this.blogId).then((res) => {
+        console.log(res);
+        if (res.data.code === 200) {
+          this.blog = res.data.data;
+        }
+      });
     },
     updateBlog() {
-      updateBlog(this.blog)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code === 200) {
-            this.$notify.success(res.data.msg);
-            return;
-          }
-          this.$notify.error(res.data.msg);
-        })
-        .catch((err) => {
-          this.$notify.error(err.message);
-        });
+      updateBlog(this.blog).then((res) => {
+        console.log(res);
+        if (res.data.code === 200) {
+          this.$notify.success(res.data.msg);
+        }
+      });
     },
   },
 };

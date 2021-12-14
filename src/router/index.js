@@ -214,4 +214,9 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
+//每次跳转后回到顶部
+router.afterEach(() => {
+  window.scrollTo(0, 0);
+});
+
 export default router;

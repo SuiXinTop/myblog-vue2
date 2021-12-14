@@ -176,6 +176,7 @@ export default {
     };
   },
   methods: {
+    //账号密码登录
     login() {
       this.$refs.formLogin.validate(async (valid) => {
         if (!valid) {
@@ -186,69 +187,50 @@ export default {
           this.$notify.error("验证码错误！");
           return;
         }
-        login(this.formLogin)
-          .then((res) => {
-            console.log(res.data);
-            let restMsg = res.data;
-            if (restMsg.code === 200) {
-              this.$notify.success(restMsg.msg);
-              let data = restMsg.data;
-              setAll(data.token, data.userVo);
-              if (this.remember) {
-                localStorage.setItem("id", this.formLogin.userEmail);
-                localStorage.setItem(
-                  "userPassword",
-                  this.formLogin.userPassword
-                );
-              } else {
-                localStorage.removeItem("id");
-                localStorage.removeItem("userPassword");
-              }
-              this.$router.push("/");
-              return;
+        login(this.formLogin).then((res) => {
+          let restMsg = res.data;
+          if (restMsg.code === 200) {
+            this.$notify.success(restMsg.msg);
+            let data = restMsg.data;
+            setAll(data.token, data.userVo);
+            if (this.remember) {
+              localStorage.setItem("id", this.formLogin.userEmail);
+              localStorage.setItem("userPassword", this.formLogin.userPassword);
+            } else {
+              localStorage.removeItem("id");
+              localStorage.removeItem("userPassword");
             }
-            this.$notify.error(res.data.msg);
-          })
-          .catch((err) => {
-            console.log(err);
-            this.$notify.error("出现未知错误");
-          });
+            this.$router.push("/");
+            //强制刷新
+            location.reload();
+          }
+        });
       });
     },
+    //邮箱验证码登陆
     emailLogin() {
       this.emailValid();
       if (this.formEmail.code.length !== 4) {
         this.$notify.warning("验证码为4位");
         return;
       }
-      emailLogin(this.formEmail)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code === 200) {
-            this.$notify.success(res.data.msg);
-            let data = res.data.data;
-            setAll(data.token, data.userVo);
-            this.$router.push("/");
-            return;
-          }
-          this.$notify.error(res.data.msg);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      emailLogin(this.formEmail).then((res) => {
+        if (res.data.code === 200) {
+          this.$notify.success(res.data.msg);
+          let data = res.data.data;
+          setAll(data.token, data.userVo);
+          this.$router.push("/");
+        }
+      });
     },
+    //发送验证邮件
     sendEmail() {
       this.emailValid();
       let data = { email: this.form.email, code: randomCode() };
-      verifyEmail(data)
-        .then((res) => {
-          console.log(res);
-          this.$notify.success("发送成功");
-          this.hasSend = true;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      verifyEmail(data).then(() => {
+        this.$notify.success("发送成功");
+        this.hasSend = true;
+      });
     },
     emailValid() {
       this.$refs.formEmail.validate(async (valid) => {
@@ -258,6 +240,7 @@ export default {
         }
       });
     },
+    //刷新验证码
     refreshCode() {
       this.randomCode = randomCode();
     },

@@ -141,48 +141,38 @@ export default {
     //发布评论
     saveComment() {
       this.toLogin();
-      saveComment(this.comment)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code === 200) {
-            modal.notifySuccess(res.data.msg);
-            this.$refs.htmlEdit.value = "";
-            this.getCommentList();
-            return;
-          }
-          modal.notifyError(res.data.msg);
-        })
-        .catch((err) => {
-          modal.notifyError(err.message);
-        });
+      saveComment(this.comment).then((res) => {
+        console.log(res);
+        if (res.data.code === 200) {
+          modal.notifySuccess(res.data.msg);
+          this.$refs.htmlEdit.value = "";
+          this.getCommentList();
+          return;
+        }
+        modal.notifyError(res.data.msg);
+      });
     },
     // 获取博客信息及其用户
     getBlog() {
-      getBlog(this.$route.query.blogId)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code === 200) {
-            this.blog = res.data.data;
-            return;
-          }
-          modal.notifyError(res.data.msg);
-        })
-        .catch((err) => {
-          modal.notifyError(err.message);
-        });
+      getBlog(this.$route.query.blogId).then((res) => {
+        console.log(res);
+        if (res.data.code === 200) {
+          this.blog = res.data.data;
+          return;
+        }
+        modal.notifyError(res.data.msg);
+      });
     },
     getCommentList() {
-      getCommentList(this.$route.query.blogId, this.page.pageNum)
-        .then((res) => {
+      getCommentList(this.$route.query.blogId, this.page.pageNum).then(
+        (res) => {
           console.log(res);
           if (res.data.code === 200) {
             this.commentList = res.data.data.list;
             this.page.total = res.data.data.total;
           }
-        })
-        .catch((err) => {
-          modal.notifyError(err.message);
-        });
+        }
+      );
     },
     handlePageNumChange() {
       this.getCommentList();

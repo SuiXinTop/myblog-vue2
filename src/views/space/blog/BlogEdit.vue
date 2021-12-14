@@ -80,6 +80,7 @@
       :visible.sync="updateShow"
       :destroy-on-close="true"
       style="min-width: 150vh"
+      :append-to-body="true"
     >
       <blog-update :blog-id="blogId" />
     </el-dialog>
@@ -115,18 +116,14 @@ export default {
   methods: {
     //获取该用户的博客列表
     getBlogList() {
-      getBlogListByUserId(getUserId(), this.page.pageNum)
-        .then((res) => {
-          let restMsg = res.data;
-          console.log(restMsg);
-          if (restMsg.code === 200) {
-            this.blogList = restMsg.data.list;
-            this.page.total = restMsg.data.total;
-            return;
-          }
-          modal.notifyError(restMsg.msg);
-        })
-        .catch();
+      getBlogListByUserId(getUserId(), this.page.pageNum).then((res) => {
+        let restMsg = res.data;
+        console.log(restMsg);
+        if (restMsg.code === 200) {
+          this.blogList = restMsg.data.list;
+          this.page.total = restMsg.data.total;
+        }
+      });
     },
     //监听页码变化
     handlePageNumChange() {
@@ -138,20 +135,13 @@ export default {
       if (this.blogIdList.length === 0) {
         return;
       }
-      deleteBlog(this.blogIdList)
-        .then((res) => {
-          let restMsg = res.data;
-          console.log(restMsg);
-          if (restMsg.code === 200) {
-            modal.notifySuccess(restMsg.msg);
-            this.getBlogList();
-            return;
-          }
-          modal.notifyError(restMsg.msg);
-        })
-        .catch(() => {
-          modal.notifyError("出现未知错误");
-        });
+      deleteBlog(this.blogIdList).then((res) => {
+        let restMsg = res.data;
+        if (restMsg.code === 200) {
+          modal.notifySuccess(restMsg.msg);
+          this.getBlogList();
+        }
+      });
     },
     //监听表格多选变化
     handleSelectionChange(val) {

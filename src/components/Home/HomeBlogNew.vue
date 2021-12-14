@@ -79,11 +79,11 @@ export default {
   methods: {
     getBlogNew() {
       getBlogNew().then((res) => {
-        console.log(res.data);
-        this.blogList = res.data.data;
+        if (res.data.code === 200) {
+          this.blogList = res.data.data;
+        }
       });
     },
-
     toBlog(blogId) {
       this.$router.push({ path: routerPath.blog, query: { blogId: blogId } });
     },

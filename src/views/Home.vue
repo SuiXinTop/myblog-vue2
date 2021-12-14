@@ -23,6 +23,17 @@
         <el-button class="top-button" @click="toAbout"> 关于 </el-button>
       </div>
     </div>
+    <div style="margin: 40vh">
+      <div>
+        <el-carousel height="60vh" style="border-radius: 8px">
+          <el-carousel-item v-for="item in 4" :key="item">
+            <el-image
+              src="http://118.31.15.127:9000/blog/chat/2868d1af6813b756a19c30cf0ec61086-e59310b8-cc52-461d-b0cc-55d3bfc634de.png"
+            />
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </div>
     <div class="align-center">
       <div class="row-contain">
         <el-tabs type="border-card" class="blog-card">

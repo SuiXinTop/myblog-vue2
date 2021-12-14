@@ -79,8 +79,9 @@ export default {
   methods: {
     getBlogHot() {
       getBlogHot().then((res) => {
-        console.log(res.data);
-        this.blogList = res.data.data;
+        if (res.data.code === 200) {
+          this.blogList = res.data.data;
+        }
       });
     },
     toBlog(blogId) {
