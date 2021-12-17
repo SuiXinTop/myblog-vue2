@@ -7,7 +7,7 @@
             SegmentFault
           </el-button>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="10" style="line-height: 80px">
           <el-button class="link" type="text" @click="toSearch">
             搜索
           </el-button>
@@ -20,27 +20,19 @@
             关于
           </el-button>
         </el-col>
-        <el-col :span="6" style="text-align: right">
+        <el-col :span="6" style="text-align: right; line-height: 80px">
           <div v-if="hasLogin()">
-            <el-button
-              @click="toLogin"
-              style="
-                background: #13b213;
-                color: white;
-                width: 120px;
-                height: 60px;
-                font-size: 20px;
-              "
-            >
+            <el-button @click="toLogin" class="login-button">
               注册登录
             </el-button>
           </div>
-          <div v-else style="margin: 10px auto">
-            <avater :size="60" />
+          <div v-else>
+            <avater :size="60" style="margin: 10px auto" />
           </div>
         </el-col>
       </el-row>
     </div>
+    <div style="margin: 100px" />
   </div>
 </template>
 
@@ -91,7 +83,7 @@ export default {
   text-align: center;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(4px);
-  border-bottom: 2px solid rgba(176, 241, 120, 0.5);
+  border-bottom: 2px solid rgba(175, 246, 114, 0.5);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4), 0 0 6px rgba(255, 255, 255, 0.6);
 }
 
@@ -103,10 +95,26 @@ export default {
 
 .link {
   font-size: 24px;
+  font-family: "幼圆", "JetBrains Mono", sans-serif;
   color: #646464;
 }
 
 .link :hover {
   color: #12b212;
+}
+
+.login-button {
+  background: rgb(107, 204, 107);
+  color: white;
+  width: 120px;
+  height: 50px;
+  font-size: 20px;
+  border: 0;
+}
+
+.login-button:hover {
+  background: rgba(19, 178, 19, 1);
+  color: white;
+  transition: all 1s;
 }
 </style>

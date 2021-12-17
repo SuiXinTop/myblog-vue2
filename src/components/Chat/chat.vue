@@ -26,7 +26,11 @@
               appear
               enter-active-class="animate__animated animate__bounceInLeft"
             >
-              <el-card class="msg-card" shadow="hover">
+              <el-card
+                :body-style="{ padding: ' 10px 10px  0 10px' }"
+                class="msg-card"
+                shadow="hover"
+              >
                 <div class="user-info">
                   <img class="avater" :src="i.user.userImg" alt />
                   <div>
@@ -41,8 +45,10 @@
           </div>
         </div>
         <el-divider />
-        <el-button v-on:click="clickHistoryShow">查看历史纪录</el-button>
-        <el-button v-on:click="sendMessage">提交</el-button>
+        <el-button type="primary" v-on:click="clickHistoryShow">
+          查看历史纪录
+        </el-button>
+        <el-button type="primary" v-on:click="sendMessage">提交</el-button>
         <br />
         <br />
         <div>
@@ -56,12 +62,11 @@
       </el-col>
     </el-row>
     <el-dialog
-      title="聊天历史"
       :fullscreen="true"
       :close-on-click-modal="false"
       :visible.sync="historyShow"
       :destroy-on-close="true"
-      style="min-width: 120vh"
+      append-to-body
     >
       <history-msg :channel-id="channelId" />
     </el-dialog>
@@ -107,20 +112,14 @@ export default {
     //获取聊天列表
     getChannelList() {
       let userId = getUserId();
-      getChannelList(userId)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code === 200) {
-            this.channelList = res.data.data;
-            //若存在聊天频道，则系统选择第一个主动连接
-            this.setChannel(this.channelList[0].channelId);
-            return;
-          }
-          this.$notify.error(res.data.msg);
-        })
-        .catch((err) => {
-          this.$notify.error(err.message);
-        });
+      getChannelList(userId).then((res) => {
+        console.log(res);
+        if (res.data.code === 200) {
+          this.channelList = res.data.data;
+          //若存在聊天频道，则系统选择第一个主动连接
+          this.setChannel(this.channelList[0].channelId);
+        }
+      });
     },
     //跳转聊天频道
     setChannel(i) {
@@ -179,7 +178,6 @@ export default {
     setOnClose() {
       //连接断开时，发送更新时间请求
       updateLastTime(this.channelId);
-      this.websocket = null;
     },
     //关闭窗口前，断开websocket连接
     setOnBeforeUnload() {
@@ -220,6 +218,18 @@ export default {
 .channel-list {
   height: 86vh;
   overflow-y: auto;
+}
+
+.msg-content {
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: auto;
+  overflow-wrap: break-word;
+  border-radius: 4px;
+  max-width: 60vh;
+  color: white;
+  background: rgba(30, 183, 246, 0.75);
+  line-height: 20px;
 }
 
 .inline-text {

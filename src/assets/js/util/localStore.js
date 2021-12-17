@@ -87,3 +87,9 @@ export function delUserEmail() {
 export function delRole() {
   return localStorage.removeItem("token");
 }
+
+export let all_admin = ["admin", "super_admin"];
+
+export let admin = ["admin"];
+
+export let super_admin = ["super_admin"];

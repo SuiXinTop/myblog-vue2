@@ -1,5 +1,5 @@
 <template>
-  <div id="not-found">
+  <div class="align-center">
     <img src="../../assets/images/404.png" alt="" />
     <h1>抱歉您访问的页面出错了</h1>
     <h2>您可能输错了网址，或该网页已删除或不存在</h2>
@@ -16,10 +16,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#not-found {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@import "../../assets/css/flex";
+
+.align-center {
   background: rgb(255, 255, 255);
   height: 100vh;
   img {

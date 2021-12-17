@@ -65,7 +65,7 @@ export function getBlogListByUserId(userId, pageNum) {
     params: {
       userId: userId,
       pageNum: pageNum,
-      pageSize: 10,
+      pageSize: 15,
     },
   });
 }

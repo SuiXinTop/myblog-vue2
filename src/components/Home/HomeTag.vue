@@ -1,10 +1,12 @@
 <template>
   <div>
-    <el-card class="tag-card" shadow="hover">
+    <el-card :body-style="{ padding: '0px' }" class="tag-card" shadow="hover">
       <div id="wordCloud" style="width: 50vh; height: 50vh" />
     </el-card>
-    <el-card class="tag-card" shadow="hover"> </el-card>
-    <el-card class="tag-card" shadow="hover"> </el-card>
+    <el-card :body-style="{ padding: '0px' }" class="tag-card" shadow="hover">
+    </el-card>
+    <el-card :body-style="{ padding: '0px' }" class="tag-card" shadow="hover">
+    </el-card>
   </div>
 </template>
 
@@ -98,10 +100,10 @@ export default {
 <style lang="less" scoped>
 .tag-card {
   text-align: left;
+  margin-bottom: 2vh;
   width: 50vh;
   height: 50vh;
-  backdrop-filter: blur(4px);
-  background: rgba(250, 249, 249, 0.62);
-  margin: 5px;
+  backdrop-filter: blur(3px);
+  background: rgba(255, 255, 255, 0.7);
 }
 </style>

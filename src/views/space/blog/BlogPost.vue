@@ -12,7 +12,6 @@
         <el-form-item prop="blogImg">
           <el-row>
             <el-col :span="10">
-              <span>封面</span>
               <el-upload
                 accept="image/jpeg,image/png,image/jpg"
                 :before-upload="onBeforeUploadBlogImg"
@@ -24,7 +23,7 @@
               >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">
-                  将文件拖到此处，或<em>点击上传</em>
+                  <em>上传封面</em>，将文件拖到此处，或<em>点击上传</em>
                 </div>
               </el-upload>
             </el-col>
@@ -39,26 +38,26 @@
                   border-radius: 8px;
                 "
                 preview
-                alt=""
+                alt
               />
             </el-col>
           </el-row>
         </el-form-item>
+        <v-md-editor
+          :disabled-menus="[]"
+          left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code"
+          v-model="blog.blogBody"
+          :include-level="[1, 2, 3, 4, 5]"
+          @upload-image="UploadBlogContent"
+          @copy-code-success="handleCopyCodeSuccess"
+          style="height: 100vh"
+        />
+        <div style="text-align: right">
+          <el-button type="primary" @click="saveBlogTemp">暂存</el-button>
+          <el-button type="primary" @click="saveBlog">发布</el-button>
+        </div>
       </el-card>
-      <v-md-editor
-        :disabled-menus="[]"
-        left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code"
-        v-model="blog.blogBody"
-        :include-level="[1, 2, 3, 4, 5]"
-        @upload-image="UploadBlogContent"
-        @copy-code-success="handleCopyCodeSuccess"
-        style="height: 100vh"
-      />
     </el-form>
-    <div style="text-align: right">
-      <el-button type="primary" @click="saveBlogTemp">暂存</el-button>
-      <el-button type="primary" @click="saveBlog">发布</el-button>
-    </div>
   </div>
 </template>
 

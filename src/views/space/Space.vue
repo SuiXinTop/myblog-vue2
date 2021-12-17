@@ -10,7 +10,7 @@
       <el-container>
         <aside-space />
         <el-container>
-          <el-main style="min-width: 150vh">
+          <el-main style="">
             <keep-alive>
               <router-view />
             </keep-alive>
@@ -36,22 +36,36 @@ export default {
 
 <style lang="less" scoped>
 .el-header {
-  background-color: #409eff;
+  background: rgba(0, 201, 255, 0.9); /* fallback for old browsers */
+  backdrop-filter: blur(2px);
+  background: -webkit-linear-gradient(
+    to left,
+    rgba(146, 254, 157, 0.9),
+    rgba(0, 201, 255, 0.9)
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    rgba(146, 254, 157, 0.9),
+    rgba(0, 201, 255, 0.9)
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: 8vh;
   line-height: 60px;
 
   .space-name {
     color: white;
+    font-weight: bolder;
     font-size: 24px;
   }
 }
 
 .el-aside {
-  background-color: white;
+  background: white;
 }
 
 .el-main {
-  background-color: white;
+  min-width: 150vh;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(2px);
   overflow-y: auto;
   height: 92vh;
 }

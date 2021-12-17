@@ -1,7 +1,6 @@
 <template>
-  <div style="display: flex; flex-direction: column; align-items: center">
+  <div class="align-center">
     <top-bar />
-    <div style="margin: 50px" />
     <el-card id="announce-card">
       <el-collapse accordion>
         <el-collapse-item v-for="i in 3" :key="i">
@@ -146,6 +145,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "../assets/css/flex";
+
 #announce-card {
   width: 150vh;
 }

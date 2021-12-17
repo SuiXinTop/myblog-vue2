@@ -8,7 +8,11 @@
               appear
               enter-active-class="animate__animated animate__bounceInLeft"
             >
-              <el-card class="msg-card" shadow="hover">
+              <el-card
+                :body-style="{ padding: ' 10px 10px  0 10px' }"
+                class="msg-card"
+                shadow="hover"
+              >
                 <div class="user-info">
                   <img class="avater" :src="item.user.userImg" alt />
                   <div>
@@ -25,9 +29,13 @@
         <el-divider />
         <div>
           <div>
-            <el-button v-on:click="clickHistoryShow">查看历史</el-button>
-            <el-button v-on:click="clearMessage">清空窗口</el-button>
-            <el-button v-on:click="sendMessage">提交</el-button>
+            <el-button type="primary" v-on:click="clickHistoryShow">
+              查看历史
+            </el-button>
+            <el-button type="primary" v-on:click="clearMessage">
+              清空窗口
+            </el-button>
+            <el-button type="primary" v-on:click="sendMessage">提交</el-button>
           </div>
           <br />
           <html-edit
@@ -61,11 +69,10 @@
       </el-col>
     </el-row>
     <el-dialog
-      title="聊天历史"
       :fullscreen="true"
       :close-on-click-modal="false"
       :visible.sync="historyShow"
-      style="min-width: 120vh"
+      append-to-body
     >
       <group-history-msg />
     </el-dialog>

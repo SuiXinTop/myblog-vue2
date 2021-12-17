@@ -1,49 +1,32 @@
 <template>
   <div>
-    <img class="background-img" src="../assets/images/1.jpg" alt="" />
     <top-bar />
-    <header>
-      <img id="logo-img" src="../assets/images/1.jpg" style="" alt />
+    <div class="align-center">
       <div id="logo-content">
         <p
-          style="font-size: 6vh; font-weight: bold; color: #0cbe0c"
+          style="font-size: 8vh; font-weight: bold; color: #0cbe0c"
           v-text="title"
         />
-        <p style="font-size: 4vh; color: #454c59">
+        <p style="font-size: 4vh; color: white">
           {{ content1 }}
           <br />
           {{ content2 }}
         </p>
       </div>
-    </header>
-    <div class="align-center">
-      <div class="row-contain" style="margin-top: -20vh">
-        <el-button class="top-button" @click="toSearch"> 搜索 </el-button>
-        <el-button class="top-button" @click="toAnnounce"> 公告 </el-button>
-        <el-button class="top-button" @click="toAbout"> 关于 </el-button>
-      </div>
     </div>
-    <div style="margin: 40vh">
-      <div>
-        <el-carousel height="60vh" style="border-radius: 8px">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <el-image
-              src="http://118.31.15.127:9000/blog/chat/2868d1af6813b756a19c30cf0ec61086-e59310b8-cc52-461d-b0cc-55d3bfc634de.png"
-            />
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-    </div>
+    <div style="margin: 20vh" />
+
     <div class="align-center">
       <div class="row-contain">
         <el-tabs type="border-card" class="blog-card">
           <el-tab-pane label="最新"><home-blog-new /></el-tab-pane>
           <el-tab-pane label="最热"><home-blog-hot /></el-tab-pane>
-          <el-tab-pane label="推荐"></el-tab-pane>
+          <el-tab-pane label="所有"></el-tab-pane>
         </el-tabs>
         <home-tag />
       </div>
     </div>
+    <div style="margin: 20vh" />
     <back-top />
   </div>
 </template>
@@ -87,13 +70,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.home {
-  background-image: url("../assets/images/1.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
+@import "../assets/css/flex";
 #logo-img {
   object-fit: cover;
   height: 60vh;
@@ -104,36 +81,40 @@ export default {
 #logo-content {
   text-align: center;
   height: 50vh;
-  margin-top: -50vh;
+  width: 100%;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+  padding-top: 15vh;
+  padding-bottom: 15vh;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.68), 0 0 6px rgba(255, 255, 255, 0.6);
+  background: rgba(222, 97, 97, 0.8);
+  background: -webkit-linear-gradient(
+    to right,
+    #2657eb,
+    rgba(225, 67, 67, 0.78)
+  );
+  background: linear-gradient(to right, #2657eb, rgba(231, 55, 55, 0.76));
 }
 
-.align-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .top-button {
-    text-align: center;
-    font-size: 5vh;
-    height: 15vh;
-    width: 35vh;
-    margin: 5vh;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.42);
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.68), 0 0 6px rgba(255, 255, 255, 0.6);
-  }
+.top-button {
+  text-align: center;
+  font-size: 5vh;
+  height: 10vh;
+  width: 30vh;
+  margin: 5vh;
+  border-radius: 5px;
+  background: rgba(255, 255, 255);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.68), 0 0 6px rgba(255, 255, 255, 0.6);
 }
 
-.row-contain {
-  display: flex;
-  flex-direction: row;
+.top-button :hover {
+  color: #12b212;
 }
 
 .blog-card {
   width: 120vh;
-  backdrop-filter: blur(4px);
-  background: rgba(250, 249, 249, 0.62);
-  margin: 2vh;
+  margin-right: 2vh;
+  backdrop-filter: blur(3px);
+  background: rgba(255, 255, 255, 0.7);
 }
 </style>

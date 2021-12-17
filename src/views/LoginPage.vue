@@ -20,12 +20,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "../assets/css/flex";
+
 .margin-top {
   margin-top: 20vh;
-}
-.align-center {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
 }
 </style>

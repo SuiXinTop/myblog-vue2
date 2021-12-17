@@ -1,21 +1,19 @@
 <template>
-  <div
-    ref="card"
-    style="height: 84vh; overflow-y: auto"
-    @scroll="handleUpToBottom"
-  >
-    <div v-for="(msgAll, index) in msgList" :key="index">
-      <div v-for="(msg, index2) in msgAll" :key="index2">
-        <el-divider />
-        <div v-if="msg.channelId === channelId">
-          <label style="margin-right: 5px">自己</label>
-          <label v-text="msg.msgTime" />
-          <label class="msg-content" v-html="msg.msgContent" />
-        </div>
-        <div v-else>
-          <label style="margin-right: 5px">对方</label>
-          <label v-text="msg.msgTime" />
-          <label class="msg-content" v-html="msg.msgContent" />
+  <div class="history">
+    <div class="card" ref="card" style="" @scroll="handleUpToBottom">
+      <div v-for="(msgAll, index) in msgList" :key="index">
+        <div v-for="(msg, index2) in msgAll" :key="index2">
+          <el-divider />
+          <div v-if="msg.channelId === channelId">
+            <label style="margin-right: 5px">自己</label>
+            <label v-text="msg.msgTime" />
+            <p class="msg-content" v-html="msg.msgContent" />
+          </div>
+          <div v-else>
+            <label style="margin-right: 5px">对方</label>
+            <label v-text="msg.msgTime" />
+            <p class="msg-content" v-html="msg.msgContent" />
+          </div>
         </div>
       </div>
     </div>
@@ -63,8 +61,22 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-.msg-content img {
+<style lang="less">
+.history {
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .card {
+    padding: 3vh;
+    height: 80vh;
+    width: 100vh;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 18px 18px 30px #d1d9e6, -18px -18px 30px #fff;
+  }
+}
+img {
   width: 50vh;
   max-width: 100%;
   height: auto;

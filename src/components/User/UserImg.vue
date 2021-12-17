@@ -14,8 +14,14 @@
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
     </el-upload>
     <!-- vueCropper 剪裁图片实现-->
-    <el-dialog title="图片剪裁" :visible.sync="dialogVisible" append-to-body>
-      <div style="width: 100%; height: 50vh; text-align: center">
+    <el-dialog
+      title="图片剪裁"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      :destroy-on-close="true"
+      append-to-body
+    >
+      <div style="width: 100%; height: 50vh">
         <vue-cropper
           ref="cropper"
           :img="option.img"
@@ -57,15 +63,15 @@ export default {
       option: {
         img: "", // 裁剪图片的地址
         info: true, // 裁剪框的大小信息
-        outputSize: 0.6, // 裁剪生成图片的质量
-        outputType: "jpeg", // 裁剪生成图片的格式
+        outputSize: 0.7, // 裁剪生成图片的质量
+        outputType: "jpg", // 裁剪生成图片的格式
         canScale: true, // 图片是否允许滚轮缩放
         autoCrop: true, // 是否默认生成截图框
-        // autoCropWidth: 300, // 默认生成截图框宽度
-        // autoCropHeight: 300, // 默认生成截图框高度
+        // autoCropWidth: 400, // 默认生成截图框宽度
+        // autoCropHeight: 400, // 默认生成截图框高度
         fixedBox: false, // 固定截图框大小 不允许改变
         fixed: true, // 是否开启截图框宽高固定比例
-        fixedNumber: [5, 5], // 截图框的宽高比例
+        fixedNumber: [1, 1], // 截图框的宽高比例
         full: true, // 是否输出原图比例的截图
         canMoveBox: true, // 截图框能否拖动
         original: false, // 上传图片按照原始比例渲染

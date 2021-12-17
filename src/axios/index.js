@@ -24,8 +24,8 @@ axios.interceptors.response.use(
   (response) => {
     // hideLoading();
     if (response) {
-      console.log(response);
-      switch (response.data.code) {
+      console.log(response.data);
+      switch (response.data) {
         case 200:
           break;
         case 400:
@@ -42,7 +42,6 @@ axios.interceptors.response.use(
           modal.notifyWarning(response.data.msg);
           break;
         default:
-          modal.notifyWarning("出现未知错误");
           break;
       }
     }

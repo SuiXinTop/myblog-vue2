@@ -16,24 +16,20 @@
             width: fit-content;
             background: rgba(255, 255, 255, 0.42);
             backdrop-filter: blur(4px);
+            border: none;
           "
         >
-          <router-link to="/space/home">
+          <router-link :to="'/zone?userId=' + userId">
             <el-dropdown-item>
               <i class="el-icon-user" />个人空间
             </el-dropdown-item>
           </router-link>
           <router-link to="/space/home">
             <el-dropdown-item>
-              <i class="el-icon-user" />管理中心
+              <i class="el-icon-setting" />管理中心
             </el-dropdown-item>
           </router-link>
-          <router-link to="/">
-            <el-dropdown-item>
-              <i class="el-icon-setting" />设定
-            </el-dropdown-item>
-          </router-link>
-          <div @click="logout">
+          <div @click="dialogVisible = true">
             <el-dropdown-item>
               <i class="el-icon-zoom-out" />退出登录
             </el-dropdown-item>
@@ -41,11 +37,23 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      append-to-body
+    >
+      <span>是否退出登陆</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="logout"> 确 定 </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUserImg } from "@/assets/js/util/localStore";
+import { getUserId, getUserImg } from "@/assets/js/util/localStore";
 
 export default {
   name: "avater",
@@ -57,7 +65,9 @@ export default {
   },
   data() {
     return {
+      userId: getUserId(),
       imgPath: getUserImg(),
+      dialogVisible: false,
     };
   },
   methods: {

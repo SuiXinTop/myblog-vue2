@@ -3,17 +3,16 @@
     <img class="background-img" src="@/assets/images/1.jpg" alt="" />
     <transition
       appear
-      enter-active-class="animate__animated animate__fadeIn animate__fast"
-      leave-active-class="animate__animated animate__fadeOut animate__fast"
+      enter-active-class="animate__animated animate__fadeIn animate__slow"
     >
       <keep-alive>
         <router-view v-if="this.$route.meta.keepAlive" />
       </keep-alive>
     </transition>
+
     <transition
       appear
-      enter-active-class="animate__animated animate__fadeIn animate__fast"
-      leave-active-class="animate__animated animate__fadeOut animate__fast"
+      enter-active-class="animate__animated animate__fadeIn animate__slow"
     >
       <router-view v-if="!this.$route.meta.keepAlive" />
     </transition>
@@ -28,7 +27,7 @@
   left: 0;
   position: fixed;
   z-index: -999;
-  filter: blur(2px);
+  filter: blur(1px);
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -38,7 +37,9 @@
 a {
   text-decoration: none;
 }
-
+.router-link {
+  text-decoration: none;
+}
 .router-link-active {
   text-decoration: none;
 }

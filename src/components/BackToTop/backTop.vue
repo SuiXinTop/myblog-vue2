@@ -7,7 +7,7 @@
       @click="backToTop"
     >
       <img
-        src="../../assets/images/logo.png"
+        src="@/assets/images/logo.png"
         style="width: 50px; height: 50px; transform: rotateZ(180deg)"
         alt
       />
@@ -37,7 +37,7 @@ export default {
           height: "50px",
           "border-radius": "4px",
           "line-height": "45px",
-          background: "#ffffff",
+          background: "rgba(255,255,255)",
         };
       },
     },

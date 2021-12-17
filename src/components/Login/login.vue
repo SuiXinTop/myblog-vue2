@@ -69,7 +69,7 @@
         <el-form-item prop="email">
           <el-input type="text" v-model="formEmail.email" placeholder="邮箱">
             <template slot="prepend">
-              <i class="el-icon-user icon" />
+              <i class="el-icon-setting icon" />
             </template>
           </el-input>
         </el-form-item>
@@ -81,8 +81,14 @@
             placeholder="验证码"
           >
           </el-input>
-          <el-button style="width: 30%" @click="sendEmail" :disabled="hasSend">
-            发送验证码
+          <el-button
+            style="width: 30%"
+            type="primary"
+            icon="el-icon-search"
+            @click="sendEmail"
+            :disabled="hasSend"
+          >
+            发送
           </el-button>
         </el-form-item>
         <el-form-item>

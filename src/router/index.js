@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { getToken } from "@/assets/js/util/localStore";
+import { all_admin, getRole, getToken } from "@/assets/js/util/localStore";
+import { modal } from "@/assets/js/util/modal";
 import Blog from "@/views/Blog";
 import BlogPost from "@/views/space/blog/BlogPost";
 import About from "@/views/About";
@@ -9,15 +10,21 @@ import NotFound from "@/views/error/NotFound";
 import Space from "@/views/space/Space";
 import Chat from "@/views/space/user/Chat";
 import SpaceHome from "@/views/space/SpaceHome";
-import Login from "@/views/LoginPage";
 import Group from "@/views/space/user/Group";
 import Search from "@/views/Search";
 import Announce from "@/views/Announce";
 import UserEdit from "@/views/space/user/UserEdit";
 import Zone from "@/views/zone/Zone";
 import BlogEdit from "@/views/space/blog/BlogEdit";
-
+import LoginPage from "@/views/LoginPage";
 import RegisterPage from "@/views/RegisterPage";
+import Admin from "@/views/admin/Admin";
+import NoRole from "@/views/error/NoRole";
+import ZoneBlog from "@/views/zone/ZoneBlog";
+import ZoneCollect from "@/views/zone/ZoneCollect";
+import ZoneAttend from "@/views/zone/ZoneAttend";
+import ZoneFans from "@/views/zone/ZoneFans";
+import ZoneHome from "@/views/zone/ZoneHome";
 
 Vue.use(VueRouter);
 
@@ -25,16 +32,12 @@ const routes = [
   {
     path: "/",
     redirect: "/home",
-    meta: {
-      requireAuth: false,
-    },
   },
   {
     path: "/home",
     name: "Home",
     component: Home,
     meta: {
-      requireAuth: false,
       keepAlive: true,
     },
   },
@@ -42,17 +45,12 @@ const routes = [
     path: "/search",
     name: "Search",
     component: Search,
-    meta: {
-      requireAuth: false,
-      keepAlive: false,
-    },
   },
   {
     path: "/announce",
     name: "Announce",
     component: Announce,
     meta: {
-      requireAuth: false,
       keepAlive: true,
     },
   },
@@ -61,56 +59,77 @@ const routes = [
     name: "About",
     component: About,
     meta: {
-      requireAuth: false,
       keepAlive: true,
     },
   },
   {
     path: "/login",
     name: "LoginPage",
-    component: Login,
-    meta: {
-      requireAuth: false,
-      keepAlive: false,
-    },
+    component: LoginPage,
   },
   {
     path: "/register",
     name: "Register",
     component: RegisterPage,
-    meta: {
-      requireAuth: false,
-      keepAlive: false,
-    },
   },
   {
     // /blog?blogId=??
     path: "/blog",
     name: "Blog",
     component: Blog,
-    meta: {
-      requireAuth: false,
-      keepAlive: false,
-    },
   },
   {
     // /tag?tagName=??
     path: "/tag",
     name: "Tag",
-    meta: {
-      requireAuth: false,
-      keepAlive: false,
-    },
   },
   {
     // /zone?userId=??
     path: "/zone",
-    name: "Zone",
     component: Zone,
-    meta: {
-      requireAuth: false,
-      keepAlive: false,
-    },
+    redirect: "/zone/home",
+    children: [
+      {
+        path: "home",
+        name: "个人空间首页",
+        component: ZoneHome,
+        meta: {
+          keepAlive: true,
+        },
+      },
+      {
+        path: "blog",
+        name: "博客列表",
+        component: ZoneBlog,
+        meta: {
+          keepAlive: true,
+        },
+      },
+      {
+        path: "collect",
+        name: "收藏列表",
+        component: ZoneCollect,
+        meta: {
+          keepAlive: true,
+        },
+      },
+      {
+        path: "attend",
+        name: "关注列表",
+        component: ZoneAttend,
+        meta: {
+          keepAlive: true,
+        },
+      },
+      {
+        path: "fans",
+        name: "粉丝列表",
+        component: ZoneFans,
+        meta: {
+          keepAlive: true,
+        },
+      },
+    ],
   },
   {
     // /space/getUserId()
@@ -120,7 +139,7 @@ const routes = [
     children: [
       {
         path: "home",
-        name: "space",
+        name: "管理中心首页",
         component: SpaceHome,
         meta: {
           requireAuth: true,
@@ -156,7 +175,7 @@ const routes = [
       },
       {
         path: "chat",
-        name: "chat",
+        name: "私信",
         component: Chat,
         meta: {
           requireAuth: true,
@@ -165,7 +184,7 @@ const routes = [
       },
       {
         path: "group",
-        name: "group",
+        name: "群聊",
         component: Group,
         meta: {
           requireAuth: true,
@@ -175,11 +194,36 @@ const routes = [
     ],
   },
   {
+    path: "/admin",
+    name: "admin",
+    component: Admin,
+    meta: {
+      requireAuth: true,
+      requireRole: true,
+      role: all_admin,
+      keepAlive: true,
+    },
+  },
+  {
+    path: "/403",
+    name: "NoRole",
+    component: NoRole,
+    meta: {
+      keepAlive: true,
+    },
+  },
+  {
     path: "/404",
     name: "NotFound",
     component: NotFound,
     meta: {
-      requireAuth: false,
+      keepAlive: true,
+    },
+  },
+  {
+    path: "/*",
+    redirect: "/404",
+    meta: {
       keepAlive: true,
     },
   },
@@ -188,15 +232,17 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  },
 });
 
 router.beforeEach((to, from, next) => {
-  if (!to.name) {
-    next({
-      path: "/404",
-    });
-    return;
-  }
+  //是否需要登录
   if (to.meta.requireAuth) {
     if (!getToken()) {
       next({
@@ -204,19 +250,17 @@ router.beforeEach((to, from, next) => {
       });
       return;
     }
-    if (to.meta.role !== "admin") {
+  }
+  //是否需要权限
+  if (to.meta.requireRole) {
+    if (to.meta.role.contains(getRole()) === -1) {
+      modal.notifyWarning("权限不足");
       next({
-        // path: "/login",
+        path: "/403",
       });
-      return;
     }
   }
   next();
-});
-
-//每次跳转后回到顶部
-router.afterEach(() => {
-  window.scrollTo(0, 0);
 });
 
 export default router;

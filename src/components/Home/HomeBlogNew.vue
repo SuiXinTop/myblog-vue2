@@ -1,7 +1,8 @@
 <template>
   <div v-if="blogList.length !== 0">
     <div style="margin: 10px" v-for="(blog, index) in blogList" :key="index">
-      <p
+      <el-link
+        :underline="false"
         class="blog-title"
         @click="toBlog(blog.blogId)"
         v-text="blog.blogTitle"
@@ -23,7 +24,7 @@
           </el-image>
         </el-col>
         <el-col :span="16">
-          <label
+          <a
             class="blog-body"
             @click="toBlog(blog.blogId)"
             v-text="blog.blogBody"
@@ -35,10 +36,9 @@
               v-for="(blogTag, index2) in blog.blogTagList"
               :key="index2"
             >
-              {{ blogTag.tag.tagName }}
+              <a v-text="blogTag.tag.tagName" />
             </el-tag>
           </p>
-
           <i class="el-icon-view"><label v-text="blog.blogView" /></i>
           <i class="el-icon-star-on"><label v-text="blog.blogLike" /></i>
           <i class="el-icon-star-on">
@@ -49,11 +49,15 @@
           </i>
           <el-divider direction="vertical" />
           <label v-text="dateDiff(blog.blogTime)" />
-
-          <p>
-            <i class="el-icon-user" />
-            <label class="user-name" v-text="blog.user.userName" />
-          </p>
+          <br />
+          <router-link
+            :to="'/zone?userId=' + blog.user.userId"
+            style="color: black"
+          >
+            <i class="el-icon-user">
+              <label class="user-name" v-text="blog.user.userName" />
+            </i>
+          </router-link>
         </el-col>
       </el-row>
       <el-divider />

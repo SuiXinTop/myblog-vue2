@@ -15,11 +15,12 @@
         <el-button slot="reference">删除</el-button>
       </el-popconfirm>
     </div>
+    <el-divider />
     <el-table
       ref="multipleTable"
       :data="blogList"
       tooltip-effect="dark"
-      style="width: 100%"
+      style="width: 100%; border-radius: 6px"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" />
@@ -61,7 +62,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-divider />
     <div style="text-align: center">
       <el-pagination
         layout="prev, pager, next"
