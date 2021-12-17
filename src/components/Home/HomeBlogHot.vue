@@ -1,7 +1,8 @@
 <template>
   <div v-if="blogList.length">
     <div style="margin: 10px" v-for="(blog, index) in blogList" :key="index">
-      <p
+      <el-link
+        :underline="false"
         class="blog-title"
         @click="toBlog(blog.blogId)"
         v-text="blog.blogTitle"

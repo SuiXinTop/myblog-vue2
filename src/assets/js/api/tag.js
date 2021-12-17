@@ -1,6 +1,6 @@
 import axios from "@/axios";
 
-const api = "/api/blog/tag";
+const api = "/api/blog/tag/";
 
 export function getTagList() {
   return axios.request({
@@ -8,7 +8,7 @@ export function getTagList() {
     method: "get",
     params: {
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 20,
     },
   });
 }

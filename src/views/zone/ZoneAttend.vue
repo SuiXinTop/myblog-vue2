@@ -1,9 +1,108 @@
-<template></template>
+<template>
+  <div>
+    <div v-if="attendList.length === 0">
+      <el-empty
+        style="background: white; background-size: cover"
+        :image-size="200"
+      />
+    </div>
+    <div v-else>
+      <el-card header="全部关注">
+        <div
+          v-for="(attend, index) in attendList"
+          :key="index"
+          @click="toZone(attend.attendUser.userId)"
+        >
+          <div style="display: flex; align-items: center">
+            <el-image
+              class="user-img"
+              :src="attend.attendUser.userImg"
+              :preview-src-list="[attend.attendUser.userImg]"
+            >
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline" />
+              </div>
+            </el-image>
+            <div style="margin-left: 10px">
+              <label
+                v-text="attend.attendUser.userName"
+                style="font-size: 34px"
+              />
+              <br />
+              <label v-text="dateDiff(attend.attendTime)" />
+            </div>
+          </div>
+          <br />
+        </div>
+      </el-card>
+      <br />
+      <el-card class="pagination">
+        <el-pagination
+          layout="prev, pager, next"
+          :current-page.sync="page.pageNum"
+          @current-change="handlePageNumChange"
+          :page-size="10"
+          :total="page.total"
+        />
+      </el-card>
+    </div>
+    <div style="margin-bottom: 10vh" />
+    <back-top />
+  </div>
+</template>
 
 <script>
+import { dateDiff } from "@/assets/js/util/time";
+import { getAttendList } from "@/assets/js/api/friend";
+import BackTop from "@/components/BackToTop/backTop";
+
 export default {
   name: "ZoneAttend",
+  components: { BackTop },
+  mounted() {
+    this.getAttendList();
+  },
+  data() {
+    return {
+      page: { pageNum: 1, total: 0 },
+      attendList: [],
+    };
+  },
+  methods: {
+    getAttendList() {
+      getAttendList(this.$route.query.userId, this.page.pageNum).then((res) => {
+        let restMsg = res.data;
+        if (restMsg.code === 200) {
+          this.attendList = restMsg.data.list;
+          this.page.total = restMsg.data.total;
+        }
+      });
+    },
+    handlePageNumChange() {
+      this.getCollectByUserId();
+    },
+    toZone(userId) {
+      this.$router.push({ path: "/zone", query: { userId: userId } });
+      location.reload();
+    },
+    dateDiff(val) {
+      return dateDiff(val);
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+.user-img {
+  width: 10vh;
+  min-width: 60px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.68), 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+.pagination {
+  text-align: center;
+  border-radius: 8px;
+}
+</style>

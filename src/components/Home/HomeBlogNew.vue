@@ -1,5 +1,5 @@
 <template>
-  <div v-if="blogList.length !== 0">
+  <div>
     <div style="margin: 10px" v-for="(blog, index) in blogList" :key="index">
       <el-link
         :underline="false"

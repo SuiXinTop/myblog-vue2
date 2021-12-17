@@ -23,7 +23,7 @@
           <el-tab-pane label="最热"><home-blog-hot /></el-tab-pane>
           <el-tab-pane label="所有"></el-tab-pane>
         </el-tabs>
-        <home-tag />
+        <home-side />
       </div>
     </div>
     <div style="margin: 20vh" />
@@ -35,7 +35,7 @@ import TopBar from "@/components/Bar/bar";
 import { content1, content2, title } from "@/assets/static/content";
 import { routerPath } from "@/assets/js/util/path";
 import HomeBlogNew from "@/components/Home/HomeBlogNew";
-import HomeTag from "@/components/Home/HomeTag";
+import HomeSide from "@/components/Home/HomeSide";
 import HomeBlogHot from "@/components/Home/HomeBlogHot";
 import BackTop from "@/components/BackToTop/backTop";
 
@@ -44,7 +44,7 @@ export default {
   components: {
     BackTop,
     HomeBlogHot,
-    HomeTag,
+    HomeSide,
     HomeBlogNew,
     TopBar,
   },
@@ -114,7 +114,9 @@ export default {
 .blog-card {
   width: 120vh;
   margin-right: 2vh;
-  backdrop-filter: blur(3px);
+  border: none;
+  border-radius: 6px;
+  backdrop-filter: blur(3px) brightness(110%);
   background: rgba(255, 255, 255, 0.7);
 }
 </style>

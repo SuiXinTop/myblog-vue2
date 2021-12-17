@@ -25,6 +25,7 @@ import ZoneCollect from "@/views/zone/ZoneCollect";
 import ZoneAttend from "@/views/zone/ZoneAttend";
 import ZoneFans from "@/views/zone/ZoneFans";
 import ZoneHome from "@/views/zone/ZoneHome";
+import TagSearch from "@/views/TagSearch";
 
 Vue.use(VueRouter);
 
@@ -64,7 +65,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: "LoginPage",
+    name: "Login",
     component: LoginPage,
   },
   {
@@ -77,11 +78,15 @@ const routes = [
     path: "/blog",
     name: "Blog",
     component: Blog,
+    meta: {
+      keepAlive: false,
+    },
   },
   {
     // /tag?tagName=??
     path: "/tag",
     name: "Tag",
+    component: TagSearch,
   },
   {
     // /zone?userId=??
@@ -93,41 +98,26 @@ const routes = [
         path: "home",
         name: "个人空间首页",
         component: ZoneHome,
-        meta: {
-          keepAlive: true,
-        },
       },
       {
         path: "blog",
         name: "博客列表",
         component: ZoneBlog,
-        meta: {
-          keepAlive: true,
-        },
       },
       {
         path: "collect",
         name: "收藏列表",
         component: ZoneCollect,
-        meta: {
-          keepAlive: true,
-        },
       },
       {
         path: "attend",
         name: "关注列表",
         component: ZoneAttend,
-        meta: {
-          keepAlive: true,
-        },
       },
       {
         path: "fans",
         name: "粉丝列表",
         component: ZoneFans,
-        meta: {
-          keepAlive: true,
-        },
       },
     ],
   },

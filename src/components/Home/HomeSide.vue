@@ -1,17 +1,32 @@
 <template>
   <div>
-    <el-card :body-style="{ padding: '0px' }" class="tag-card" shadow="hover">
-      <div id="wordCloud" style="width: 50vh; height: 50vh" />
+    <el-card
+      :body-style="{ padding: '0px' }"
+      class="tag-card"
+      header="标签云"
+      shadow="hover"
+    >
+      <div id="wordCloud" style="width: 100%; height: 30vh" />
     </el-card>
-    <el-card :body-style="{ padding: '0px' }" class="tag-card" shadow="hover">
-    </el-card>
-    <el-card :body-style="{ padding: '0px' }" class="tag-card" shadow="hover">
+    <el-card
+      :body-style="{ padding: '0px' }"
+      class="announce-card"
+      header="置顶公告"
+      shadow="hover"
+    >
+      <div
+        v-for="(announce, index) in announceList"
+        :key="index"
+        style="margin: 5px"
+      >
+        <p v-text="announce.amtTitle" />
+      </div>
     </el-card>
   </div>
 </template>
 
 <script>
-import { modal } from "@/assets/js/util/modal";
+import { getTopAnnounce } from "@/assets/js/api/announce";
 
 let echarts = require("echarts/lib/echarts");
 require("echarts-wordcloud");
@@ -19,12 +34,15 @@ import "echarts/theme/macarons.js";
 import { getTagList } from "@/assets/js/api/tag";
 
 export default {
-  name: "HomeTag",
+  name: "HomeSide",
   mounted() {
     this.getTagList();
+    this.getTopAnnounce();
   },
   data() {
-    return {};
+    return {
+      announceList: [],
+    };
   },
   methods: {
     initWordCloud(list) {
@@ -72,26 +90,35 @@ export default {
       };
       wordCloud.setOption(option);
       //点击事件
-      wordCloud.on("click", function (e) {
-        modal.notifySuccess(e.name);
+      wordCloud.on("click", (e) => {
+        this.toTag(e.value);
       });
     },
     getTagList() {
-      getTagList()
-        .then((res) => {
-          let restMsg = res.data;
-          if (restMsg.code === 200) {
-            let list = [];
-            for (let i = 0; i < restMsg.data.length; i++) {
-              list.push({
-                name: restMsg.data[i].tagName,
-                value: restMsg.data[i].tagId,
-              });
-            }
-            this.initWordCloud(list);
+      getTagList().then((res) => {
+        let restMsg = res.data;
+        if (restMsg.code === 200) {
+          let list = [];
+          for (let i = 0; i < restMsg.data.length; i++) {
+            list.push({
+              name: restMsg.data[i].tagName,
+              value: restMsg.data[i].tagId,
+            });
           }
-        })
-        .catch();
+          this.initWordCloud(list);
+        }
+      });
+    },
+    toTag(val) {
+      this.$router.push({ path: "/tag", query: { tagId: val } });
+    },
+    getTopAnnounce() {
+      getTopAnnounce().then((res) => {
+        let restMsg = res.data;
+        if (restMsg.code === 200) {
+          this.announceList = restMsg.data;
+        }
+      });
     },
   },
 };
@@ -99,11 +126,18 @@ export default {
 
 <style lang="less" scoped>
 .tag-card {
-  text-align: left;
   margin-bottom: 2vh;
   width: 50vh;
-  height: 50vh;
+  height: 40vh;
   backdrop-filter: blur(3px);
   background: rgba(255, 255, 255, 0.7);
+  border: none;
+}
+.announce-card {
+  width: 50vh;
+  min-height: 70vh;
+  backdrop-filter: blur(3px);
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopBar />
+    <top-bar />
     <div class="align-center">
       <div class="row-contain">
         <div class="left-side">
@@ -22,7 +22,7 @@
               <el-tag v-for="(blogTag, index) in blog.blogTagList" :key="index">
                 {{ blogTag.tag.tagName }}
               </el-tag>
-              <div>
+              <div style="float: right">
                 <label v-text="getFormatTime(blog.blogTime)" />
                 <el-divider direction="vertical" />
                 <el-tooltip placement="top" effect="light" content="浏览量">
@@ -30,13 +30,48 @@
                     <i class="el-icon-view">{{ blog.blogView }}</i>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip placement="top" effect="light" content="点赞">
-                  <el-button type="text" @click="like" v-show="hasLike">
-                    <i class="el-icon-star-on">{{ blog.blogLike }} </i>
+                <el-tooltip placement="top" effect="light" content="评论">
+                  <el-button type="text" style="color: #2c3e50">
+                    <i class="el-icon-s-comment">{{ blog.blogComment }}</i>
                   </el-button>
                 </el-tooltip>
-                <el-tooltip placement="top" effect="light" content="收藏">
-                  <el-button type="text" @click="collect" v-show="hasCollect">
+                <el-tooltip
+                  placement="top"
+                  effect="light"
+                  content="点赞"
+                  v-if="!hasLike"
+                >
+                  <el-button type="text" @click="like">
+                    <i class="el-icon-error">{{ blog.blogLike }} </i>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip
+                  placement="top"
+                  effect="light"
+                  content="取消点赞"
+                  v-if="hasLike"
+                >
+                  <el-button type="text" @click="delLike">
+                    <i class="el-icon-success">{{ blog.blogLike }} </i>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip
+                  placement="top"
+                  effect="light"
+                  content="收藏"
+                  v-if="!hasCollect"
+                >
+                  <el-button type="text" @click="collect">
+                    <i class="el-icon-star-off">{{ blog.blogCollect }} </i>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip
+                  placement="top"
+                  effect="light"
+                  content="取消收藏"
+                  v-if="hasCollect"
+                >
+                  <el-button type="text" @click="delCollect">
                     <i class="el-icon-star-on">{{ blog.blogCollect }} </i>
                   </el-button>
                 </el-tooltip>
@@ -120,8 +155,16 @@
               </div>
             </div>
           </el-card>
-          <el-card id="other-card" header="最近博客"> </el-card>
-          <el-card id="tag-card" header="相关标签"> </el-card>
+          <el-card id="other-card" header="最近博客">
+            <p v-for="(blogNew, index) in blogNewList" :key="index">
+              <label
+                v-text="blogNew.blogTitle"
+                @click="toBlog(blogNew.blogId)"
+              />
+              <br />
+              <label v-text="getFormatTime(blogNew.blogTime)" />
+            </p>
+          </el-card>
         </div>
       </div>
     </div>
@@ -134,49 +177,85 @@
 import VueQrcode from "@xkeshi/vue-qrcode";
 import TopBar from "@/components/Bar/bar";
 import BackToTop from "@/components/BackToTop/backTop";
-import { getBlog } from "@/assets/js/api/blog";
+import { addLike, getBlog, getBlogNewByUserId } from "@/assets/js/api/blog";
 import { getCommentList, saveComment } from "@/assets/js/api/comment";
 import { dateDiff } from "@/assets/js/util/time";
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
 import { getUserId } from "@/assets/js/util/localStore";
 import { CommentOption } from "@/assets/js/util/var";
 import { modal } from "@/assets/js/util/modal";
+import { isInteger } from "@/assets/js/util/valid";
+import { addCollect, delCollect, hasCollect } from "@/assets/js/api/collect";
 
 export default {
   name: "blog",
   components: {
+    TopBar,
     HtmlEdit,
     BackToTop,
-    TopBar,
     VueQrcode,
   },
+  beforeCreate() {},
   mounted() {
-    if (this.$route.query.blogId) {
+    if (isInteger(this.$route.query.blogId)) {
       this.getBlog();
       this.getCommentList();
+      this.checkHasCollect();
+    } else {
+      this.$router.push("/404");
     }
   },
   data() {
     return {
       editorOption: CommentOption,
-      hasCollect: true,
-      hasLike: true,
+      hasCollect: false,
+      hasLike: false,
       page: { total: 0, pageNum: 1 },
+      //博客信息
       blog: {},
+      //评论form
       comment: {
         blogId: this.$route.query.blogId,
         comOwner: getUserId(),
         comBody: "",
       },
+      //评论列表
       commentList: [],
+      //最近发布列表
+      blogNewList: [],
     };
   },
   methods: {
     like() {
-      this.hasLike = !this.hasLike;
+      addLike(this.$route.query.blogId).then(() => {
+        this.hasLike = true;
+        this.blog.blogLike++;
+        modal.notifySuccess("已点赞");
+      });
+    },
+    delLike() {
+      this.hasLike = false;
+      this.blog.blogLike--;
+      modal.notifySuccess("已取消点赞");
+    },
+    checkHasCollect() {
+      hasCollect(this.$route.query.blogId).then((res) => {
+        this.hasCollect = res.data;
+      });
     },
     collect() {
-      this.hasCollect = !this.hasCollect;
+      addCollect(this.$route.query.blogId).then(() => {
+        this.hasCollect = true;
+        this.blog.blogCollect++;
+        modal.notifySuccess("已收藏");
+      });
+    },
+    delCollect() {
+      delCollect(this.$route.query.blogId).then(() => {
+        this.hasCollect = false;
+        this.blog.blogCollect--;
+        modal.notifySuccess("已取消收藏");
+      });
     },
     //发布评论
     saveComment() {
@@ -185,9 +264,8 @@ export default {
           modal.notifySuccess(res.data.msg);
           this.$refs.htmlEdit.value = "";
           this.getCommentList();
-          return;
+          this.blog.blogComment++;
         }
-        modal.notifyError(res.data.msg);
       });
     },
     // 获取博客信息及其用户
@@ -195,11 +273,11 @@ export default {
       getBlog(this.$route.query.blogId).then((res) => {
         if (res.data.code === 200) {
           this.blog = res.data.data;
-          return;
+          this.getBlogNewByUserId(this.blog.userId);
         }
-        modal.notifyError(res.data.msg);
       });
     },
+    //获取评论列表
     getCommentList() {
       getCommentList(this.$route.query.blogId, this.page.pageNum).then(
         (res) => {
@@ -210,27 +288,34 @@ export default {
         }
       );
     },
+    //获取该用户最近更新
+    getBlogNewByUserId(userId) {
+      getBlogNewByUserId(userId).then((res) => {
+        let restMsg = res.data;
+        if (restMsg.code === 200) {
+          this.blogNewList = restMsg.data;
+        }
+      });
+    },
+    //处理翻页
     handlePageNumChange() {
       this.getCommentList();
     },
+    //格式化时间
     getFormatTime(val) {
       return dateDiff(val);
+    },
+    //跳转博客
+    toBlog(blogId) {
+      this.$router.push({ path: "/blog", query: { blogId: blogId } });
+      location.reload();
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.align-center {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}
-
-.row-contain {
-  display: flex;
-  flex-direction: row;
-}
+@import "../assets/css/flex";
 
 .left-side {
   .blog-img {
@@ -262,11 +347,6 @@ export default {
     }
   }
   #other-card {
-    width: 40vh;
-    height: 80vh;
-    margin-top: 2vh;
-  }
-  #tag-card {
     width: 40vh;
     height: 80vh;
     margin-top: 2vh;

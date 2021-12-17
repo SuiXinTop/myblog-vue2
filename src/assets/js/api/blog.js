@@ -1,4 +1,5 @@
 import axios from "@/axios";
+import { getUserId } from "@/assets/js/util/localStore";
 
 const api = "/api/blog/blog";
 
@@ -77,9 +78,40 @@ export function getBlogNew() {
   });
 }
 
+export function getBlogNewByUserId(userId) {
+  return axios.request({
+    url: api + "/new/" + userId,
+    method: "get",
+  });
+}
+
 export function getBlogHot() {
   return axios.request({
     url: api + "/hot",
     method: "get",
+  });
+}
+
+//添加浏览量，浏览记录
+export function addView(blogId) {
+  let data = {
+    blogId: blogId,
+    userId: getUserId(),
+  };
+  return axios.request({
+    url: api + "/view",
+    method: "post",
+    data: data,
+  });
+}
+
+//点赞
+export function addLike(blogId) {
+  return axios.request({
+    url: api + "/like",
+    method: "post",
+    params: {
+      blogId: blogId,
+    },
   });
 }

@@ -1,31 +1,16 @@
 <template>
-  <div id="search">
+  <div>
     <top-bar />
-    <p class="clock" v-text="time" />
-    <!-- 搜索框 -->
-    <section class="searchBox">
-      <div class="inputBox">
-        <input
-          type="text"
-          placeholder="Search"
-          id="searchInput"
-          v-model="queryString"
-          @keyup.enter="search"
-        />
-        <el-button
-          icon="el-icon-search"
-          type="text"
-          style="color: white"
-          @click="search"
-        />
-      </div>
-    </section>
-    <div class="align-center">
+    <div v-if="blogList.length === 0">
+      <el-empty
+        style="background: white; background-size: cover"
+        :image-size="200"
+      />
+    </div>
+    <div v-else class="align-center">
       <el-card
-        v-if="this.queryResultShow"
-        :header="'共搜索到' + page.total + '结果'"
         style="
-          width: 150vh;
+          width: 120vh;
           border-radius: 8px;
           border: none;
           background: rgba(255, 255, 255, 0.6);
@@ -96,71 +81,55 @@
         </div>
       </el-card>
       <br />
-      <el-card
-        v-if="this.queryResultShow"
-        style="width: 150vh; text-align: center"
-      >
+      <el-card style="text-align: center; width: 120vh; border-radius: 8px">
         <el-pagination
           layout="prev, pager, next"
-          :current-page="page.pageNum"
-          :page-size="15"
+          :current-page.sync="page.pageNum"
+          @current-change="handlePageNumChange"
+          :page-size="10"
           :total="page.total"
         />
       </el-card>
       <div style="margin-bottom: 10vh" />
+      <back-top />
     </div>
   </div>
 </template>
 
 <script>
 import TopBar from "@/components/Bar/bar";
+import { isInteger } from "@/assets/js/util/valid";
 import { getBlogListByTagId } from "@/assets/js/api/search";
 import { routerPath } from "@/assets/js/util/path";
 import { dateDiff } from "@/assets/js/util/time";
-import { modal } from "@/assets/js/util/modal";
-
+import BackTop from "@/components/BackToTop/backTop";
 export default {
-  name: "Search",
-  components: { TopBar },
+  name: "TagSearch",
+  components: { BackTop, TopBar },
   mounted() {
-    this.time = setInterval(() => {
-      this.getTime();
-    }, 3000);
-  },
-  watch: {
-    queryString: function () {
-      if (this.queryString.length === 0) {
-        this.queryResultShow = false;
-      }
-    },
+    if (isInteger(this.$route.query.tagId)) {
+      this.getBlogListByTagId();
+    } else {
+      this.$router.push("/404");
+    }
   },
   data() {
     return {
-      time: "",
-      queryString: "", // 查询字符串
-      queryTime: { start: null, end: null },
-      queryResultShow: false,
       page: { pageNum: 1, total: 0 },
       blogList: [],
     };
   },
   methods: {
-    search() {
-      if (this.queryString === "") {
-        modal.notifyWarning("请输入搜索条件");
-        return;
-      }
-      this.getBlogListByParam();
-    },
-    getBlogListByParam() {
-      getBlogListByTagId(1, this.page.pageNum).then((res) => {
-        let restMsg = res.data;
-        if (restMsg.code === 200) {
-          this.blogList = restMsg.data.list;
-          this.page.total = restMsg.data.total;
-          this.queryResultShow = true;
+    getBlogListByTagId() {
+      getBlogListByTagId(this.$route.query.tagId, this.page.pageNum).then(
+        (res) => {
+          let restMsg = res.data;
+          if (restMsg.code === 200) {
+            this.blogList = restMsg.data.list;
+            this.page.total = restMsg.data.total;
+          }
         }
-      });
+      );
     },
     handlePageNumChange() {
       this.getBlogListByTagId();
@@ -171,15 +140,6 @@ export default {
     dateDiff(val) {
       return dateDiff(val);
     },
-    getTime: function () {
-      let time = new Date();
-      let hour = time.getHours();
-      let minutes = time.getMinutes();
-      if (minutes < 10) {
-        minutes = "0" + minutes;
-      }
-      this.time = hour + "：" + minutes;
-    },
   },
 };
 </script>
@@ -187,45 +147,4 @@ export default {
 <style lang="less" scoped>
 @import "../assets/css/flex";
 @import "../assets/css/blog";
-/* 中间搜索框 */
-.searchBox {
-  width: 60vw;
-  min-width: 400px;
-  height: 10vh;
-  margin: 5vh auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.inputBox {
-  width: 80%;
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(4px);
-  padding: 0 15px;
-  border-radius: 10px;
-}
-
-.inputBox > input {
-  background: none;
-  border: none;
-  outline: none;
-  padding: 0 10px 0 0;
-  flex: 1;
-  height: 44px;
-  color: #242323;
-  font-size: 16px;
-}
-
-.clock {
-  text-align: center;
-  font-size: 10vh;
-  color: white;
-  font-family: 微软雅黑, serif;
-}
 </style>
