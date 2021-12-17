@@ -22,7 +22,9 @@
 
           <div class="row-contain">
             <el-button
+              v-if="!hasAttend"
               type="primary"
+              @click="addAttend"
               style="
                 width: 120px;
                 background: rgba(255, 255, 255, 0.3);
@@ -33,12 +35,29 @@
               <i class="el-icon-plus" />关注
             </el-button>
             <el-button
+              v-if="hasAttend"
+              type="primary"
+              @click="deleteAttend"
+              style="
+                width: 120px;
+                background: rgba(255, 255, 255, 0.3);
+                backdrop-filter: blur(4px);
+                border: none;
+              "
+            >
+              <i class="el-icon-success" />已关注
+            </el-button>
+            <el-button
               type="primary"
               style="
                 width: 120px;
                 background: rgba(255, 255, 255, 0.3);
                 backdrop-filter: blur(4px);
                 border: none;
+              "
+              @click="toChat"
+              :disabled="
+                user.userId == this.$store.getters['user/getUser'].userId
               "
             >
               <i class="el-icon-message" />私信
@@ -91,6 +110,9 @@
 <script>
 import { getUserByUserId } from "@/assets/js/api/user";
 import { isInteger } from "@/assets/js/util/valid";
+import { addAttend, deleteAttend, hasAttend } from "@/assets/js/api/friend";
+import { modal } from "@/assets/js/util/modal";
+import { createChannel } from "@/assets/js/api/chat";
 export default {
   name: "Zone",
   mounted() {
@@ -103,14 +125,40 @@ export default {
   data() {
     return {
       user: {},
+      hasAttend: false,
     };
   },
   methods: {
+    addAttend() {
+      addAttend(this.user.userId).then(() => {
+        modal.notifySuccess("关注成功");
+        this.hasAttend = true;
+      });
+    },
+    deleteAttend() {
+      deleteAttend(this.user.userId).then(() => {
+        modal.notifySuccess("已取消关注");
+        this.hasAttend = false;
+      });
+    },
+    checkHasAttend() {
+      hasAttend(this.user.userId).then((res) => {
+        this.hasAttend = res.data;
+      });
+    },
+    toChat() {
+      createChannel(this.user.userId).then((res) => {
+        if (res.data.code === 200) {
+          this.$router.push("/space/chat");
+        }
+      });
+    },
     getUserByUserId() {
       getUserByUserId(this.$route.query.userId).then((res) => {
         let restMsg = res.data;
         if (restMsg.code === 200) {
           this.user = restMsg.data;
+          this.checkHasAttend();
         }
       });
     },

@@ -16,6 +16,11 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    toHome() {
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 

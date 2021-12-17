@@ -1,11 +1,11 @@
 import axios from "@/axios";
 import { getUserId } from "@/assets/js/util/localStore";
 
-const api = "/api/blog/attend";
+const api = "/api/blog/attend/";
 
 export function getAttendList(userId, pageNum) {
   return axios.request({
-    url: api + "/attendList",
+    url: api + "attendList",
     method: "get",
     params: {
       fansUserId: userId,
@@ -17,13 +17,25 @@ export function getAttendList(userId, pageNum) {
 
 export function getFansList(userId, pageNum) {
   return axios.request({
-    url: api + "/fansList",
+    url: api + "fansList",
     method: "get",
     params: {
       attendUserId: userId,
       pageNum: pageNum,
       pageSize: 10,
     },
+  });
+}
+
+export function hasAttend(attendUserId) {
+  let data = {
+    attendUserId: attendUserId,
+    fansUserId: getUserId(),
+  };
+  return axios.request({
+    url: api + "hasAttend",
+    method: "post",
+    data: data,
   });
 }
 

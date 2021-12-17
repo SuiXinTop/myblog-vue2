@@ -1,4 +1,5 @@
 import axios from "@/axios";
+import { getUserId } from "@/assets/js/util/localStore";
 
 const api = "/api/chat/";
 
@@ -17,12 +18,12 @@ export function getChannelList(userId) {
 }
 
 //创建聊天窗口
-export function createChannel(fromUser, toUser) {
+export function createChannel(toUser) {
   return axios.request({
     url: api + "chat/channel",
     method: "post",
     params: {
-      fromUser: fromUser,
+      fromUser: getUserId(),
       toUser: toUser,
     },
   });

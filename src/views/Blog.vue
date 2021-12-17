@@ -146,10 +146,30 @@
                 v-text="blog.user.userName"
               />
               <div class="row-contain">
-                <el-button type="primary" style="width: 15vh">
+                <el-button
+                  v-if="!hasAttend"
+                  type="primary"
+                  @click="addAttend"
+                  style="width: 15vh"
+                >
                   <i class="el-icon-plus" />关注
                 </el-button>
-                <el-button type="primary" style="width: 15vh">
+                <el-button
+                  v-if="hasAttend"
+                  type="primary"
+                  @click="deleteAttend"
+                  style="width: 15vh"
+                >
+                  <i class="el-icon-success" />已关注
+                </el-button>
+                <el-button
+                  type="primary"
+                  @click="toChat"
+                  style="width: 15vh"
+                  :disabled="
+                    blog.userId == this.$store.getters['user/getUser'].userId
+                  "
+                >
                   <i class="el-icon-message" />私信
                 </el-button>
               </div>
@@ -186,6 +206,8 @@ import { CommentOption } from "@/assets/js/util/var";
 import { modal } from "@/assets/js/util/modal";
 import { isInteger } from "@/assets/js/util/valid";
 import { addCollect, delCollect, hasCollect } from "@/assets/js/api/collect";
+import { addAttend, deleteAttend, hasAttend } from "@/assets/js/api/friend";
+import { createChannel } from "@/assets/js/api/chat";
 
 export default {
   name: "blog",
@@ -208,6 +230,7 @@ export default {
   data() {
     return {
       editorOption: CommentOption,
+      hasAttend: false,
       hasCollect: false,
       hasLike: false,
       page: { total: 0, pageNum: 1 },
@@ -226,6 +249,23 @@ export default {
     };
   },
   methods: {
+    addAttend() {
+      addAttend(this.blog.userId).then(() => {
+        modal.notifySuccess("关注成功");
+        this.hasAttend = true;
+      });
+    },
+    deleteAttend() {
+      deleteAttend(this.blog.userId).then(() => {
+        modal.notifySuccess("已取消关注");
+        this.hasAttend = false;
+      });
+    },
+    checkHasAttend() {
+      hasAttend(this.blog.userId).then((res) => {
+        this.hasAttend = res.data;
+      });
+    },
     like() {
       addLike(this.$route.query.blogId).then(() => {
         this.hasLike = true;
@@ -273,7 +313,8 @@ export default {
       getBlog(this.$route.query.blogId).then((res) => {
         if (res.data.code === 200) {
           this.blog = res.data.data;
-          this.getBlogNewByUserId(this.blog.userId);
+          this.getBlogNewByUserId();
+          this.checkHasAttend();
         }
       });
     },
@@ -289,8 +330,8 @@ export default {
       );
     },
     //获取该用户最近更新
-    getBlogNewByUserId(userId) {
-      getBlogNewByUserId(userId).then((res) => {
+    getBlogNewByUserId() {
+      getBlogNewByUserId(this.blog.userId).then((res) => {
         let restMsg = res.data;
         if (restMsg.code === 200) {
           this.blogNewList = restMsg.data;
@@ -309,6 +350,13 @@ export default {
     toBlog(blogId) {
       this.$router.push({ path: "/blog", query: { blogId: blogId } });
       location.reload();
+    },
+    toChat() {
+      createChannel(this.blog.userId).then((res) => {
+        if (res.data.code === 200) {
+          this.$router.push("/space/chat");
+        }
+      });
     },
   },
 };

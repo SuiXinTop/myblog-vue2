@@ -17,9 +17,13 @@
       <div
         v-for="(announce, index) in announceList"
         :key="index"
-        style="margin: 5px"
+        style="margin: 10px"
       >
-        <p v-text="announce.amtTitle" />
+        <router-link to="/announce">
+          {{ index }}.
+          <label v-text="announce.amtTitle" />
+        </router-link>
+        <br />
       </div>
     </el-card>
   </div>
@@ -135,7 +139,7 @@ export default {
 }
 .announce-card {
   width: 50vh;
-  min-height: 70vh;
+  min-height: 60vh;
   backdrop-filter: blur(3px);
   background: rgba(255, 255, 255, 0.7);
   border: none;

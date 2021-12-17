@@ -1,5 +1,7 @@
 <template>
-  <register />
+  <transition appear enter-active-class="animate__animated animate__zoomIn">
+    <register />
+  </transition>
 </template>
 
 <script>

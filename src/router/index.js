@@ -26,6 +26,8 @@ import ZoneAttend from "@/views/zone/ZoneAttend";
 import ZoneFans from "@/views/zone/ZoneFans";
 import ZoneHome from "@/views/zone/ZoneHome";
 import TagSearch from "@/views/TagSearch";
+import AttendEdit from "@/views/space/friend/AttendEdit";
+import FansEdit from "@/views/space/friend/FansEdit";
 
 Vue.use(VueRouter);
 
@@ -181,6 +183,24 @@ const routes = [
           keepAlive: true,
         },
       },
+      {
+        path: "attend",
+        name: "关注管理",
+        component: AttendEdit,
+        meta: {
+          requireAuth: true,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "fans",
+        name: "粉丝管理",
+        component: FansEdit,
+        meta: {
+          requireAuth: true,
+          keepAlive: true,
+        },
+      },
     ],
   },
   {
@@ -243,7 +263,8 @@ router.beforeEach((to, from, next) => {
   }
   //是否需要权限
   if (to.meta.requireRole) {
-    if (to.meta.role.contains(getRole()) === -1) {
+    let role = to.meta.role;
+    if (role.indexOf(getRole()) === -1) {
       modal.notifyWarning("权限不足");
       next({
         path: "/403",

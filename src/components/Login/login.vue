@@ -256,11 +256,12 @@ export default {
 
 <style lang="less" scoped>
 .login {
-  background: rgba(249, 250, 252, 0.62);
-  backdrop-filter: blur(4px);
   width: 500px;
   height: auto;
   text-align: center;
+  border: none;
+  background: rgba(249, 250, 252, 0.62);
+  backdrop-filter: blur(4px);
 }
 
 .title {
