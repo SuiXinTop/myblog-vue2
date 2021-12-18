@@ -1,4 +1,5 @@
 import axios from "@/axios";
+import { getUserId } from "@/assets/js/util/localStore";
 
 const api = "/api/blog/user/";
 
@@ -18,11 +19,28 @@ export function updateInfo(user) {
   });
 }
 
-export function updateSecurity(userSecurity) {
+export function updateEmail(email, code) {
+  let userSecurity = {
+    userId: getUserId(),
+    email: email,
+    code: code,
+  };
   return axios.request({
     url: api + "security",
     method: "put",
     data: userSecurity,
+  });
+}
+
+export function updatePassword(password) {
+  let data = {
+    userId: getUserId(),
+    userPassword: password,
+  };
+  return axios.request({
+    url: api + "info",
+    method: "put",
+    data: data,
   });
 }
 

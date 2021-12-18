@@ -1,4 +1,5 @@
 import axios from "@/axios";
+import { randomCode } from "@/assets/js/util/random";
 
 const api = "/api/auth/auth/";
 
@@ -21,10 +22,22 @@ export function emailLogin(data) {
 }
 
 //发送验证邮件
-export function verifyEmail(data) {
+export function verifyEmail(email) {
+  let data = {
+    email: email,
+    code: randomCode(),
+  };
   return axios.request({
     url: api + "verifyEmail",
     method: "post",
+    data: data,
+  });
+}
+
+export function verifyEmailCode(data) {
+  return axios.request({
+    url: api + "verifyEmail",
+    method: "put",
     data: data,
   });
 }

@@ -9,6 +9,7 @@
             <el-button
               style="width: 100%"
               @click="setChannel(channel.channelId)"
+              round
             >
               <div style="display: flex; align-items: center">
                 <img class="avater" :src="channel.toUserMap.userImg" alt />
@@ -45,10 +46,22 @@
           </div>
         </div>
         <el-divider />
-        <el-button type="primary" v-on:click="clickHistoryShow">
+        <el-button
+          type="success"
+          icon="el-icon-check"
+          v-on:click="clickHistoryShow"
+          round
+        >
           查看历史纪录
         </el-button>
-        <el-button type="primary" v-on:click="sendMessage">提交</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-edit"
+          v-on:click="sendMessage"
+          round
+        >
+          发送消息
+        </el-button>
         <br />
         <br />
         <div>

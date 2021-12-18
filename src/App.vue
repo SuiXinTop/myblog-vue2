@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img class="background-img" src="@/assets/images/1.jpg" alt="" />
+    <img class="background-img" src="@/assets/images/1.jpg" alt />
     <transition
       appear
       enter-active-class="animate__animated animate__fadeIn animate__slow"

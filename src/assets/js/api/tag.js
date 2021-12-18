@@ -2,7 +2,7 @@ import axios from "@/axios";
 
 const api = "/api/blog/tag/";
 
-export function getTagList() {
+export function getTagList(pageSize) {
   return axios.request({
     url: api,
     method: "get",

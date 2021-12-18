@@ -226,14 +226,14 @@ export default {
           let data = res.data.data;
           setAll(data.token, data.userVo);
           this.$router.push("/");
+          location.reload();
         }
       });
     },
     //发送验证邮件
     sendEmail() {
       this.emailValid();
-      let data = { email: this.form.email, code: randomCode() };
-      verifyEmail(data).then(() => {
+      verifyEmail(this.formEmail.email).then(() => {
         this.$notify.success("发送成功");
         this.hasSend = true;
       });

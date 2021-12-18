@@ -143,6 +143,7 @@ export default {
 .blog-card {
   float: left;
   width: 78vh;
+  min-height: 260px;
   margin-right: 1vh;
   margin-bottom: 1vh;
   border-radius: 8px;

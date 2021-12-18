@@ -25,7 +25,7 @@ axios.interceptors.response.use(
     // hideLoading();
     if (response) {
       console.log(response.data);
-      switch (response.data) {
+      switch (response.data.code) {
         case 200:
           break;
         case 400:
@@ -33,12 +33,13 @@ axios.interceptors.response.use(
           break;
         case 401:
           delAll();
-          router.replace("/login").then();
+          router.replace("/login");
           //强制刷新
           location.reload();
           modal.notifyWarning(response.data.msg);
           break;
         case 403:
+          router.replace("/403");
           modal.notifyWarning(response.data.msg);
           break;
         default:

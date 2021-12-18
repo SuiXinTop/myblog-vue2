@@ -8,7 +8,7 @@
         </div>
       </el-header>
       <el-container>
-        <el-aside style="width: 30vh; overflow-y: auto">
+        <el-aside style="width: 30vh; min-width: 220px; overflow-y: auto">
           <el-menu
             :default-openeds="['2', '4', '5']"
             background-color="white"
@@ -61,20 +61,20 @@
               </el-menu-item-group>
             </el-submenu>
 
-            <el-submenu index="5">
-              <template slot="title">
-                <i class="el-icon-pear" />
-                <span>好友</span>
-              </template>
-              <el-menu-item-group>
-                <router-link to="/space/attend">
-                  <el-menu-item index="5-1"> 关注</el-menu-item>
-                </router-link>
-                <router-link to="/space/fans">
-                  <el-menu-item index="5-2"> 粉丝</el-menu-item>
-                </router-link>
-              </el-menu-item-group>
-            </el-submenu>
+            <!--            <el-submenu index="5">-->
+            <!--              <template slot="title">-->
+            <!--                <i class="el-icon-pear" />-->
+            <!--                <span>好友</span>-->
+            <!--              </template>-->
+            <!--              <el-menu-item-group>-->
+            <!--                <router-link to="/space/attend">-->
+            <!--                  <el-menu-item index="5-1"> 关注</el-menu-item>-->
+            <!--                </router-link>-->
+            <!--                <router-link to="/space/fans">-->
+            <!--                  <el-menu-item index="5-2"> 粉丝</el-menu-item>-->
+            <!--                </router-link>-->
+            <!--              </el-menu-item-group>-->
+            <!--            </el-submenu>-->
 
             <!--            <el-submenu index="3">-->
             <!--              <template slot="title">-->

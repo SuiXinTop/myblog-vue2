@@ -8,15 +8,7 @@
       />
     </div>
     <div v-else class="align-center">
-      <el-card
-        style="
-          width: 120vh;
-          border-radius: 8px;
-          border: none;
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: blur(3px) brightness(110%);
-        "
-      >
+      <el-card class="search-card">
         <div v-for="(blog, index) in blogList" :key="index">
           <el-link
             :underline="false"
@@ -67,21 +59,19 @@
               <el-divider direction="vertical" />
               <label v-text="dateDiff(blog.blogTime)" />
               <br />
-              <router-link
-                :to="'/zone?userId=' + blog.user.userId"
-                style="color: black"
-              >
+              <!--跳转个人空间-->
+              <div @click="toZone(blog.user.userId)" style="color: black">
                 <i class="el-icon-user">
                   <label class="user-name" v-text="blog.user.userName" />
                 </i>
-              </router-link>
+              </div>
             </el-col>
           </el-row>
           <el-divider />
         </div>
       </el-card>
       <br />
-      <el-card style="text-align: center; width: 120vh; border-radius: 8px">
+      <el-card class="pagination-card">
         <el-pagination
           layout="prev, pager, next"
           :current-page.sync="page.pageNum"
@@ -100,7 +90,6 @@
 import TopBar from "@/components/Bar/bar";
 import { isInteger } from "@/assets/js/util/valid";
 import { getBlogListByTagId } from "@/assets/js/api/search";
-import { routerPath } from "@/assets/js/util/path";
 import { dateDiff } from "@/assets/js/util/time";
 import BackTop from "@/components/BackToTop/backTop";
 export default {
@@ -135,7 +124,10 @@ export default {
       this.getBlogListByTagId();
     },
     toBlog(blogId) {
-      this.$router.push({ path: routerPath.blog, query: { blogId: blogId } });
+      this.$router.push({ path: "/blog", query: { blogId: blogId } });
+    },
+    toZone(userId) {
+      this.$router.push({ path: "/zone", query: { userId: userId } });
     },
     dateDiff(val) {
       return dateDiff(val);
@@ -147,4 +139,17 @@ export default {
 <style lang="less" scoped>
 @import "../assets/css/flex";
 @import "../assets/css/blog";
+
+.search-card {
+  width: 120vh;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(3px) brightness(110%);
+}
+.pagination-card {
+  text-align: center;
+  width: 120vh;
+  border-radius: 8px;
+}
 </style>

@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <el-card>
     <div>
       <router-link to="/space/post">
-        <el-button>新增</el-button>
+        <el-button type="primary" icon="el-icon-edit" round>写博客</el-button>
       </router-link>
+      <label style="margin-left: 10px" />
       <el-popconfirm
         confirm-button-text="好的"
         cancel-button-text="不用了"
@@ -12,7 +13,9 @@
         title="这是一段内容确定删除吗？"
         @confirm="deleteBlog()"
       >
-        <el-button slot="reference">删除</el-button>
+        <el-button type="danger" icon="el-icon-delete" slot="reference" round>
+          删除
+        </el-button>
       </el-popconfirm>
     </div>
     <el-divider />
@@ -39,12 +42,25 @@
           </el-image>
         </template>
       </el-table-column>
-      <el-table-column prop="blogTitle" label="标题" width="900">
+      <el-table-column prop="blogTitle" label="标题" width="400">
         <template slot-scope="scope">
           <router-link
             :to="{ path: '/blog', query: { blogId: scope.row.blogId } }"
             v-text="scope.row.blogTitle"
           />
+        </template>
+      </el-table-column>
+      <el-table-column prop="user" label="作者" width="150">
+        <template slot-scope="scope">
+          <router-link
+            :to="{ path: '/zone', query: { userId: scope.row.userId } }"
+            v-text="scope.row.user.userName"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column prop="blogTime" label="发布时间" width="150">
+        <template slot-scope="scope">
+          <label v-text="dateDiff(scope.row.blogTime)" />
         </template>
       </el-table-column>
       <el-table-column prop="manage" label="管理">
@@ -57,15 +73,22 @@
             title="是否修改？"
             @confirm="clickUpdateShow(scope.row.blogId)"
           >
-            <el-button slot="reference"> 修改</el-button>
+            <el-button
+              type="success"
+              icon="el-icon-edit"
+              round
+              slot="reference"
+            >
+              修改</el-button
+            >
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
+    <br />
     <div style="text-align: center">
       <el-pagination
         layout="prev, pager, next"
-        :hide-on-single-page="true"
         :current-page.sync="page.pageNum"
         @current-change="handlePageNumChange"
         :page-size="10"
@@ -84,7 +107,7 @@
     >
       <blog-update :blog-id="blogId" />
     </el-dialog>
-  </div>
+  </el-card>
 </template>
 
 <script>

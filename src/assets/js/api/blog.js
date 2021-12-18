@@ -115,3 +115,14 @@ export function addLike(blogId) {
     },
   });
 }
+
+export function addBlogTag(tagIdList, blogId) {
+  return axios.request({
+    url: api + "/tag",
+    method: "post",
+    data: tagIdList,
+    params: {
+      blogId: blogId,
+    },
+  });
+}

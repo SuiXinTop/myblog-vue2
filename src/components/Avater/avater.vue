@@ -19,6 +19,16 @@
             border: none;
           "
         >
+          <router-link to="/space/chat">
+            <el-dropdown-item>
+              <i class="el-icon-message" />私信
+            </el-dropdown-item>
+          </router-link>
+          <router-link to="/space/post">
+            <el-dropdown-item>
+              <i class="el-icon-open" />发博文
+            </el-dropdown-item>
+          </router-link>
           <router-link :to="'/zone?userId=' + userId">
             <el-dropdown-item>
               <i class="el-icon-user" />个人空间
@@ -74,6 +84,7 @@ export default {
     logout() {
       localStorage.removeItem("token");
       this.$router.push("/login");
+      this.dialogVisible = false;
     },
     pathError() {
       this.imgPath =

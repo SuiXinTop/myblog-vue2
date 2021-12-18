@@ -8,17 +8,11 @@
           </el-button>
         </el-col>
         <el-col :span="10" style="line-height: 80px">
-          <el-button class="link" type="text" @click="toSearch">
-            搜索
-          </el-button>
+          <router-link class="link" to="search"> 搜索 </router-link>
           <el-divider direction="vertical" />
-          <el-button class="link" type="text" @click="toAnnounce">
-            公告
-          </el-button>
+          <router-link class="link" to="announce"> 公告 </router-link>
           <el-divider direction="vertical" />
-          <el-button class="link" type="text" @click="toAbout">
-            关于
-          </el-button>
+          <router-link class="link" to="/about"> 关于 </router-link>
         </el-col>
         <el-col :span="6" style="text-align: right; line-height: 80px">
           <div v-if="hasLogin()">
@@ -56,15 +50,6 @@ export default {
     },
     toMain() {
       this.$router.push("/");
-    },
-    toSearch() {
-      this.$router.push("/search");
-    },
-    toAnnounce() {
-      this.$router.push("/announce");
-    },
-    toAbout() {
-      this.$router.push("/about");
     },
   },
 };

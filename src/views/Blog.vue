@@ -19,7 +19,12 @@
                 </div>
               </el-image>
               <p style="font-size: 24px" v-text="blog.blogTitle" />
-              <el-tag v-for="(blogTag, index) in blog.blogTagList" :key="index">
+              <el-tag
+                effect="dark"
+                style="margin-right: 5px"
+                v-for="(blogTag, index) in blog.blogTagList"
+                :key="index"
+              >
                 {{ blogTag.tag.tagName }}
               </el-tag>
               <div style="float: right">
@@ -176,14 +181,15 @@
             </div>
           </el-card>
           <el-card id="other-card" header="最近博客">
-            <p v-for="(blogNew, index) in blogNewList" :key="index">
-              <label
+            <div v-for="(blogNew, index) in blogNewList" :key="index">
+              <el-button
+                type="text"
                 v-text="blogNew.blogTitle"
                 @click="toBlog(blogNew.blogId)"
               />
               <br />
               <label v-text="getFormatTime(blogNew.blogTime)" />
-            </p>
+            </div>
           </el-card>
         </div>
       </div>
@@ -217,7 +223,12 @@ export default {
     BackToTop,
     VueQrcode,
   },
-  beforeCreate() {},
+  //监听参数变化
+  watch: {
+    $route: function () {
+      location.reload();
+    },
+  },
   mounted() {
     if (isInteger(this.$route.query.blogId)) {
       this.getBlog();
@@ -349,7 +360,6 @@ export default {
     //跳转博客
     toBlog(blogId) {
       this.$router.push({ path: "/blog", query: { blogId: blogId } });
-      location.reload();
     },
     toChat() {
       createChannel(this.blog.userId).then((res) => {
@@ -396,7 +406,7 @@ export default {
   }
   #other-card {
     width: 40vh;
-    height: 80vh;
+    min-height: 80vh;
     margin-top: 2vh;
   }
 }
