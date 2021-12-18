@@ -47,7 +47,7 @@
                   v-if="!hasLike"
                 >
                   <el-button type="text" @click="like">
-                    <i class="el-icon-error">{{ blog.blogLike }} </i>
+                    <i class="el-icon-success">{{ blog.blogLike }} </i>
                   </el-button>
                 </el-tooltip>
                 <el-tooltip
@@ -57,7 +57,7 @@
                   v-if="hasLike"
                 >
                   <el-button type="text" @click="delLike">
-                    <i class="el-icon-success">{{ blog.blogLike }} </i>
+                    <i class="el-icon-error">{{ blog.blogLike }} </i>
                   </el-button>
                 </el-tooltip>
                 <el-tooltip
