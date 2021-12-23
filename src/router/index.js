@@ -1,6 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { all_admin, getRole, getToken } from "@/assets/js/util/localStore";
+import {
+  all_admin,
+  getRole,
+  getToken,
+  super_admin,
+} from "@/assets/js/util/localStore";
 import { modal } from "@/assets/js/util/modal";
 import Blog from "@/views/Blog";
 import BlogPost from "@/views/space/blog/BlogPost";
@@ -28,6 +33,11 @@ import ZoneHome from "@/views/zone/ZoneHome";
 import TagSearch from "@/views/TagSearch";
 import AttendEdit from "@/views/space/friend/AttendEdit";
 import FansEdit from "@/views/space/friend/FansEdit";
+import ZoneHistory from "@/views/zone/ZoneHistory";
+import ZoneComment from "@/views/zone/ZoneComment";
+import AdminHome from "@/views/admin/AdminHome";
+import BanBlog from "@/views/admin/blog/BanBlog";
+import RecoverBlog from "@/views/admin/blog/RecoverBlog";
 
 Vue.use(VueRouter);
 
@@ -48,6 +58,9 @@ const routes = [
     path: "/search",
     name: "Search",
     component: Search,
+    meta: {
+      keepAlive: true,
+    },
   },
   {
     path: "/announce",
@@ -80,9 +93,6 @@ const routes = [
     path: "/blog",
     name: "Blog",
     component: Blog,
-    meta: {
-      keepAlive: false,
-    },
   },
   {
     // /tag?tagName=??
@@ -120,6 +130,16 @@ const routes = [
         path: "fans",
         name: "粉丝列表",
         component: ZoneFans,
+      },
+      {
+        path: "history",
+        name: "浏览历史",
+        component: ZoneHistory,
+      },
+      {
+        path: "comment",
+        name: "评论历史",
+        component: ZoneComment,
       },
     ],
   },
@@ -205,18 +225,92 @@ const routes = [
   },
   {
     path: "/admin",
-    name: "admin",
+    name: "管理后台",
     component: Admin,
-    meta: {
-      requireAuth: true,
-      requireRole: true,
-      role: all_admin,
-      keepAlive: true,
-    },
+    redirect: "/admin/home",
+    children: [
+      {
+        path: "home",
+        name: "管理后台首页",
+        component: AdminHome,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: all_admin,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "banUser",
+        name: "封禁用户",
+        component: AdminHome,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: all_admin,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "recoverUser",
+        name: "恢复用户",
+        component: AdminHome,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: all_admin,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "role",
+        name: "修改role",
+        component: AdminHome,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: all_admin,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "banBlog",
+        name: "封禁博客",
+        component: BanBlog,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: all_admin,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "recoverBlog",
+        name: "恢复博客",
+        component: RecoverBlog,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: all_admin,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "log",
+        name: "系统日志",
+        component: AdminHome,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: super_admin,
+          keepAlive: true,
+        },
+      },
+    ],
   },
   {
     path: "/403",
-    name: "NoRole",
+    name: "权限不足",
     component: NoRole,
     meta: {
       keepAlive: true,
@@ -224,7 +318,7 @@ const routes = [
   },
   {
     path: "/404",
-    name: "NotFound",
+    name: "未找到页面",
     component: NotFound,
     meta: {
       keepAlive: true,
@@ -240,7 +334,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash",
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

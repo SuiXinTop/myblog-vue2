@@ -1,7 +1,13 @@
 <template>
   <div>
     <top-bar />
-    <div class="align-center">
+    <div v-if="!blog">
+      <el-empty
+        style="background: white; background-size: cover"
+        :image-size="200"
+      />
+    </div>
+    <div class="align-center" v-else>
       <div class="row-contain">
         <div class="left-side">
           <el-card id="blog-card">
@@ -195,20 +201,23 @@
       </div>
     </div>
     <div style="padding: 10vh" />
-    <back-to-top />
   </div>
 </template>
 
 <script>
 import VueQrcode from "@xkeshi/vue-qrcode";
 import TopBar from "@/components/Bar/bar";
-import BackToTop from "@/components/BackToTop/backTop";
-import { addLike, getBlog, getBlogNewByUserId } from "@/assets/js/api/blog";
-import { getCommentList, saveComment } from "@/assets/js/api/comment";
+import {
+  addLike,
+  addView,
+  getBlog,
+  getBlogNewByUserId,
+} from "@/assets/js/api/blog";
+import { getCommentByBlogId, saveComment } from "@/assets/js/api/comment";
 import { dateDiff } from "@/assets/js/util/time";
 import HtmlEdit from "@/components/HtmlEdit/HtmlEdit";
 import { getUserId } from "@/assets/js/util/localStore";
-import { CommentOption } from "@/assets/js/util/var";
+import { CommentOption } from "@/assets/js/util/model";
 import { modal } from "@/assets/js/util/modal";
 import { isInteger } from "@/assets/js/util/valid";
 import { addCollect, delCollect, hasCollect } from "@/assets/js/api/collect";
@@ -220,7 +229,6 @@ export default {
   components: {
     TopBar,
     HtmlEdit,
-    BackToTop,
     VueQrcode,
   },
   //监听参数变化
@@ -233,7 +241,9 @@ export default {
     if (isInteger(this.$route.query.blogId)) {
       this.getBlog();
       this.getCommentList();
-      this.checkHasCollect();
+      if (getUserId()) {
+        this.checkHasCollect();
+      }
     } else {
       this.$router.push("/404");
     }
@@ -261,23 +271,35 @@ export default {
   },
   methods: {
     addAttend() {
+      if (!getUserId()) {
+        return;
+      }
       addAttend(this.blog.userId).then(() => {
         modal.notifySuccess("关注成功");
         this.hasAttend = true;
       });
     },
     deleteAttend() {
+      if (!getUserId()) {
+        return;
+      }
       deleteAttend(this.blog.userId).then(() => {
         modal.notifySuccess("已取消关注");
         this.hasAttend = false;
       });
     },
     checkHasAttend() {
+      if (!getUserId()) {
+        return;
+      }
       hasAttend(this.blog.userId).then((res) => {
         this.hasAttend = res.data;
       });
     },
     like() {
+      if (!getUserId()) {
+        return;
+      }
       addLike(this.$route.query.blogId).then(() => {
         this.hasLike = true;
         this.blog.blogLike++;
@@ -285,16 +307,25 @@ export default {
       });
     },
     delLike() {
+      if (!getUserId()) {
+        return;
+      }
       this.hasLike = false;
       this.blog.blogLike--;
       modal.notifySuccess("已取消点赞");
     },
     checkHasCollect() {
+      if (!getUserId()) {
+        return;
+      }
       hasCollect(this.$route.query.blogId).then((res) => {
         this.hasCollect = res.data;
       });
     },
     collect() {
+      if (!getUserId()) {
+        return;
+      }
       addCollect(this.$route.query.blogId).then(() => {
         this.hasCollect = true;
         this.blog.blogCollect++;
@@ -302,6 +333,9 @@ export default {
       });
     },
     delCollect() {
+      if (!getUserId()) {
+        return;
+      }
       delCollect(this.$route.query.blogId).then(() => {
         this.hasCollect = false;
         this.blog.blogCollect--;
@@ -310,6 +344,9 @@ export default {
     },
     //发布评论
     saveComment() {
+      if (!getUserId()) {
+        return;
+      }
       saveComment(this.comment).then((res) => {
         if (res.data.code === 200) {
           modal.notifySuccess(res.data.msg);
@@ -326,12 +363,13 @@ export default {
           this.blog = res.data.data;
           this.getBlogNewByUserId();
           this.checkHasAttend();
+          addView(this.$route.query.blogId);
         }
       });
     },
     //获取评论列表
     getCommentList() {
-      getCommentList(this.$route.query.blogId, this.page.pageNum).then(
+      getCommentByBlogId(this.$route.query.blogId, this.page.pageNum).then(
         (res) => {
           if (res.data.code === 200) {
             this.commentList = res.data.data.list;
@@ -362,6 +400,9 @@ export default {
       this.$router.push({ path: "/blog", query: { blogId: blogId } });
     },
     toChat() {
+      if (!getUserId()) {
+        return;
+      }
       createChannel(this.blog.userId).then((res) => {
         if (res.data.code === 200) {
           this.$router.push("/space/chat");

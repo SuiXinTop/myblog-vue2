@@ -28,7 +28,7 @@
         </div>
         <el-divider />
         <div>
-          <div>
+          <div style="float: right">
             <el-button
               type="success"
               icon="el-icon-check"
@@ -54,6 +54,8 @@
               发送消息
             </el-button>
           </div>
+          <br />
+          <br />
           <br />
           <html-edit
             ref="htmlEdit"
@@ -141,7 +143,7 @@ export default {
     },
     //建立连接时，拉取群人员
     setOnOpen() {
-      // this.$notify.success("欢迎进入聊天室");
+      this.$notify.success("欢迎进入聊天室");
       this.getUserList();
     },
     //接受消息时，push入msgList
@@ -194,7 +196,6 @@ export default {
     //更新群人员
     getUserList() {
       getUserList().then((res) => {
-        console.log(res);
         let restMsg = res.data;
         if (restMsg.code === 200) {
           this.userList = restMsg.data;

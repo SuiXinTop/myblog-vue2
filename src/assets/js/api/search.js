@@ -13,7 +13,7 @@ export function getBlogListByTagId(tagId, pageNum) {
   });
 }
 
-export function getBlogListByParam(param, pageNum, start, end) {
+export function getBlogListByParam(param, pageNum) {
   return axios.request({
     url: api + "param",
     method: "get",
@@ -21,9 +21,6 @@ export function getBlogListByParam(param, pageNum, start, end) {
       param: param,
       pageNum: pageNum,
       pageSize: 10,
-      isAsc: 0,
-      start: start,
-      end: end,
     },
   });
 }

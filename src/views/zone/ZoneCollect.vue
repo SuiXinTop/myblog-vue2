@@ -6,7 +6,7 @@
         :image-size="200"
       />
     </div>
-    <div v-else class="align-center">
+    <div v-else>
       <el-card
         class="blog-card"
         v-for="(collect, index) in collectList"
@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import { routerPath } from "@/assets/js/util/path";
 import { dateDiff } from "@/assets/js/util/time";
 import { getCollectByUserId } from "@/assets/js/api/collect";
 import BackTop from "@/components/BackToTop/backTop";
@@ -128,7 +127,7 @@ export default {
       this.getCollectByUserId();
     },
     toBlog(blogId) {
-      this.$router.push({ path: routerPath.blog, query: { blogId: blogId } });
+      this.$router.push({ path: "/blog", query: { blogId: blogId } });
     },
     dateDiff(val) {
       return dateDiff(val);

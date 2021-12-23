@@ -56,11 +56,7 @@
               </el-image>
             </el-col>
             <el-col :span="16">
-              <a
-                class="blog-body"
-                @click="toBlog(blog.blogId)"
-                v-text="blog.blogBody"
-              />
+              <label class="blog-body" v-text="blog.blogBody" />
               <p>
                 <el-tag
                   effect="dark"
@@ -114,8 +110,7 @@
 
 <script>
 import TopBar from "@/components/Bar/bar";
-import { getBlogListByTagId } from "@/assets/js/api/search";
-import { routerPath } from "@/assets/js/util/path";
+import { getBlogListByParam } from "@/assets/js/api/search";
 import { dateDiff } from "@/assets/js/util/time";
 import { modal } from "@/assets/js/util/modal";
 
@@ -153,7 +148,7 @@ export default {
       this.getBlogListByParam();
     },
     getBlogListByParam() {
-      getBlogListByTagId(1, this.page.pageNum).then((res) => {
+      getBlogListByParam(this.queryString, this.page.pageNum).then((res) => {
         let restMsg = res.data;
         if (restMsg.code === 200) {
           this.blogList = restMsg.data.list;
@@ -166,7 +161,7 @@ export default {
       this.getBlogListByTagId();
     },
     toBlog(blogId) {
-      this.$router.push({ path: routerPath.blog, query: { blogId: blogId } });
+      this.$router.push({ path: "/blog", query: { blogId: blogId } });
     },
     dateDiff(val) {
       return dateDiff(val);

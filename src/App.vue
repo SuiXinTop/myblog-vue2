@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <img class="background-img" src="@/assets/images/1.jpg" alt />
+    <back-top />
     <transition
       appear
       enter-active-class="animate__animated animate__fadeIn animate__slow"
@@ -58,3 +59,9 @@ a {
   min-width: fit-content;
 }
 </style>
+<script>
+import BackTop from "@/components/BackToTop/backTop";
+export default {
+  components: { BackTop },
+};
+</script>

@@ -19,10 +19,17 @@
         :key="index"
         style="margin: 10px"
       >
-        <router-link to="/announce">
-          {{ index }}.
+        <div style="border-bottom: #2c3e50 1px dashed; padding-bottom: 5px">
+          <el-button type="primary" circle> {{ index + 1 }}. </el-button>
           <label v-text="announce.amtTitle" />
-        </router-link>
+          <el-button
+            style="float: right"
+            type="success"
+            icon="el-icon-d-arrow-right"
+            @click="toAnnounce(announce.amtId)"
+            round
+          />
+        </div>
         <br />
       </div>
     </el-card>
@@ -115,6 +122,9 @@ export default {
     },
     toTag(val) {
       this.$router.push({ path: "/tag", query: { tagId: val } });
+    },
+    toAnnounce(val) {
+      this.$router.push({ path: "/announce", query: { amtId: val } });
     },
     getTopAnnounce() {
       getTopAnnounce().then((res) => {

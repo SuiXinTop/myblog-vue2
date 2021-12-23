@@ -19,21 +19,28 @@
     <div class="align-center">
       <div class="row-contain">
         <el-tabs type="border-card" class="blog-card">
-          <el-tab-pane label="最新"><home-blog-new /></el-tab-pane>
-          <el-tab-pane label="最热"><home-blog-hot /></el-tab-pane>
-          <el-tab-pane label="所有"></el-tab-pane>
+          <el-tab-pane>
+            <span slot="label"><i class="el-icon-news" /> 最新</span>
+            <home-blog-new />
+          </el-tab-pane>
+          <el-tab-pane>
+            <span slot="label"><i class="el-icon-hot-water" /> 最热</span>
+            <home-blog-hot />
+          </el-tab-pane>
+          <el-tab-pane>
+            <span slot="label"><i class="el-icon-alarm-clock" /> 所有</span>
+          </el-tab-pane>
         </el-tabs>
         <home-side />
       </div>
     </div>
-    <div style="margin: 20vh" />
+    <div style="margin-bottom: 10vh" />
     <back-top />
   </div>
 </template>
 <script>
 import TopBar from "@/components/Bar/bar";
 import { content1, content2, title } from "@/assets/static/content";
-import { routerPath } from "@/assets/js/util/path";
 import HomeBlogNew from "@/components/Home/HomeBlogNew";
 import HomeSide from "@/components/Home/HomeSide";
 import HomeBlogHot from "@/components/Home/HomeBlogHot";
@@ -58,13 +65,13 @@ export default {
   },
   methods: {
     toSearch() {
-      this.$router.push(routerPath.search);
+      this.$router.push("/search");
     },
     toAnnounce() {
-      this.$router.push(routerPath.announce);
+      this.$router.push("/announce");
     },
     toAbout() {
-      this.$router.push(routerPath.about);
+      this.$router.push("/about");
     },
   },
 };

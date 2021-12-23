@@ -1,20 +1,16 @@
 <template>
   <el-card>
     <div>
-      <router-link to="/space/post">
-        <el-button type="primary" icon="el-icon-edit" round>写博客</el-button>
-      </router-link>
-      <label style="margin-left: 10px" />
       <el-popconfirm
         confirm-button-text="好的"
         cancel-button-text="不用了"
         icon="el-icon-info"
-        icon-color="red"
-        title="这是一段内容确定删除吗？"
-        @confirm="deleteBlog()"
+        icon-color="blue"
+        title="是否要恢复？"
+        @confirm="recoverBlog()"
       >
-        <el-button type="danger" icon="el-icon-delete" slot="reference" round>
-          删除
+        <el-button type="primary" icon="el-icon-edit" slot="reference" round>
+          恢复博客
         </el-button>
       </el-popconfirm>
     </div>
@@ -65,24 +61,6 @@
       </el-table-column>
       <el-table-column prop="manage" label="管理" width="250">
         <template slot-scope="scope">
-          <el-popconfirm
-            confirm-button-text="是"
-            cancel-button-text="否"
-            icon="el-icon-info"
-            icon-color="blue"
-            title="是否修改？"
-            @confirm="clickUpdateShow(scope.row.blogId)"
-          >
-            <el-button
-              type="success"
-              icon="el-icon-edit"
-              round
-              slot="reference"
-            >
-              修改</el-button
-            >
-          </el-popconfirm>
-
           <el-button
             type="success"
             @click="toBlog(scope.row.blogId)"
@@ -99,43 +77,25 @@
         layout="prev, pager, next"
         :current-page.sync="page.pageNum"
         @current-change="handlePageNumChange"
-        :page-size="15"
+        :page-size="10"
         :total="page.total"
       />
     </div>
-    <el-dialog
-      v-if="updateShow"
-      title="编辑博客"
-      :fullscreen="true"
-      :close-on-click-modal="false"
-      :visible.sync="updateShow"
-      :destroy-on-close="true"
-      style="min-width: 150vh"
-      :append-to-body="true"
-    >
-      <blog-update :blog-id="blogId" />
-    </el-dialog>
   </el-card>
 </template>
 
 <script>
-import { deleteBlog, getBlogListByUserId } from "@/assets/js/api/blog";
-import { getUserId } from "@/assets/js/util/localStore";
-import { modal } from "@/assets/js/util/modal";
+import { getBlogException, recoverBlog } from "@/assets/js/api/blogManage";
 import { dateDiff } from "@/assets/js/util/time";
-import BlogUpdate from "@/components/Blog/BlogUpdate";
+import { modal } from "@/assets/js/util/modal";
 
 export default {
-  name: "BlogEdit",
-  components: { BlogUpdate },
+  name: "RecoverBlog",
   mounted() {
     this.getBlogList();
   },
   data() {
     return {
-      //修改博客需传入子组件的id
-      updateShow: false,
-      blogId: null,
       //页码
       page: { pageNum: 1, total: 0 },
       //该用户的博客列表信息
@@ -147,7 +107,7 @@ export default {
   methods: {
     //获取该用户的博客列表
     getBlogList() {
-      getBlogListByUserId(getUserId(), this.page.pageNum).then((res) => {
+      getBlogException(this.page.pageNum).then((res) => {
         let restMsg = res.data;
         if (restMsg.code === 200) {
           this.blogList = restMsg.data.list;
@@ -155,17 +115,13 @@ export default {
         }
       });
     },
-    //监听页码变化
-    handlePageNumChange() {
-      this.getBlogList();
-    },
-    //批量删除博客
-    deleteBlog() {
+    //恢复博客
+    recoverBlog() {
       //id未选择不发送请求
       if (this.blogIdList.length === 0) {
         return;
       }
-      deleteBlog(this.blogIdList).then((res) => {
+      recoverBlog(this.blogIdList).then((res) => {
         let restMsg = res.data;
         if (restMsg.code === 200) {
           modal.notifySuccess(restMsg.msg);
@@ -180,10 +136,8 @@ export default {
         this.blogIdList.push(val[i].blogId);
       }
     },
-    //使修改界面出现
-    clickUpdateShow(id) {
-      this.blogId = id;
-      this.updateShow = true;
+    handlePageNumChange() {
+      this.getBlogList();
     },
     toBlog(blogId) {
       this.$router.push({ path: "/blog", query: { blogId: blogId } });

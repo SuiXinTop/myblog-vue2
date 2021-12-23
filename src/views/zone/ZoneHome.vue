@@ -56,9 +56,10 @@
       <el-card style="width: 100%; text-align: center">
         <el-pagination
           layout="prev, pager, next"
-          :current-page="page.pageNum"
+          :current-page.sync="page.pageNum"
           :page-size="15"
           :total="page.total"
+          @current-change="handlePageNumChange"
         />
       </el-card>
     </div>
@@ -100,6 +101,9 @@ export default {
           this.page.total = restMsg.data.total;
         }
       });
+    },
+    handlePageNumChange() {
+      this.getUserByUserId();
     },
     getDateDiff(val) {
       return dateDiff(val);

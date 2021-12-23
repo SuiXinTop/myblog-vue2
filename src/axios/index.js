@@ -71,6 +71,9 @@ axios.interceptors.response.use(
         case 500:
           modal.notifyError("服务离线");
           break;
+        case 502:
+          modal.notifyError("服务离线");
+          break;
         // 其他错误，直接抛出错误提示
         default:
           modal.notifyError("出现未知错误");

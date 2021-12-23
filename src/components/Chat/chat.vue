@@ -46,32 +46,32 @@
           </div>
         </div>
         <el-divider />
-        <el-button
-          type="success"
-          icon="el-icon-check"
-          v-on:click="clickHistoryShow"
-          round
-        >
-          查看历史纪录
-        </el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          v-on:click="sendMessage"
-          round
-        >
-          发送消息
-        </el-button>
-        <br />
-        <br />
-        <div>
-          <html-edit
-            ref="htmlEdit"
-            v-model="msg"
-            @keyup.ctrl.enter.native="sendMessage"
-          />
-          <br />
+        <div style="float: right">
+          <el-button
+            type="success"
+            icon="el-icon-check"
+            v-on:click="clickHistoryShow"
+            round
+          >
+            查看历史纪录
+          </el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            v-on:click="sendMessage"
+            round
+          >
+            发送消息
+          </el-button>
         </div>
+        <br />
+        <br />
+        <br />
+        <html-edit
+          ref="htmlEdit"
+          v-model="msg"
+          @keyup.ctrl.enter.native="sendMessage"
+        />
       </el-col>
     </el-row>
     <el-dialog

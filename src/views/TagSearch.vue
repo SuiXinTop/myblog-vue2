@@ -141,7 +141,7 @@ export default {
 @import "../assets/css/blog";
 
 .search-card {
-  width: 120vh;
+  width: 140vh;
   border-radius: 8px;
   border: none;
   background: rgba(255, 255, 255, 0.6);
@@ -149,7 +149,7 @@ export default {
 }
 .pagination-card {
   text-align: center;
-  width: 120vh;
+  width: 140vh;
   border-radius: 8px;
 }
 </style>

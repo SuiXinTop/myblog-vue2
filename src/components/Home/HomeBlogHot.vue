@@ -1,5 +1,5 @@
 <template>
-  <div v-if="blogList.length">
+  <div>
     <div style="margin: 10px" v-for="(blog, index) in blogList" :key="index">
       <el-link
         :underline="false"
@@ -24,11 +24,7 @@
           </el-image>
         </el-col>
         <el-col :span="16">
-          <label
-            class="blog-body"
-            @click="toBlog(blog.blogId)"
-            v-text="blog.blogBody"
-          />
+          <label class="blog-body" v-text="blog.blogBody" />
           <p>
             <el-tag
               effect="dark"
@@ -36,25 +32,37 @@
               v-for="(blogTag, index2) in blog.blogTagList"
               :key="index2"
             >
-              {{ blogTag.tag.tagName }}
+              <a v-text="blogTag.tag.tagName" />
             </el-tag>
           </p>
+          <div>
+            <i class="el-icon-view"><label v-text="blog.blogView" /></i>
+            <i class="el-icon-star-on"><label v-text="blog.blogLike" /></i>
+            <i class="el-icon-star-on">
+              <label v-text="blog.blogCollect" />
+            </i>
+            <i class="el-icon-s-comment">
+              <label v-text="blog.blogComment" />
+            </i>
+            <el-divider direction="vertical" />
+            <label v-text="dateDiff(blog.blogTime)" />
+            <el-button
+              style="float: right"
+              type="success"
+              @click="toBlog(blog.blogId)"
+              icon="el-icon-search"
+              round
+              >查看更多
+            </el-button>
+          </div>
 
-          <i class="el-icon-view"><label v-text="blog.blogView" /></i>
-          <i class="el-icon-star-on"><label v-text="blog.blogLike" /></i>
-          <i class="el-icon-star-on">
-            <label v-text="blog.blogCollect" />
-          </i>
-          <i class="el-icon-s-comment">
-            <label v-text="blog.blogComment" />
-          </i>
-          <el-divider direction="vertical" />
-          <label v-text="dateDiff(blog.blogTime)" />
-
-          <p>
-            <i class="el-icon-user" />
-            <label class="user-name" v-text="blog.user.userName" />
-          </p>
+          <el-button
+            type="text"
+            icon="el-icon-user"
+            @click="toZone(blog.user.userId)"
+          >
+            {{ blog.user.userName }}
+          </el-button>
         </el-col>
       </el-row>
       <el-divider />
@@ -64,7 +72,6 @@
 
 <script>
 import { getBlogHot } from "@/assets/js/api/blog";
-import { routerPath } from "@/assets/js/util/path";
 import { dateDiff } from "@/assets/js/util/time";
 
 export default {
@@ -86,7 +93,10 @@ export default {
       });
     },
     toBlog(blogId) {
-      this.$router.push({ path: routerPath.blog, query: { blogId: blogId } });
+      this.$router.push({ path: "/blog", query: { blogId: blogId } });
+    },
+    toZone(userId) {
+      this.$router.push({ path: "/zone", query: { userId: userId } });
     },
     dateDiff(val) {
       return dateDiff(val);

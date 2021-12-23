@@ -1,3 +1,4 @@
+//是否是整形且大于0
 export function isInteger(obj) {
   let reg = /^[-+]?\d+$/;
   if (!reg.test(obj)) {

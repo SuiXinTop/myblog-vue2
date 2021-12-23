@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-card class="login">
+      <router-link to="/" style="float: left; color: white">首页</router-link>
       <label class="title">用户登录</label>
       <br />
       <br />
