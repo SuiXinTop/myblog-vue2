@@ -3,15 +3,26 @@
     <img src="../../assets/images/404.png" alt="" />
     <h1>抱歉您访问的页面出错了</h1>
     <h2>您可能输错了网址，或该网页已删除或不存在</h2>
-    <router-link to="/">
-      <el-button type="primary">返回</el-button>
-    </router-link>
+    <div>
+      <router-link to="/">
+        <el-button type="primary" round>主页</el-button>
+      </router-link>
+
+      <el-button style="margin-left: 1vh" type="success" @click="back" round>
+        返回
+      </el-button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "notFound",
+  methods: {
+    back() {
+      this.$router.back();
+    },
+  },
 };
 </script>
 

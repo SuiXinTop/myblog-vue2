@@ -19,7 +19,7 @@
         :key="index"
         style="margin: 10px"
       >
-        <div style="border-bottom: #2c3e50 1px dashed; padding-bottom: 5px">
+        <div style="padding-bottom: 5px">
           <el-button type="primary" circle> {{ index + 1 }}. </el-button>
           <label v-text="announce.amtTitle" />
           <el-button

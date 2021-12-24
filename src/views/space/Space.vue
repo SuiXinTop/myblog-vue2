@@ -18,11 +18,7 @@
               0 0 6px rgba(255, 255, 255, 0.6);
           "
         >
-          <el-menu
-            :default-openeds="['2', '4', '5']"
-            style="height: 92vh"
-            default-active="1"
-          >
+          <el-menu style="height: 92vh" default-active="1">
             <router-link to="/space">
               <el-menu-item index="1">
                 <template slot="title">
@@ -64,6 +60,25 @@
                 <router-link to="/space/edit">
                   <el-menu-item index="2-2">
                     <span>管理博客</span>
+                  </el-menu-item>
+                </router-link>
+              </el-menu-item-group>
+            </el-submenu>
+
+            <el-submenu index="3">
+              <template slot="title">
+                <i class="el-icon-pear" />
+                <span>好友</span>
+              </template>
+              <el-menu-item-group>
+                <router-link to="/space/attend">
+                  <el-menu-item index="3-1">
+                    <span>管理关注</span>
+                  </el-menu-item>
+                </router-link>
+                <router-link to="/space/fans">
+                  <el-menu-item index="3-2">
+                    <span>管理粉丝</span>
                   </el-menu-item>
                 </router-link>
               </el-menu-item-group>
@@ -141,7 +156,9 @@ export default {
     font-size: 24px;
   }
 }
-
+.el-aside {
+  background: white;
+}
 .avater {
   float: right;
   margin: 5px auto;

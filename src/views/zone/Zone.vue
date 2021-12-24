@@ -68,7 +68,7 @@
             index="3"
             :route="'/zone/collect?userId=' + this.$route.query.userId"
           >
-            收藏({{ userDetailData.collectCount }})
+            收藏 ({{ userDetailData.collectCount }})
           </el-menu-item>
           <el-menu-item
             index="4"

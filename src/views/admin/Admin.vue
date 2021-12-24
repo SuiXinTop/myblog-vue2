@@ -15,11 +15,7 @@
               0 0 6px rgba(255, 255, 255, 0.6);
           "
         >
-          <el-menu
-            :default-openeds="['2', '3']"
-            style="height: 92vh"
-            default-active="1"
-          >
+          <el-menu style="height: 92vh" default-active="1">
             <router-link to="/admin">
               <el-menu-item index="1">
                 <template slot="title">

@@ -14,9 +14,7 @@
         width: 100%;
       "
       id="vs"
-    >
-      sdasd
-    </div>
+    ></div>
   </div>
 </template>
 <script>

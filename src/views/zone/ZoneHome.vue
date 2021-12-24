@@ -40,6 +40,11 @@
             <el-tooltip placement="top" effect="light" content="收藏">
               <i class="el-icon-star-on">{{ blog.blogCollect }} </i>
             </el-tooltip>
+            <el-tooltip placement="top" effect="light" content="评论">
+              <i class="el-icon-s-comment">
+                <label v-text="blog.blogComment" />
+              </i>
+            </el-tooltip>
             <el-divider direction="vertical" />
             <el-popover placement="top" trigger="hover">
               <vue-qrcode

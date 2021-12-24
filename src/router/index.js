@@ -38,6 +38,8 @@ import ZoneComment from "@/views/zone/ZoneComment";
 import AdminHome from "@/views/admin/AdminHome";
 import BanBlog from "@/views/admin/blog/BanBlog";
 import RecoverBlog from "@/views/admin/blog/RecoverBlog";
+import BanUser from "@/views/admin/user/BanUser";
+import RecoverUser from "@/views/admin/user/RecoverUser";
 
 Vue.use(VueRouter);
 
@@ -243,7 +245,7 @@ const routes = [
       {
         path: "banUser",
         name: "封禁用户",
-        component: AdminHome,
+        component: BanUser,
         meta: {
           requireAuth: true,
           requireRole: true,
@@ -254,7 +256,7 @@ const routes = [
       {
         path: "recoverUser",
         name: "恢复用户",
-        component: AdminHome,
+        component: RecoverUser,
         meta: {
           requireAuth: true,
           requireRole: true,
