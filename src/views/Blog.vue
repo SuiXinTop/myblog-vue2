@@ -122,16 +122,13 @@
                   :src="value.owner.userImg"
                   :size="60"
                 />
-                <div>
-                  <label v-text="getFormatTime(value.comTime)" />
-                  <br />
-                  <label
-                    style="font-size: 20px"
-                    v-text="value.owner.userName"
-                  />
-                </div>
+                <label style="font-size: 24px" v-text="value.owner.userName" />
               </div>
-              <div class="comment-body" v-html="value.comBody" />
+              <label
+                style="display: block; float: right"
+                v-text="getFormatTime(value.comTime)"
+              />
+              <label class="comment-body" v-html="value.comBody" />
             </div>
             <el-divider />
             <div style="text-align: center">

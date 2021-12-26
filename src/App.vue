@@ -52,7 +52,7 @@ a {
 }
 
 #app {
-  font-family: "幼圆", "JetBrains Mono", sans-serif;
+  font-family: "微软雅黑 Light", "JetBrains Mono", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

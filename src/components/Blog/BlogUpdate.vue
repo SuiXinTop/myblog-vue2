@@ -68,6 +68,7 @@
 import { getBlog, updateBlog } from "@/assets/js/api/blog";
 import { upload } from "@/assets/js/api/file";
 import { modal } from "@/assets/js/util/modal";
+import { hideLoading, showLoading } from "@/axios/loading";
 
 export default {
   name: "BlogUpdate",
@@ -99,14 +100,19 @@ export default {
       });
     },
     updateBlog() {
-      updateBlog(this.blog).then((res) => {
-        console.log(res);
-        if (res.data.code === 200) {
-          modal.notifySuccess(res.data.msg);
-          //成功后刷新数据
-          location.reload();
-        }
-      });
+      showLoading();
+      updateBlog(this.blog)
+        .then((res) => {
+          if (res.data.code === 200) {
+            modal.notifySuccess(res.data.msg);
+            //成功后刷新数据
+            location.reload();
+          }
+          hideLoading();
+        })
+        .catch(() => {
+          hideLoading();
+        });
     },
     onBeforeUploadBlogImg(file) {
       const isIMAGE =
@@ -154,8 +160,8 @@ export default {
         modal.notifyError(res.data.msg);
       });
     },
-    handleCopyCodeSuccess(code) {
-      modal.notifySuccess(code);
+    handleCopyCodeSuccess() {
+      modal.notifySuccess("复制成功");
     },
   },
 };

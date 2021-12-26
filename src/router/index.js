@@ -40,6 +40,10 @@ import BanBlog from "@/views/admin/blog/BanBlog";
 import RecoverBlog from "@/views/admin/blog/RecoverBlog";
 import BanUser from "@/views/admin/user/BanUser";
 import RecoverUser from "@/views/admin/user/RecoverUser";
+import UpdateRole from "@/views/admin/user/UpdateRole";
+import AnnounceEdit from "@/views/admin/announce/AnnounceEdit";
+import AnnouncePost from "@/views/admin/announce/AnnouncePost";
+import SystemLog from "@/views/admin/system/SystemLog";
 
 Vue.use(VueRouter);
 
@@ -267,7 +271,7 @@ const routes = [
       {
         path: "role",
         name: "修改role",
-        component: AdminHome,
+        component: UpdateRole,
         meta: {
           requireAuth: true,
           requireRole: true,
@@ -298,9 +302,31 @@ const routes = [
         },
       },
       {
+        path: "postAnnounce",
+        name: "发布公告",
+        component: AnnouncePost,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: super_admin,
+          keepAlive: true,
+        },
+      },
+      {
+        path: "editAnnounce",
+        name: "编辑公告",
+        component: AnnounceEdit,
+        meta: {
+          requireAuth: true,
+          requireRole: true,
+          role: super_admin,
+          keepAlive: true,
+        },
+      },
+      {
         path: "log",
         name: "系统日志",
-        component: AdminHome,
+        component: SystemLog,
         meta: {
           requireAuth: true,
           requireRole: true,

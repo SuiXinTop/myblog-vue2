@@ -78,14 +78,13 @@
               <el-divider direction="vertical" />
               <label v-text="dateDiff(blog.blogTime)" />
               <br />
-              <router-link
-                :to="'/zone?userId=' + blog.user.userId"
-                style="color: black"
+              <el-button
+                type="text"
+                icon="el-icon-user"
+                @click="toZone(blog.user.userId)"
               >
-                <i class="el-icon-user">
-                  <label class="user-name" v-text="blog.user.userName" />
-                </i>
-              </router-link>
+                {{ blog.user.userName }}
+              </el-button>
             </el-col>
           </el-row>
           <el-divider />
@@ -113,6 +112,7 @@ import TopBar from "@/components/Bar/bar";
 import { getBlogListByParam } from "@/assets/js/api/search";
 import { dateDiff } from "@/assets/js/util/time";
 import { modal } from "@/assets/js/util/modal";
+import { hideLoading, showLoading } from "@/axios/loading";
 
 export default {
   name: "Search",
@@ -148,14 +148,20 @@ export default {
       this.getBlogListByParam();
     },
     getBlogListByParam() {
-      getBlogListByParam(this.queryString, this.page.pageNum).then((res) => {
-        let restMsg = res.data;
-        if (restMsg.code === 200) {
-          this.blogList = restMsg.data.list;
-          this.page.total = restMsg.data.total;
-          this.queryResultShow = true;
-        }
-      });
+      showLoading();
+      getBlogListByParam(this.queryString, this.page.pageNum)
+        .then((res) => {
+          let restMsg = res.data;
+          if (restMsg.code === 200) {
+            this.blogList = restMsg.data.list;
+            this.page.total = restMsg.data.total;
+            this.queryResultShow = true;
+          }
+          hideLoading();
+        })
+        .catch(() => {
+          hideLoading();
+        });
     },
     handlePageNumChange() {
       this.getBlogListByTagId();
@@ -165,6 +171,9 @@ export default {
     },
     dateDiff(val) {
       return dateDiff(val);
+    },
+    toZone(userId) {
+      this.$router.push({ path: "/zone", query: { userId: userId } });
     },
     getTime: function () {
       let time = new Date();

@@ -2,7 +2,7 @@
   <el-card>
     <div>
       <router-link to="/space/post">
-        <el-button type="primary" icon="el-icon-edit" round>写博客</el-button>
+        <el-button type="primary" icon="el-icon-edit">写博客</el-button>
       </router-link>
       <label style="margin-left: 10px" />
       <el-popconfirm
@@ -13,7 +13,7 @@
         title="这是一段内容确定删除吗？"
         @confirm="deleteBlog()"
       >
-        <el-button type="danger" icon="el-icon-delete" slot="reference" round>
+        <el-button type="danger" icon="el-icon-delete" slot="reference">
           删除
         </el-button>
       </el-popconfirm>
@@ -63,7 +63,7 @@
           <label v-text="dateDiff(scope.row.blogTime)" />
         </template>
       </el-table-column>
-      <el-table-column prop="manage" label="管理" width="250">
+      <el-table-column prop="manage" label="管理" width="260">
         <template slot-scope="scope">
           <el-popconfirm
             confirm-button-text="是"
@@ -74,15 +74,15 @@
             @confirm="clickUpdateShow(scope.row.blogId)"
           >
             <el-button
-              type="success"
+              type="primary"
               icon="el-icon-edit"
               round
               slot="reference"
             >
-              修改</el-button
-            >
+              修改
+            </el-button>
           </el-popconfirm>
-
+          <label style="margin-left: 10px" />
           <el-button
             type="success"
             @click="toBlog(scope.row.blogId)"

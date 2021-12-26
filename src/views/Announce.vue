@@ -11,7 +11,7 @@
         >
           <el-card shadow="hover">
             <p v-text="announcement.amtTitle" />
-            <p v-text="announcement.amtBody" />
+            <v-md-editor mode="preview" v-model="announcement.amtBody" />
           </el-card>
         </el-timeline-item>
       </el-timeline>

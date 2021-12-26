@@ -52,7 +52,7 @@
               @click="toBlog(blog.blogId)"
               icon="el-icon-search"
               round
-              >查看更多
+              >详情
             </el-button>
           </div>
 

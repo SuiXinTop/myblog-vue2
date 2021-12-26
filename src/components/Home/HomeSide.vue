@@ -17,20 +17,9 @@
       <div
         v-for="(announce, index) in announceList"
         :key="index"
-        style="margin: 10px"
+        style="margin: 20px"
       >
-        <div style="padding-bottom: 5px">
-          <el-button type="primary" circle> {{ index + 1 }}. </el-button>
-          <label v-text="announce.amtTitle" />
-          <el-button
-            style="float: right"
-            type="success"
-            icon="el-icon-d-arrow-right"
-            @click="toAnnounce(announce.amtId)"
-            round
-          />
-        </div>
-        <br />
+        <router-link v-text="announce.amtTitle" to="/announce" />
       </div>
     </el-card>
   </div>

@@ -58,7 +58,6 @@
             icon="el-icon-edit"
             style="width: 140px; height: 50px; font-size: 26px"
             @click="saveBlog"
-            round
           >
             发布
           </el-button>
@@ -104,6 +103,7 @@ import { upload } from "@/assets/js/api/file";
 import { getUserId } from "@/assets/js/util/localStore";
 import { getTagList } from "@/assets/js/api/tag";
 import { modal } from "@/assets/js/util/modal";
+import { hideLoading, showLoading } from "@/axios/loading";
 
 export default {
   name: "BlogPost",
@@ -128,29 +128,41 @@ export default {
   },
   methods: {
     saveBlog() {
-      saveBlog(this.blog).then((res) => {
-        let restMsg = res.data;
-        if (restMsg.code === 200) {
-          this.blog = { userId: getUserId() };
-          this.blogId = restMsg.data;
-          modal.notifySuccess(restMsg.msg);
-          this.dialogVisible = true;
-          this.getTagList();
-          return;
-        }
-        modal.notifyWarning(restMsg.msg);
-      });
+      showLoading();
+      saveBlog(this.blog)
+        .then((res) => {
+          let restMsg = res.data;
+          if (restMsg.code === 200) {
+            this.blog = { userId: getUserId() };
+            this.blogId = restMsg.data;
+            modal.notifySuccess(restMsg.msg);
+            this.dialogVisible = true;
+            this.getTagList();
+          } else {
+            modal.notifyWarning(restMsg.msg);
+          }
+          hideLoading();
+        })
+        .catch(() => {
+          hideLoading();
+        });
     },
     addTags() {
-      addBlogTag(this.tagIdList, this.blogId).then((res) => {
-        let restMsg = res.data;
-        if (restMsg.code === 200) {
-          modal.notifySuccess("添加成功");
-          this.dialogVisible = false;
-          return;
-        }
-        modal.notifyWarning(restMsg.msg);
-      });
+      showLoading();
+      addBlogTag(this.tagIdList, this.blogId)
+        .then((res) => {
+          let restMsg = res.data;
+          if (restMsg.code === 200) {
+            modal.notifySuccess("添加成功");
+            this.dialogVisible = false;
+          } else {
+            modal.notifyWarning(restMsg.msg);
+          }
+          hideLoading();
+        })
+        .catch(() => {
+          hideLoading();
+        });
     },
     getTagList() {
       getTagList(1).then((res) => {
@@ -206,8 +218,8 @@ export default {
         modal.notifyError(res.data.msg);
       });
     },
-    handleCopyCodeSuccess(code) {
-      modal.notifySuccess(code);
+    handleCopyCodeSuccess() {
+      modal.notifySuccess("复制成功");
     },
   },
 };

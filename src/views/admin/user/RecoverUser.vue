@@ -9,7 +9,7 @@
         title="是否批量恢复？"
         @confirm="recoverUser()"
       >
-        <el-button type="primary" icon="el-icon-edit" slot="reference" round>
+        <el-button type="primary" icon="el-icon-edit" slot="reference">
           恢复
         </el-button>
       </el-popconfirm>
@@ -46,7 +46,7 @@
           </el-image>
         </template>
       </el-table-column>
-      <el-table-column prop="user" label="名称" width="300">
+      <el-table-column prop="user" label="名称" width="250">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -57,12 +57,17 @@
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="loginTime" label="上次登录时间" width="250">
+      <el-table-column prop="role" label="权限" width="150">
+        <template slot-scope="scope">
+          <label v-text="scope.row.role.roleName" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="loginTime" label="上次登录时间" width="200">
         <template slot-scope="scope">
           <label v-text="dateDiff(scope.row.loginTime)" />
         </template>
       </el-table-column>
-      <el-table-column prop="loginIp" label="上次登录IP" width="250">
+      <el-table-column prop="loginIp" label="上次登录IP" width="200">
         <template slot-scope="scope">
           <label v-text="scope.row.loginIp" />
         </template>

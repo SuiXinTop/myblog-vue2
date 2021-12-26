@@ -98,6 +98,8 @@ export default {
         let restMsg = res.data;
         if (restMsg.code === 200) {
           this.active++;
+          modal.notifySuccess(restMsg.msg);
+          return;
         }
         modal.notifyError(restMsg.msg);
       });

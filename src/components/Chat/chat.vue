@@ -76,6 +76,7 @@
     </el-row>
     <el-dialog
       :fullscreen="true"
+      v-if="historyShow"
       :close-on-click-modal="false"
       :visible.sync="historyShow"
       :destroy-on-close="true"

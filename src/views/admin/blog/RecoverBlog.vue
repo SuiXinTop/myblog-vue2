@@ -9,8 +9,8 @@
         title="是否要恢复？"
         @confirm="recoverBlog()"
       >
-        <el-button type="primary" icon="el-icon-edit" slot="reference" round>
-          恢复博客
+        <el-button type="primary" icon="el-icon-edit" slot="reference">
+          恢复
         </el-button>
       </el-popconfirm>
     </div>

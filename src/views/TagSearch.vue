@@ -60,11 +60,13 @@
               <label v-text="dateDiff(blog.blogTime)" />
               <br />
               <!--跳转个人空间-->
-              <div @click="toZone(blog.user.userId)" style="color: black">
-                <i class="el-icon-user">
-                  <label class="user-name" v-text="blog.user.userName" />
-                </i>
-              </div>
+              <el-button
+                type="text"
+                icon="el-icon-user"
+                @click="toZone(blog.user.userId)"
+              >
+                {{ blog.user.userName }}
+              </el-button>
             </el-col>
           </el-row>
           <el-divider />

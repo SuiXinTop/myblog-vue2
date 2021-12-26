@@ -26,7 +26,7 @@
           </router-link>
           <router-link to="/space/post">
             <el-dropdown-item>
-              <i class="el-icon-open" />发博文
+              <i class="el-icon-open" />发文章
             </el-dropdown-item>
           </router-link>
           <router-link :to="'/zone?userId=' + userId">

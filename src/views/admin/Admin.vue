@@ -68,14 +68,14 @@
                 <span>公告</span>
               </template>
               <el-menu-item-group>
-                <router-link to="/admin/log">
+                <router-link to="/admin/postAnnounce">
                   <el-menu-item index="4-1">
                     <span>新增公告</span>
                   </el-menu-item>
                 </router-link>
               </el-menu-item-group>
               <el-menu-item-group>
-                <router-link to="/admin/log">
+                <router-link to="/admin/editAnnounce">
                   <el-menu-item index="4-2">
                     <span>编辑公告</span>
                   </el-menu-item>

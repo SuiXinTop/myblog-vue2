@@ -110,6 +110,7 @@
 import { emailLogin, login, verifyEmail } from "@/assets/js/api/auth";
 import { setAll } from "@/assets/js/util/localStore";
 import { randomCode } from "@/assets/js/util/random";
+import { hideLoading, showLoading } from "@/axios/loading";
 
 export default {
   name: "login",

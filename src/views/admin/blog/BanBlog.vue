@@ -9,7 +9,7 @@
         title="是否要删除？"
         @confirm="banBlog()"
       >
-        <el-button type="danger" icon="el-icon-delete" slot="reference" round>
+        <el-button type="danger" icon="el-icon-delete" slot="reference">
           删除
         </el-button>
       </el-popconfirm>

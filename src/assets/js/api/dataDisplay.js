@@ -11,3 +11,10 @@ export function getUserDetailCount(userId) {
     },
   });
 }
+
+export function getAdminDetailCount() {
+  return axios.request({
+    url: api + "admin",
+    method: "get",
+  });
+}

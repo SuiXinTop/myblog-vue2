@@ -98,7 +98,10 @@ export default {
         if (restMsg.code === 200) {
           this.active++;
           this.canSend = true;
+          modal.notifySuccess(restMsg.msg);
+          return;
         }
+        modal.notifyError(restMsg.msg);
       });
     },
     updateEmail() {
