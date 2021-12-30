@@ -1,7 +1,7 @@
 <template>
   <div class="align-center">
     <el-steps :active="active" style="width: 100vh">
-      <el-step title="验证旧邮箱" icon="el-icon-edit"></el-step>
+      <el-step title="验证邮箱" icon="el-icon-edit"></el-step>
       <el-step title="修改密码" icon="el-icon-upload"></el-step>
       <el-step title="完成" icon="el-icon-picture"></el-step>
     </el-steps>

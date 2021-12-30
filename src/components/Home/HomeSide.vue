@@ -20,6 +20,10 @@
         style="margin: 20px"
       >
         <router-link v-text="announce.amtTitle" to="/announce" />
+        <label
+          style="float: right; font-size: 12px"
+          v-text="dateDiff(announce.amtTime)"
+        />
       </div>
     </el-card>
   </div>
@@ -32,6 +36,7 @@ let echarts = require("echarts/lib/echarts");
 require("echarts-wordcloud");
 import "echarts/theme/macarons.js";
 import { getTagList } from "@/assets/js/api/tag";
+import { dateDiff } from "@/assets/js/util/time";
 
 export default {
   name: "HomeSide",
@@ -122,6 +127,9 @@ export default {
           this.announceList = restMsg.data;
         }
       });
+    },
+    dateDiff(val) {
+      return dateDiff(val);
     },
   },
 };

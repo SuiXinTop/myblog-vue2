@@ -3,20 +3,20 @@
     <div class="align-center">
       <div class="row-contain" style="width: 100%">
         <el-card class="data-display" :body-style="{ padding: 0 }">
-          <div class="data-text">博客</div>
           {{ userDetailData.blogCount }}
+          <div class="data-text">博客</div>
         </el-card>
         <el-card class="data-display" :body-style="{ padding: 0 }">
-          <div class="data-text">收藏</div>
           {{ userDetailData.collectCount }}
+          <div class="data-text">收藏</div>
         </el-card>
         <el-card class="data-display" :body-style="{ padding: 0 }">
-          <div class="data-text">关注</div>
           {{ userDetailData.attendCount }}
+          <div class="data-text">关注</div>
         </el-card>
         <el-card class="data-display" :body-style="{ padding: 0 }">
-          <div class="data-text">粉丝</div>
           {{ userDetailData.fansCount }}
+          <div class="data-text">粉丝</div>
         </el-card>
       </div>
     </div>

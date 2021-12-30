@@ -146,8 +146,10 @@
         <div class="right-side">
           <el-card id="user-card" header="作者">
             <div class="align-center">
-              <router-link :to="'/zone?userId=' + blog.user.userId">
-                <img class="user-img" :src="blog.user.userImg" alt="" />
+              <router-link
+                :to="{ path: '/zone', query: { userId: blog.user.userId } }"
+              >
+                <img class="user-img" :src="blog.user.userImg" alt />
               </router-link>
               <p
                 style="font-size: 24px; font-weight: bold"
@@ -395,6 +397,9 @@ export default {
     //跳转博客
     toBlog(blogId) {
       this.$router.push({ path: "/blog", query: { blogId: blogId } });
+    },
+    toZone(userId) {
+      this.$router.push({ path: "/zone", query: { userId: userId } });
     },
     toChat() {
       if (!getUserId()) {

@@ -15,28 +15,30 @@
             type="primary"
             size="large"
             icon="el-icon-more"
-            :timestamp="dateDiff(history.comTime)"
+            :timestamp="dateDiff(history.historyTime)"
             placement="top"
           >
             <el-card v-if="history.blog" shadow="hover">
-              <el-image
-                class="blog-img"
-                :src="history.blog.blogImg"
-                :preview-src-list="[history.blog.blogImg]"
-              >
-                <div slot="error" class="image-slot">
-                  <i class="el-icon-picture-outline" />
-                </div>
-              </el-image>
               <el-button
                 style="float: right"
                 type="success"
                 @click="toBlog(history.blogId)"
                 icon="el-icon-search"
               >
-                前往博客
+                详情
               </el-button>
-              <label class="blog-title" v-text="history.blog.blogTitle" />
+              <div style="display: flex; align-items: center">
+                <el-image
+                  class="blog-img"
+                  :src="history.blog.blogImg"
+                  :preview-src-list="[history.blog.blogImg]"
+                >
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline" />
+                  </div>
+                </el-image>
+                <label class="blog-title" v-text="history.blog.blogTitle" />
+              </div>
             </el-card>
           </el-timeline-item>
         </el-timeline>
@@ -100,7 +102,7 @@ export default {
   height: 80px;
   object-fit: cover;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.68), 0 0 3px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.68), 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
 .blog-img :hover {
@@ -109,6 +111,7 @@ export default {
 }
 
 .blog-title {
+  margin-left: 1vh;
   font-size: 20px;
   display: -webkit-box;
   overflow: hidden;

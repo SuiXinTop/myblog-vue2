@@ -3,16 +3,16 @@
     <div class="align-center">
       <div class="row-contain" style="width: 100%">
         <el-card class="data-display" :body-style="{ padding: 0 }">
-          <div class="data-text">用户数</div>
           {{ data.userCount }}
+          <div class="data-text">用户数</div>
         </el-card>
         <el-card class="data-display" :body-style="{ padding: 0 }">
-          <div class="data-text">博客数</div>
           {{ data.blogCount }}
+          <div class="data-text">博客数</div>
         </el-card>
         <el-card class="data-display" :body-style="{ padding: 0 }">
-          <div class="data-text">公告数</div>
           {{ data.announceCount }}
+          <div class="data-text">公告数</div>
         </el-card>
       </div>
     </div>

@@ -8,7 +8,7 @@ export function getTagList(pageSize) {
     method: "get",
     params: {
       pageNum: 1,
-      pageSize: 20,
+      pageSize: 40,
     },
   });
 }

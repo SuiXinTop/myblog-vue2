@@ -52,10 +52,10 @@ a {
 }
 
 #app {
+  color: #2c3e50;
   font-family: "微软雅黑 Light", "JetBrains Mono", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
   min-width: fit-content;
 }
 </style>

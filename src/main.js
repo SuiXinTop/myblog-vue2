@@ -17,8 +17,6 @@ import "quill/dist/quill.snow.css"; // for snow theme
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.bubble.css";
 
-import Chat from "jwchat";
-
 import VMdEditor from "@kangc/v-md-editor/lib/codemirror-editor";
 import "@kangc/v-md-editor/lib/style/codemirror-editor.css";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
@@ -57,7 +55,6 @@ Vue.use(animated);
 Vue.use(VueCropper);
 Vue.use(preview);
 Vue.use(VueQuillEditor);
-Vue.use(Chat);
 
 new Vue({
   router,

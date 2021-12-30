@@ -49,12 +49,27 @@
           </el-button>
         </template>
       </el-table-column>
+      <el-table-column prop="userEmail" label="邮箱" width="250">
+        <template slot-scope="scope">
+          <label v-text="scope.row.fansUser.userEmail" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="userState" label="用户状态" width="150">
+        <template slot-scope="scope">
+          <label v-if="scope.row.fansUser.userState == 0">
+            <el-tag effect="dark">异常</el-tag>
+          </label>
+          <label v-if="scope.row.fansUser.userState == 1">
+            <el-tag effect="dark">正常</el-tag>
+          </label>
+        </template>
+      </el-table-column>
       <el-table-column prop="attendTime" label="关注时间" width="250">
         <template slot-scope="scope">
           <label v-text="dateDiff(scope.row.attendTime)" />
         </template>
       </el-table-column>
-      <el-table-column prop="manage" label="管理" width="250">
+      <el-table-column prop="manage" label="管理" width="150">
         <template slot-scope="scope">
           <el-button
             type="success"

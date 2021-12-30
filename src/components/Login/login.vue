@@ -110,7 +110,7 @@
 import { emailLogin, login, verifyEmail } from "@/assets/js/api/auth";
 import { setAll } from "@/assets/js/util/localStore";
 import { randomCode } from "@/assets/js/util/random";
-import { hideLoading, showLoading } from "@/axios/loading";
+import { modal } from "@/assets/js/util/modal";
 
 export default {
   name: "login",
@@ -209,8 +209,8 @@ export default {
               localStorage.removeItem("userPassword");
             }
             this.$router.push("/");
-            //强制刷新
             location.reload();
+            modal.notifySuccess("登陆成功");
           }
         });
       });
@@ -229,6 +229,7 @@ export default {
           setAll(data.token, data.userVo);
           this.$router.push("/");
           location.reload();
+          modal.notifySuccess("登陆成功");
         }
       });
     },

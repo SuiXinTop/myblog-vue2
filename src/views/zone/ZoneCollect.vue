@@ -7,76 +7,82 @@
       />
     </div>
     <div v-else>
-      <el-card
-        class="blog-card"
-        v-for="(collect, index) in collectList"
-        :key="index"
-      >
-        <el-link
-          :underline="false"
-          class="blog-title"
-          @click="toBlog(collect.blogId)"
-          v-text="collect.blog.blogTitle"
-        />
-        <el-row :gutter="10">
-          <el-col :span="8">
-            <el-image
-              class="blog-img"
-              v-if="collect.blog.blogImg"
-              :src="collect.blog.blogImg"
-              :preview-src-list="[collect.blog.blogImg]"
-              fit="cover"
-              lazy
-              alt
-            >
-              <div slot="error" class="image-slot">
-                <i class="el-icon-picture-outline" />
-              </div>
-            </el-image>
-          </el-col>
-          <el-col :span="16">
-            <a
-              class="blog-body"
-              @click="toBlog(collect.blogId)"
-              v-text="collect.blog.blogBody"
-            />
-            <p>
-              <el-tag
-                effect="dark"
-                style="margin-right: 5px"
-                v-for="(blogTag, index2) in collect.blog.blogTagList"
-                :key="index2"
+      <div>
+        <el-card
+          class="blog-card"
+          v-for="(collect, index) in collectList"
+          :key="index"
+        >
+          <el-link
+            :underline="false"
+            class="blog-title"
+            @click="toBlog(collect.blogId)"
+            v-text="collect.blog.blogTitle"
+          />
+          <el-row :gutter="10">
+            <el-col :span="8">
+              <el-image
+                class="blog-img"
+                v-if="collect.blog.blogImg"
+                :src="collect.blog.blogImg"
+                :preview-src-list="[collect.blog.blogImg]"
+                fit="cover"
+                lazy
+                alt
               >
-                <a v-text="blogTag.tag.tagName" />
-              </el-tag>
-            </p>
-            <i class="el-icon-view">
-              <label v-text="collect.blog.blogView" />
-            </i>
-            <i class="el-icon-star-on">
-              <label v-text="collect.blog.blogLike" />
-            </i>
-            <i class="el-icon-star-on">
-              <label v-text="collect.blog.blogCollect" />
-            </i>
-            <i class="el-icon-s-comment">
-              <label v-text="collect.blog.blogComment" />
-            </i>
-            <el-divider direction="vertical" />
-            <label v-text="dateDiff(collect.blog.blogTime)" />
-            <br />
-            <router-link
-              :to="'/zone?userId=' + collect.blog.user.userId"
-              style="color: black"
-            >
-              <i class="el-icon-user">
-                <label class="user-name" v-text="collect.blog.user.userName" />
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline" />
+                </div>
+              </el-image>
+            </el-col>
+            <el-col :span="16">
+              <a
+                class="blog-body"
+                @click="toBlog(collect.blogId)"
+                v-text="collect.blog.blogBody"
+              />
+              <p>
+                <el-tag
+                  effect="dark"
+                  style="margin-right: 5px"
+                  v-for="(blogTag, index2) in collect.blog.blogTagList"
+                  :key="index2"
+                >
+                  <a v-text="blogTag.tag.tagName" />
+                </el-tag>
+              </p>
+              <i class="el-icon-view">
+                <label v-text="collect.blog.blogView" />
               </i>
-            </router-link>
-            <p>收藏于{{ dateDiff(collect.collectTime) }}</p>
-          </el-col>
-        </el-row>
-      </el-card>
+              <i class="el-icon-star-on">
+                <label v-text="collect.blog.blogLike" />
+              </i>
+              <i class="el-icon-star-on">
+                <label v-text="collect.blog.blogCollect" />
+              </i>
+              <i class="el-icon-s-comment">
+                <label v-text="collect.blog.blogComment" />
+              </i>
+              <el-divider direction="vertical" />
+              <label v-text="dateDiff(collect.blog.blogTime)" />
+              <br />
+              <router-link
+                :to="{
+                  path: '/zone',
+                  query: { userId: collect.blog.user.userId },
+                }"
+              >
+                <el-button class="user-name" type="text" icon="el-icon-user">
+                  {{ collect.blog.user.userName }}
+                </el-button>
+              </router-link>
+              <label style="float: right">
+                收藏于{{ dateDiff(collect.collectTime) }}
+              </label>
+            </el-col>
+          </el-row>
+        </el-card>
+      </div>
       <div>
         <el-card class="pagination">
           <el-pagination
@@ -138,13 +144,13 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/css/blog";
+@import "../../assets/css/flex";
 
 .blog-card {
   float: left;
   width: 78vh;
-  min-height: 260px;
-  margin-right: 1vh;
-  margin-bottom: 1vh;
+  height: 30vh;
+  margin: 1vh;
   border-radius: 8px;
   border: none;
   background: rgba(255, 255, 255, 0.6);
@@ -152,7 +158,7 @@ export default {
 }
 .pagination {
   text-align: center;
-  width: 156vh;
+  width: 160vh;
   border-radius: 8px;
 }
 </style>

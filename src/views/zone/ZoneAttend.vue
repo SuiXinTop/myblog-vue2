@@ -14,11 +14,7 @@
           @click="toZone(attend.attendUser.userId)"
         >
           <div style="display: flex; align-items: center">
-            <el-image
-              class="user-img"
-              :src="attend.attendUser.userImg"
-              :preview-src-list="[attend.attendUser.userImg]"
-            >
+            <el-image class="user-img" :src="attend.attendUser.userImg">
               <div slot="error" class="image-slot">
                 <i class="el-icon-picture-outline" />
               </div>

@@ -3,12 +3,7 @@
     <el-container>
       <el-aside class="align-center aside-card" style="width: 260px">
         <div style="text-align: center">
-          <el-image
-            class="user-img"
-            :src="user.userImg"
-            :preview-src-list="[user.userImg]"
-            lazy
-          >
+          <el-image class="user-img" :src="user.userImg" lazy>
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline" />
             </div>
@@ -226,7 +221,7 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.68), 0 0 6px rgba(255, 255, 255, 0.6);
 
   .user-img {
-    width: 100px;
+    width: 80px;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.68), 0 0 6px rgba(255, 255, 255, 0.6);
@@ -252,7 +247,6 @@ export default {
     .el-menu-item {
       color: white;
       font-size: 20px;
-      font-weight: bold;
     }
 
     .el-menu-item:hover {

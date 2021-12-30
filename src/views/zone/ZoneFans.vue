@@ -13,11 +13,7 @@
             style="display: flex; align-items: center"
             @click="toZone(fans.fansUser.userId)"
           >
-            <el-image
-              class="user-img"
-              :src="fans.fansUser.userImg"
-              :preview-src-list="[fans.fansUser.userImg]"
-            >
+            <el-image class="user-img" :src="fans.fansUser.userImg">
               <div slot="error" class="image-slot">
                 <i class="el-icon-picture-outline" />
               </div>

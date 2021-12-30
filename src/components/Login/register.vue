@@ -1,6 +1,6 @@
 <template>
   <div class="align-center">
-    <el-card class="align-center" style="width: 120vh; margin-top: 10vh">
+    <el-card class="align-center" style="width: 90vh; margin-top: 10vh">
       <div style="text-align: center">
         <router-link to="/" style="float: left; color: rgba(0, 0, 0, 0.74)">
           首页
@@ -8,19 +8,13 @@
         <label class="title">注册</label>
       </div>
       <br />
-      <el-steps :active="active" style="width: 80vh">
+      <el-steps :active="active">
         <el-step title="填写信息" icon="el-icon-upload"></el-step>
         <el-step title="完成" icon="el-icon-picture"></el-step>
       </el-steps>
       <br />
       <div v-if="active === 1">
-        <el-form
-          ref="form"
-          class="form"
-          :model="user"
-          :rules="rules"
-          label-width="80px"
-        >
+        <el-form ref="form" class="form-card" :model="user" :rules="rules">
           <el-form-item prop="userName">
             <el-input v-model="user.userName" placeholder="昵称" />
           </el-form-item>
@@ -189,7 +183,7 @@ export default {
 }
 
 .form-card {
-  width: 80vh;
+  width: 70vh;
   height: 60vh;
   border: none;
   text-align: center;

@@ -137,7 +137,8 @@ export default {
 }
 
 .blog-title {
-  font-size: 18px;
+  font-size: 20px;
+  color: black;
   display: -webkit-box;
   overflow: hidden;
   white-space: normal;
@@ -145,5 +146,9 @@ export default {
   word-wrap: break-word;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+.blog-title:hover {
+  color: rgb(44, 193, 252);
+  transition: all 0.3s ease-in-out;
 }
 </style>

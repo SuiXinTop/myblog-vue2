@@ -275,7 +275,7 @@ const routes = [
         meta: {
           requireAuth: true,
           requireRole: true,
-          role: all_admin,
+          role: super_admin,
           keepAlive: true,
         },
       },

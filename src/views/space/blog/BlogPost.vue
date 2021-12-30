@@ -107,11 +107,6 @@ import { hideLoading, showLoading } from "@/axios/loading";
 
 export default {
   name: "BlogPost",
-  watch: {
-    tagList() {
-      console.log(this.tagList);
-    },
-  },
   data() {
     return {
       dialogVisible: false,
@@ -204,7 +199,6 @@ export default {
       form.append("file", file);
       form.append("type", "blog");
       upload(form).then((res) => {
-        console.log(res.data);
         if (res.data.code === 200) {
           insertImage({
             url: res.data.data,
